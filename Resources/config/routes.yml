@@ -1,0 +1,5 @@
+n1c0_dissertation_dissertation:
+    type: rest
+    prefix: /v1
+    resource: N1c0\DissertationBundle\Controller\DissertationController
+    name_prefix:  api_1_ # naming collision

@@ -1,0 +1,11 @@
+# src/n1c0/DissertationBundle/Resources/config/validation.yml
+N1c0\DissertationBundle\Entity\Dissertation:
+    properties:
+        title:
+            - NotBlank: ~
+            - NotNull: ~
+            - Length:
+                min: 2
+                max: 50
+                minMessage: "Your title must be at least {{ limit }} characters length"
+                maxMessage: "Your title name cannot be longer than {{ limit }} characters length"

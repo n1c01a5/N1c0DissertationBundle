@@ -1,0 +1,18 @@
+{% block content %}
+    <h1 class="title">{{ 'dissertation.list'|trans({}, 'n1c0DissertationBundle') }}</h1>
+
+    <ul id="dissertation-list">
+        {% for dissertation in dissertations %}
+            <li>
+                <a href="{{ path('api_1_get_dissertation', {'id': dissertation.id}) }}">{{ dissertation.title }}</a>
+                {#[<a href="{{ path('api_1_edit_dissertations', {'id': dissertation.id}) }}">{{ 'dissertation.edit.link'|trans({}, 'n1c0DissertationBundle') }}</a>]#}
+                {#[<a href="{{ path('api_1_remove_dissertations', {'id': dissertation.id}) }}">{{ 'dissertation.remove.link'|trans({}, 'n1c0DissertationBundle') }}</a>]#}
+            </li>
+        {% else %}
+            <li>{{ 'dissertation.list.empty'|trans({}, 'n1c0DissertationBundle') }}</li>
+        {% endfor %}
+    </ul>
+    <p>
+        <a href="{{ path('api_1_new_dissertation') }}">{{ 'dissertation.new.link'|trans({}, 'n1c0DissertationBundle') }}</a>
+    </p>
+{% endblock %}
