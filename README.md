@@ -74,3 +74,12 @@ class Dissertation extends BaseDissertation
     protected $id;
 }
 ```
+
+Add in app/confif/config.yml:
+``` json
+# N1c0DissertationBundle
+n1c0_dissertation:
+    db_driver: orm
+    dissertation:
+        class: MyProject\MyBundle\Entity\Dissertation
+```
