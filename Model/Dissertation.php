@@ -10,10 +10,10 @@ use DateTime;
 abstract class Dissertation implements DissertationInterface
 {
     /**
-     * Id, a unique string that binds the elements together in a dissertation (tree).
+     * Id, a unique string that binds the elements together in a dissertation (tree).
      * It can be a url or really anything unique.
      *
-     * @var string
+     * @var mixed
      */
     protected $id;
 
@@ -32,20 +32,11 @@ abstract class Dissertation implements DissertationInterface
     protected $body;
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @param  string
-     * @return null
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
     }
     
     /**
