@@ -42,3 +42,35 @@ As of symfony 2.3, you just have to modify your config.yml :
 
 framework:
     http_method_override: true
+```
+    
+
+Step 2: Create your Dissertation class
+--------------------------------------
+
+
+For example:
+
+``` php
+<?php
+// src/MyProject/MyBundle/Entity/Dissertation.php
+
+namespace MyProject\MyBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use N1c0\DissertationBundle\Entity\Dissertation as BaseDissertation;
+
+/**
+ * @ORM\Entity
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
+ */
+class Dissertation extends BaseDissertation
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+}
+```
