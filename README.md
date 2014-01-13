@@ -76,7 +76,7 @@ class Dissertation extends BaseDissertation
 ```
 
 Add in app/confif/config.yml:
-``` json
+``` yaml
 # N1c0DissertationBundle
 n1c0_dissertation:
     db_driver: orm
