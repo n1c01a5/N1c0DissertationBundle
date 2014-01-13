@@ -6,7 +6,7 @@ Bundle to manage dissertations.
 Step 1: Setting up the bundle
 -----------------------------
 
-## A) Download and install N1c0Dissertation
+### A) Download and install N1c0Dissertation
 
 To install N1c0Dissertation run the following command
 
@@ -14,7 +14,7 @@ To install N1c0Dissertation run the following command
 $ php composer.phar require n1c01a5/n1c0dissertation-bundle
 ```
 
-## B) Enable the bundle
+### B) Enable the bundle
 
 Enable the required bundles in the kernel:
 
@@ -31,7 +31,7 @@ public function registerBundles()
 }
 ```
 
-## C) Enable Http Method Override
+### C) Enable Http Method Override
 
 [Enable HTTP Method override as described here](http://symfony.com/doc/master/cookbook/routing/method_parameters.html#faking-the-method-with-method)
 
