@@ -75,7 +75,7 @@ class Dissertation extends BaseDissertation
 }
 ```
 
-Add in app/confif/config.yml:
+Add in app/config/config.yml:
 ``` yaml
 # N1c0DissertationBundle
 n1c0_dissertation:
