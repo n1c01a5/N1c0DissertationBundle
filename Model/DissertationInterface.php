@@ -5,6 +5,11 @@ namespace N1c0\DissertationBundle\Model;
 Interface DissertationInterface
 {
     /**
+     * @return mixed unique ID for this dissertation
+     */
+    public function getId();
+    
+    /**
      * Set title
      *
      * @param string $title
