@@ -1,7 +1,7 @@
 {
     "name": "n1c01a5/n1c0dissertation-bundle",
     "license": "MIT",
-    "type": "project",
+    "type": "symfony-bundle",
     "description": "Bundle to manage dissertations with REST API",
     "authors": [
         {
