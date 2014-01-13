@@ -26,10 +26,14 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
+        new FOS\RestBundle\FOSRestBundle(),
+        new JMS\SerializerBundle\JMSSerializerBundle(),
+        new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
         new N1c0/DissertationBundle/N1c0DissertationBundle(),
     );
 }
 ```
+FOSRestBundle and NelmioApiDocBundle must be configured.
 
 ### C) Enable Http Method Override
 
