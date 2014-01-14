@@ -90,3 +90,8 @@ n1c0_dissertation:
 assetic:
     bundles: [ "N1c0DissertationBundle" ]
 ```
+
+Documentation as bonus (NelmioApiDocBundle)
+-------------------------------------------
+
+Go to http://mysite.com/api/doc.
