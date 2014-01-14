@@ -32,7 +32,7 @@ abstract class DissertationManager implements DissertationManagerInterface
         }
 
         $event = new DissertationEvent($dissertation);
-        $this->dispatcher->dispatch(Events::THREAD_CREATE, $event);
+        $this->dispatcher->dispatch(Events::DISSERTATION_CREATE, $event);
 
         return $dissertation;
     }
@@ -45,12 +45,12 @@ abstract class DissertationManager implements DissertationManagerInterface
     public function saveDissertation(DissertationInterface $dissertation)
     {
         $event = new DissertationEvent($dissertation);
-        $this->dispatcher->dispatch(Events::THREAD_PRE_PERSIST, $event);
+        $this->dispatcher->dispatch(Events::DISSERTATION_PRE_PERSIST, $event);
 
         $this->doSaveDissertation($dissertation);
 
         $event = new DissertationEvent($dissertation);
-        $this->dispatcher->dispatch(Events::THREAD_POST_PERSIST, $event);
+        $this->dispatcher->dispatch(Events::DISSERTATION_POST_PERSIST, $event);
     }
 
     /**
