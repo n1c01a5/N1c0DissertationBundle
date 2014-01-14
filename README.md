@@ -86,4 +86,7 @@ n1c0_dissertation:
     db_driver: orm
     dissertation:
         class: MyProject\MyBundle\Entity\Dissertation
+        
+assetic:
+    bundles: [ "N1c0DissertationBundle" ]
 ```
