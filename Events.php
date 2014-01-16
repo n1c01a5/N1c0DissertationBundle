@@ -17,7 +17,7 @@ final class Events
      *
      * @var string
      */
-    const COMMENT_PRE_PERSIST = 'fos_comment.comment.pre_persist';
+    const DISSERTATION_PRE_PERSIST = 'fos_comment.comment.pre_persist';
 
     /**
      * The POST_PERSIST event occurs after the persistence backend
@@ -30,7 +30,7 @@ final class Events
      *
      * @var string
      */
-    const COMMENT_POST_PERSIST = 'fos_comment.comment.post_persist';
+    const DISSERTATION_POST_PERSIST = 'fos_comment.comment.post_persist';
 
     /**
      * The CREATE event occurs when the manager is asked to create
@@ -41,7 +41,7 @@ final class Events
      *
      * @var string
      */
-    const COMMENT_CREATE = 'fos_comment.comment.create';
+    const DISSERTATION_CREATE = 'fos_comment.comment.create';
 
     /**
      * The PRE_PERSIST event occurs prior to the persistence backend
