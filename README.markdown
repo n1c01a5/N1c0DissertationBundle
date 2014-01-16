@@ -86,9 +86,23 @@ n1c0_dissertation:
     db_driver: orm
     dissertation:
         class: MyProject\MyBundle\Entity\Dissertation
-        
-assetic:
-    bundles: [ "N1c0DissertationBundle" ]
+
+entity_managers:
+            default:
+                mappings:
+                    N1c0DissertationBundle: ~
+                    MyBundleMyProjectBundle: ~
+```
+
+Step 3: Import N1c0DissertationBundle routing files
+---------------------------------------------------
+
+```
+# /app/config/routing.yml
+n1c0_dissertation:
+    type: rest
+    prefix: /api
+    resource: "@N1c0Dissertation/Resources/config/routes.yml"
 ```
 
 Documentation as bonus (NelmioApiDocBundle)
