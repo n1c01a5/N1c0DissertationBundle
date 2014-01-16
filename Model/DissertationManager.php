@@ -2,12 +2,33 @@
 
 namespace N1c0\DissertationBundle\Model;
 
+use N1c0\DissertationBundle\Events;
+use N1c0\DissertationBundle\Event\DissertationEvent;
+use N1c0\DissertationBundle\Event\DissertationPersistEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
 /**
  * Abstract Dissertation Manager implementation which can be used as base class for your
  * concrete manager.
  */
 abstract class DissertationManager implements DissertationManagerInterface
 {
+    /**
+     * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+     */
+    protected $dispatcher;
+
+    /**
+     * Constructor
+     *
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     * @param \N1c0\DissertationBundle\Sorting\SortingFactory                   $factory
+     */
+    public function __construct(EventDispatcherInterface $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+    }
+
     /**
      * @param  string          $id
      * @return DissertationInterface
@@ -44,13 +65,19 @@ abstract class DissertationManager implements DissertationManagerInterface
      */
     public function saveDissertation(DissertationInterface $dissertation)
     {
-        $event = new DissertationEvent($dissertation);
+        $event = new DissertationPersistEvent($dissertation);
         $this->dispatcher->dispatch(Events::DISSERTATION_PRE_PERSIST, $event);
+
+        if ($event->isPersistenceAborted()) {
+            return false;
+        }
 
         $this->doSaveDissertation($dissertation);
 
         $event = new DissertationEvent($dissertation);
         $this->dispatcher->dispatch(Events::DISSERTATION_POST_PERSIST, $event);
+
+        return true;
     }
 
     /**
