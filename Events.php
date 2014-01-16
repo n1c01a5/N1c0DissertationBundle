@@ -6,6 +6,45 @@ final class Events
 {
     /**
      * The PRE_PERSIST event occurs prior to the persistence backend
+     * persisting the Argument.
+     *
+     * This event allows you to modify the data in the Argument prior
+     * to persisting occuring. The listener receives a
+     * N1c0\DissertationBundle\Event\ArgumentPersistEvent instance.
+     *
+     * Persisting of the argument can be aborted by calling
+     * $event->abortPersist()
+     *
+     * @var string
+     */
+    const ARGUMENT_PRE_PERSIST = 'n1c0_dissertation.argument.pre_persist';
+
+    /**
+     * The POST_PERSIST event occurs after the persistence backend
+     * persisted the Argument.
+     *
+     * This event allows you to notify users or perform other actions
+     * that might require the Argument to be persisted before performing
+     * those actions. The listener receives a
+     * N1c0\DissertationBundle\Event\ArgumentEvent instance.
+     *
+     * @var string
+     */
+    const ARGUMENT_POST_PERSIST = 'n1c0_dissertation.argument.post_persist';
+
+    /**
+     * The CREATE event occurs when the manager is asked to create
+     * a new instance of a Argument.
+     *
+     * The listener receives a N1c0\ArgumentBundle\Event\ArgumentEvent
+     * instance.
+     *
+     * @var string
+     */
+    const ARGUMENT_CREATE = 'n1c0_dissertation.argument.create';
+
+    /**
+     * The PRE_PERSIST event occurs prior to the persistence backend
      * persisting the Dissertation.
      *
      * This event allows you to modify the data in the Dissertation prior
@@ -21,12 +60,12 @@ final class Events
 
     /**
      * The POST_PERSIST event occurs after the persistence backend
-     * persisted the Comment.
+     * persisted the Dissertation.
      *
      * This event allows you to notify users or perform other actions
-     * that might require the Comment to be persisted before performing
+     * that might require the Dissertation to be persisted before performing
      * those actions. The listener receives a
-     * FOS\CommentBundle\Event\CommentEvent instance.
+     * N1c0\DissertationBundle\Event\DissertationEvent instance.
      *
      * @var string
      */
@@ -34,9 +73,9 @@ final class Events
 
     /**
      * The CREATE event occurs when the manager is asked to create
-     * a new instance of a Comment.
+     * a new instance of a Dissertation.
      *
-     * The listener receives a FOS\CommentBundle\Event\CommentEvent
+     * The listener receives a N1c0\DissertationBundle\Event\DissertationEvent
      * instance.
      *
      * @var string

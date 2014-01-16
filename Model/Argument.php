@@ -31,6 +31,13 @@ abstract class Argument implements ArgumentInterface
     protected $body;
 
     /**
+     * Should be mapped by the end developer.
+     *
+     * @var DissertationInterface
+     */
+    protected $dissertation;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -70,6 +77,24 @@ abstract class Argument implements ArgumentInterface
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return DissertationInterface
+     */
+    public function getDissertation()
+    {
+        return $this->dissertation;
+    }
+
+    /**
+     * @param DissertationInterface $dissertation
+     *
+     * @return void
+     */
+    public function setDissertation(DissertationInterface $dissertation)
+    {
+        $this->dissertation = $dissertation;
     }
 
     public function __toString()

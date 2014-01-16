@@ -5,6 +5,7 @@ namespace N1c0\DissertationBundle\Entity;
 use Doctrine\ORM\EntityManager;
 use N1c0\DissertationBundle\Model\DissertationManager as BaseDissertationManager;
 use N1c0\DissertationBundle\Model\DissertationInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Default ORM DissertationManager.
@@ -30,12 +31,13 @@ class DissertationManager extends BaseDissertationManager
     /**
      * Constructor.
      *
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
      * @param \Doctrine\ORM\EntityManager                                 $em
      * @param string                                                      $class
      */
-    public function __construct(EntityManager $em, $class)
+    public function __construct(EventDispatcherInterface $dispatcher, EntityManager $em, $class)
     {
-        parent::__construct($factory);
+        parent::__construct($dispatcher);
 
         $this->em = $em;
         $this->repository = $em->getRepository($class);

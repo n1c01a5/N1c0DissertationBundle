@@ -22,7 +22,6 @@ abstract class DissertationManager implements DissertationManagerInterface
      * Constructor
      *
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
-     * @param \N1c0\DissertationBundle\Sorting\SortingFactory                   $factory
      */
     public function __construct(EventDispatcherInterface $dispatcher)
     {

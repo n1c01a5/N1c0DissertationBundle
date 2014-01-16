@@ -2,9 +2,9 @@
 
 namespace N1c0\DissertationBundle\Model;
 
-#use N1c0\DissertationBundle\Events;
-#use N1c0\DissertationBundle\Event\DissertationEvent;
-#use N1c0\DissertationBundle\Event\DissertationPersistEvent;
+use N1c0\DissertationBundle\Events;
+use N1c0\DissertationBundle\Event\ArgumentEvent;
+use N1c0\DissertationBundle\Event\ArgumentPersistEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use InvalidArgumentException;
 
@@ -41,8 +41,8 @@ abstract class ArgumentManager implements ArgumentManagerInterface
 
         $argument->setDissertation($dissertation);
 
-        #$event = new ArgumentEvent($argument);
-        #$this->dispatcher->dispatch(Events::ARGUMENT_CREATE, $event);
+        $event = new ArgumentEvent($argument);
+        $this->dispatcher->dispatch(Events::ARGUMENT_CREATE, $event);
 
         return $argument;
     }
@@ -70,8 +70,8 @@ abstract class ArgumentManager implements ArgumentManagerInterface
 
         $this->doSaveArgument($argument);
 
-        #$event = new ArgumentEvent($argument);
-        #$this->dispatcher->dispatch(Events::ARGUMENT_POST_PERSIST, $event);
+        $event = new ArgumentEvent($argument);
+        $this->dispatcher->dispatch(Events::ARGUMENT_POST_PERSIST, $event);
 
         return true;
     }

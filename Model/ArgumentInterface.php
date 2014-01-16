@@ -38,4 +38,14 @@ Interface ArgumentInterface
      * @return string 
      */
     public function getBody();
+
+    /**
+     * @return DissertationInterface
+     */
+    public function getDissertation();
+
+    /**
+     * @param DissertationInterface $dissertation
+     */
+    public function setDissertation(DissertationInterface $dissertation);
 }
