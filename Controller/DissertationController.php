@@ -98,7 +98,7 @@ class DissertationController extends FOSRestController
      */
     public function newDissertationAction()
     {
-        return $this->createForm(new DissertationType());
+        return $form = $this->container->get('n1c0_dissertation.form_factory.dissertation')->createForm();
     }
 
     /**

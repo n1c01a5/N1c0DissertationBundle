@@ -29,6 +29,12 @@ class n1c0DissertationExtension extends Extension
 
         $container->setParameter('n1c0_dissertation.model_manager_name', $config['model_manager_name']);
 
+        $container->setParameter('n1c0_dissertation.form.dissertation.type', $config['form']['dissertation']['type']);
+
+        $container->setParameter('n1c0_dissertation.form.dissertation.name', $config['form']['dissertation']['name']);
+
+        $container->setAlias('n1c0_dissertation.form_factory.dissertation', $config['service']['form_factory']['dissertation']);
+
         $container->setAlias('n1c0_dissertation.manager.dissertation', $config['service']['manager']['dissertation']);
     }
 }

@@ -8,6 +8,13 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class DissertationType extends AbstractType
 {
+    private $commentClass;
+
+    public function __construct($commentClass)
+    {
+        $this->commentClass = $commentClass;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -25,8 +32,9 @@ class DissertationType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
+        parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => 'N1c0\DissertationBundle\Entity\Dissertation',
+            'data_class' => $this->commentClass,
         ));
     }
 
@@ -35,6 +43,6 @@ class DissertationType extends AbstractType
      */
     public function getName()
     {
-        return '';
+        return 'n1c0_dissertation_dissertation';
     }
 }
