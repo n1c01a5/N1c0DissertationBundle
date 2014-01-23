@@ -84,8 +84,9 @@ Add in app/config/config.yml:
 # N1c0DissertationBundle
 n1c0_dissertation:
     db_driver: orm
-    dissertation:
-        class: MyProject\MyBundle\Entity\Dissertation
+    class:
+        model:
+            dissertation: MyProject\MyBundle\Entity\Dissertation
 
 entity_managers:
             default:
