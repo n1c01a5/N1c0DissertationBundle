@@ -11,6 +11,16 @@ namespace N1c0\DissertationBundle\Model;
 interface DissertationManagerInterface
 {
     /**
+     * Get a list of Dissertations.
+     *
+     * @param int $limit  the limit of the result
+     * @param int $offset starting from the offset
+     *
+     * @return array
+     */
+    public function all($limit = 5, $offset = 0);
+
+    /**
      * @param  string          $id
      * @return DissertationInterface
      */

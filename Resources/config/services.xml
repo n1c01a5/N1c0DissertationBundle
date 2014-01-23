@@ -6,15 +6,20 @@
 
 
     <parameters>
-        <parameter key="n1c0_dissertation.dissertation.handler.class">N1c0\DissertationBundle\Handler\DissertationHandler</parameter>
-        <parameter key="n1c0_dissertation.dissertation.class">N1c0\DissertationBundle\Entity\Dissertation</parameter>
+        <parameter key="n1c0_dissertation.model.dissertation.class">N1c0\DissertationBundle\Entity\Dissertation</parameter>
+        
+        <parameter key="n1c0_dissertation.manager.dissertation.default.class">N1c0\DissertationBundle\Entity\DissertationManager</parameter>
     </parameters>
 
     <services>
-        <service id="n1c0_dissertation.dissertation.handler" class="%n1c0_dissertation.dissertation.handler.class%">
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <argument>%n1c0_dissertation.dissertation.class%</argument>
-            <argument type="service" id="form.factory"></argument>
+        <service id="n1c0_dissertation.entity_manager" factory-service="doctrine" factory-method="getManager" class="Doctrine\ORM\EntityManager" public="false">
+            <argument>%n1c0_dissertation.model_manager_name%</argument>
+        </service>
+    
+        <service id="n1c0_dissertation.manager.dissertation.default" class="%n1c0_dissertation.manager.dissertation.default.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="n1c0_dissertation.entity_manager" />
+            <argument>%n1c0_dissertation.model.dissertation.class%</argument>
         </service>
     </services>
 

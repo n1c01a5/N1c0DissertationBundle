@@ -22,9 +22,25 @@ class Configuration implements ConfigurationInterface
             ->children()
             
                 ->scalarNode('db_driver')->cannotBeOverwritten()->isRequired()->end()
-                ->arrayNode('dissertation')->isRequired()
+                ->scalarNode('model_manager_name')->defaultNull()->end()
+
+                ->arrayNode('class')->isRequired()
                     ->children()
-                        ->scalarNode('class')->isRequired()->end()
+                        ->arrayNode('model')->isRequired()
+                            ->children()
+                                ->scalarNode('dissertation')->isRequired()->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+
+                ->arrayNode('service')->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('manager')->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('dissertation')->cannotBeEmpty()->defaultValue('n1c0_dissertation.manager.dissertation.default')->end()
+                            ->end()
+                        ->end()
                     ->end()
                 ->end();
 

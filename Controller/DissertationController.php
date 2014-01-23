@@ -49,7 +49,7 @@ class DissertationController extends FOSRestController
         $offset = null == $offset ? 0 : $offset;
         $limit = $paramFetcher->get('limit');
 
-        return $this->container->get('n1c0_dissertation.dissertation.handler')->all($limit, $offset);
+        return $this->container->get('n1c0_dissertation.manager.dissertation')->all($limit, $offset);
     }
 
     /**

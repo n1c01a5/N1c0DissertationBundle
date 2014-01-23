@@ -29,6 +29,19 @@ abstract class DissertationManager implements DissertationManagerInterface
     }
 
     /**
+     * Get a list of Dissertations.
+     *
+     * @param int $limit  the limit of the result
+     * @param int $offset starting from the offset
+     *
+     * @return array
+     */
+    public function all($limit = 5, $offset = 0)
+    {
+        return $this->repository->findBy(array(), null, $limit, $offset);
+    }
+
+    /**
      * @param  string          $id
      * @return DissertationInterface
      */

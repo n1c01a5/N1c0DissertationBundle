@@ -25,6 +25,10 @@ class n1c0DissertationExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        $container->setParameter('n1c0_dissertation.dissertation.class', $config['dissertation']['class']);
+        $container->setParameter('n1c0_dissertation.model.dissertation.class', $config['class']['model']['dissertation']);
+
+        $container->setParameter('n1c0_dissertation.model_manager_name', $config['model_manager_name']);
+
+        $container->setAlias('n1c0_dissertation.manager.dissertation', $config['service']['manager']['dissertation']);
     }
 }
