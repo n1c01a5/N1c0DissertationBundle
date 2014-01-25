@@ -35,6 +35,7 @@ class DissertationType extends AbstractType
         parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => $this->commentClass,
+            'csrf_protection' => false
         ));
     }
 

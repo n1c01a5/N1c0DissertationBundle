@@ -127,6 +127,7 @@ class DissertationController extends FOSRestController
      */
     public function postDissertationAction(Request $request)
     {
+        try {
         $dissertationManager = $this->container->get('n1c0_dissertation.manager.dissertation');
         $dissertation = $dissertationManager->createDissertation();
 
@@ -149,9 +150,14 @@ class DissertationController extends FOSRestController
                 return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_CREATED);
             }
         }
+        } catch (InvalidFormException $exception) {
+
+            return $exception->getForm();
+        }
+
         
         // Add a method onCreateDissertationError(FormInterface $form)
-        return new Response(sprintf("Error of the dissertation id '%s'.", $form->getData()->getId()), Codes::HTTP_BAD_REQUEST);
+        //return new Response(sprintf("Error of the dissertation id '%s'.", $form->getData()->getId()), Codes::HTTP_BAD_REQUEST);
     }
 
     /**

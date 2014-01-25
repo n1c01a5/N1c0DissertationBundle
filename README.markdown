@@ -111,6 +111,8 @@ Content negociation
 
 Each ressource is accessible into different formats.
 
+To get...
+
 In text/html:
 ```
 curl -i localhost:8000/api/v1/dissertations/10
@@ -119,6 +121,12 @@ curl -i localhost:8000/api/v1/dissertations/10
 In json:
 ```
 curl -i -H "Accept: application/json" localhost:8000/api/v1/dissertations/10
+```
+
+To post in html...
+
+```
+curl -X POST -d "n1c0_dissertation_dissertation%5Btitle%5D=mytitle&n1c0_dissertation_dissertation%5Bbody%5D=mybody" http://localhost:8000/api/v1/dissertations
 ```
 
 Documentation as bonus (NelmioApiDocBundle)
