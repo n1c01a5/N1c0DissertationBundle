@@ -106,6 +106,21 @@ n1c0_dissertation:
     resource: "@N1c0Dissertation/Resources/config/routes.yml"
 ```
 
+Content negociation
+-------------------
+
+Each ressource is accessible into different formats.
+
+In text/html:
+```
+curl -i localhost:8000/api/v1/dissertations/10
+```
+
+In json:
+```
+curl -i -H "Accept: application/json" localhost:8000/api/v1/dissertations/10
+```
+
 Documentation as bonus (NelmioApiDocBundle)
 -------------------------------------------
 

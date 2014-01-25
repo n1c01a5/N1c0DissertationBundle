@@ -3,6 +3,7 @@
 namespace N1c0\DissertationBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use FOS\RestBundle\Controller\FOSRestController;
@@ -180,31 +181,30 @@ class DissertationController extends FOSRestController
      */
     public function putDissertationAction(Request $request, $id)
     {
-        try {
-            if (!($dissertation = $this->container->get('n1c0_dissertation.dissertation.handler')->get($id))) {
-                $statusCode = Codes::HTTP_CREATED;
-                $dissertation = $this->container->get('n1c0_dissertation.dissertation.handler')->post(
-                    $request->request->all()
-                );
-            } else {
-                $statusCode = Codes::HTTP_NO_CONTENT;
-                $dissertation = $this->container->get('n1c0_dissertation.dissertation.handler')->put(
-                    $dissertation,
-                    $request->request->all()
-                );
-            }
+        $dissertationManager = $this->container->get('n1c0_dissertation.manager.dissertation');
+        $dissertation = $dissertationManager->findDissertationById($id);
 
-            $routeOptions = array(
-                'id' => $dissertation->getId(),
-                '_format' => $request->get('_format')
-            );
-
-            return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, $statusCode);
-
-        } catch (InvalidFormException $exception) {
-
-            return $exception->getForm();
+        if (null === $dissertation) {
+            throw new NotFoundHttpException(sprintf("No dissertation with id '%s' found.", $id));
         }
+        
+        $form = $this->container->get('n1c0_dissertation.form_factory.dissertation')->createForm();
+        $form->setData($dissertation);
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            if ($dissertationManager->saveDissertation() !== false) {
+                $routeOptions = array(
+                    'id' => $dissertation->getId(),
+                    '_format' => $request->get('_format')
+                );
+
+                return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_CREATED);
+            }
+        }
+
+        // Add a method onCreateDissertationError(FormInterface $form)
+        return new Response(sprintf("Error of the dissertation id '%s'.", $form->getData()->getId()), Codes::HTTP_BAD_REQUEST);
     }
 
     /**
