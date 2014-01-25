@@ -126,22 +126,31 @@ class DissertationController extends FOSRestController
      */
     public function postDissertationAction(Request $request)
     {
-        try {
-            $newDissertation = $this->container->get('n1c0_dissertation.dissertation.handler')->post(
-                $request->request->all()
-            );
+        $dissertationManager = $this->container->get('n1c0_dissertation.manager.dissertation');
+        $dissertation = $dissertationManager->createDissertation();
 
-            $routeOptions = array(
-                'id' => $newDissertation->getId(),
+        $form = $this->container->get('n1c0_dissertation.form_factory.dissertation')->createForm();
+        $form->setData($dissertation);
+
+        if ('POST' === $request->getMethod()) {
+            $form->bind($request);
+
+            if ($form->isValid()) {
+                // Add the dissertation 
+                $dissertationManager->saveDissertation($dissertation);
+                
+                $routeOptions = array(
+                'id' => $form->getData()->getId(),
                 '_format' => $request->get('_format')
-            );
+                );
 
-            return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_CREATED);
-
-        } catch (InvalidFormException $exception) {
-
-            return $exception->getForm();
+                // Add a method onCreateDissertationSuccess(FormInterface $form)
+                return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_CREATED);
+            }
         }
+        
+        // Add a method onCreateDissertationError(FormInterface $form)
+        return new Response(sprintf("Error of the dissertation id '%s'.", $form->getData()->getId()), Codes::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -254,7 +263,7 @@ class DissertationController extends FOSRestController
      */
     protected function getOr404($id)
     {
-        if (!($dissertation = $this->container->get('n1c0_dissertation.dissertation.handler')->get($id))) {
+        if (!($dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
