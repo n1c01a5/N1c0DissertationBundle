@@ -123,10 +123,15 @@ In json:
 curl -i -H "Accept: application/json" localhost:8000/api/v1/dissertations/10
 ```
 
-To post in html...
+To post in html:
 
 ```
 curl -X POST -d "n1c0_dissertation_dissertation%5Btitle%5D=mytitle&n1c0_dissertation_dissertation%5Bbody%5D=mybody" http://localhost:8000/api/v1/dissertations
+```
+
+To post in json:
+```
+curl -i -H "Accept: application/json" -X POST -d "n1c0_dissertation_dissertation%5Btitle%5D=ezf&n1c0_dissertation_dissertation%5Bbody%5D=nicog" http://localhost:80/stage/web/app_dev.php/api/v1/dissertations.json
 ```
 
 Documentation as bonus (NelmioApiDocBundle)
