@@ -126,12 +126,16 @@ curl -i -H "Accept: application/json" localhost:8000/api/v1/dissertations/10
 To post in html:
 
 ```
-curl -X POST -d "n1c0_dissertation_dissertation%5Btitle%5D=mytitle&n1c0_dissertation_dissertation%5Bbody%5D=mybody" http://localhost:8000/api/v1/dissertations
+curl -X POST -d "n1c0_dissertation_dissertation%5Btitle%5D=myTitle&n1c0_dissertation_dissertation%5Bbody%5D=myBody" http://localhost:8000/api/v1/dissertations
 ```
 
 To post in json:
 ```
-curl -X POST -d '{"n1c0_dissertation_dissertation":{"title":"mytitle","body":"mybody"}}' http://localhost:8000/api/v1/dissertations.json --header "Content-Type:application/json" -v
+curl -X POST -d '{"n1c0_dissertation_dissertation":{"title":"myTitle","body":"myBody"}}' http://localhost:8000/api/v1/dissertations.json --header "Content-Type:application/json" -v
+```
+To put
+```
+curl -X PUT -d '{"n1c0_dissertation_dissertation":{"title":"myNewTitle","body":"myNewBody http://localhost:8000/api/v1/dissertations/10 --header "Content-Type:application/json" -v
 ```
 
 Documentation as bonus (NelmioApiDocBundle)

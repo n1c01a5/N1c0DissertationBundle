@@ -128,36 +128,31 @@ class DissertationController extends FOSRestController
     public function postDissertationAction(Request $request)
     {
         try {
-        $dissertationManager = $this->container->get('n1c0_dissertation.manager.dissertation');
-        $dissertation = $dissertationManager->createDissertation();
+            $dissertationManager = $this->container->get('n1c0_dissertation.manager.dissertation');
+            $dissertation = $dissertationManager->createDissertation();
 
-        $form = $this->container->get('n1c0_dissertation.form_factory.dissertation')->createForm();
-        $form->setData($dissertation);
+            $form = $this->container->get('n1c0_dissertation.form_factory.dissertation')->createForm();
+            $form->setData($dissertation);
 
-        if ('POST' === $request->getMethod()) {
-            $form->bind($request);
+            if ('POST' === $request->getMethod()) {
+                $form->bind($request);
 
-            if ($form->isValid()) {
-                // Add the dissertation 
-                $dissertationManager->saveDissertation($dissertation);
+                if ($form->isValid()) {
+                    // Add the dissertation 
+                    $dissertationManager->saveDissertation($dissertation);
                 
-                $routeOptions = array(
-                'id' => $form->getData()->getId(),
-                '_format' => $request->get('_format')
-                );
+                    $routeOptions = array(
+                        'id' => $form->getData()->getId(),
+                        '_format' => $request->get('_format')
+                    );
 
-                // Add a method onCreateDissertationSuccess(FormInterface $form)
-                return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_CREATED);
+                    // Add a method onCreateDissertationSuccess(FormInterface $form)
+                    return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_CREATED);
+                }
             }
-        }
         } catch (InvalidFormException $exception) {
-
             return $exception->getForm();
         }
-
-        
-        // Add a method onCreateDissertationError(FormInterface $form)
-        //return new Response(sprintf("Error of the dissertation id '%s'.", $form->getData()->getId()), Codes::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -174,7 +169,7 @@ class DissertationController extends FOSRestController
      * )
      *
      * @Annotations\View(
-     *  template = "n1c0DissertationBundle:Dissertation:editDissertation.html.twig",
+     *  template = "N1c0DissertationBundle:Dissertation:editDissertation.html.twig",
      *  templateVar = "form"
      * )
      *
@@ -187,26 +182,26 @@ class DissertationController extends FOSRestController
      */
     public function putDissertationAction(Request $request, $id)
     {
-        $dissertationManager = $this->container->get('n1c0_dissertation.manager.dissertation');
-        $dissertation = $dissertationManager->findDissertationById($id);
+        try {
+            $dissertation = $this->getOr404($id);
 
-        if (null === $dissertation) {
-            throw new NotFoundHttpException(sprintf("No dissertation with id '%s' found.", $id));
-        }
-        
-        $form = $this->container->get('n1c0_dissertation.form_factory.dissertation')->createForm();
-        $form->setData($dissertation);
-        $form->bind($request);
+            $form = $this->container->get('n1c0_dissertation.form_factory.dissertation')->createForm();
+            $form->setData($dissertation);
+            $form->bind($request);
 
-        if ($form->isValid()) {
-            if ($dissertationManager->saveDissertation() !== false) {
-                $routeOptions = array(
-                    'id' => $dissertation->getId(),
-                    '_format' => $request->get('_format')
-                );
+            if ($form->isValid()) {
+                $dissertationManager = $this->container->get('n1c0_dissertation.manager.dissertation');
+                if ($dissertationManager->saveDissertation($dissertation) !== false) {
+                    $routeOptions = array(
+                        'id' => $dissertation->getId(),
+                        '_format' => $request->get('_format')
+                    );
 
-                return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_CREATED);
+                    return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_CREATED);
+                }
             }
+        } catch (InvalidFormException $exception) {
+            return $exception->getForm();
         }
 
         // Add a method onCreateDissertationError(FormInterface $form)
