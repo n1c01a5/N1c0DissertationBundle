@@ -131,10 +131,10 @@ curl -X POST -d "n1c0_dissertation_dissertation%5Btitle%5D=mytitle&n1c0_disserta
 
 To post in json:
 ```
-curl -i -H "Accept: application/json" -X POST -d "n1c0_dissertation_dissertation%5Btitle%5D=mytitle&n1c0_dissertation_dissertation%5Bbody%5D=mybody" http://localhost:80/stage/web/app_dev.php/api/v1/dissertations.json
+curl -X POST -d '{"n1c0_dissertation_dissertation":{"title":"mytitle","body":"mybody"}}' http://localhost:8000/api/v1/dissertations.json --header "Content-Type:application/json" -v
 ```
 
 Documentation as bonus (NelmioApiDocBundle)
 -------------------------------------------
 
-Go to http://mysite.com/api/doc.
+Go to http://localhost:8000/api/doc.
