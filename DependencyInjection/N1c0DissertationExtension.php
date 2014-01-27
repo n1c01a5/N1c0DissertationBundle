@@ -26,15 +26,19 @@ class n1c0DissertationExtension extends Extension
         $loader->load('services.xml');
 
         $container->setParameter('n1c0_dissertation.model.dissertation.class', $config['class']['model']['dissertation']);
+        $container->setParameter('n1c0_dissertation.model.argument.class', $config['class']['model']['argument']);
 
         $container->setParameter('n1c0_dissertation.model_manager_name', $config['model_manager_name']);
 
         $container->setParameter('n1c0_dissertation.form.dissertation.type', $config['form']['dissertation']['type']);
+        $container->setParameter('n1c0_dissertation.form.argument.type', $config['form']['argument']['type']);
 
         $container->setParameter('n1c0_dissertation.form.dissertation.name', $config['form']['dissertation']['name']);
+        $container->setParameter('n1c0_dissertation.form.argument.name', $config['form']['argument']['name']);
 
         $container->setAlias('n1c0_dissertation.form_factory.dissertation', $config['service']['form_factory']['dissertation']);
 
         $container->setAlias('n1c0_dissertation.manager.dissertation', $config['service']['manager']['dissertation']);
+        $container->setAlias('n1c0_dissertation.manager.argument', $config['service']['manager']['argument']);
     }
 }

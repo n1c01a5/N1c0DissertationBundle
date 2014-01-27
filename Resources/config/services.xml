@@ -7,8 +7,10 @@
 
     <parameters>
         <parameter key="n1c0_dissertation.model.dissertation.class">N1c0\DissertationBundle\Entity\Dissertation</parameter>
+        <parameter key="n1c0_dissertation.model.argument.class">N1c0\DissertationBundle\Entity\Argument</parameter>
         
         <parameter key="n1c0_dissertation.manager.dissertation.default.class">N1c0\DissertationBundle\Entity\DissertationManager</parameter>
+        <parameter key="n1c0_dissertation.manager.argument.default.class">N1c0\DissertationBundle\Entity\ArgumentManager</parameter>
     </parameters>
 
     <services>
@@ -21,6 +23,12 @@
             <argument type="service" id="n1c0_dissertation.entity_manager" />
             <argument>%n1c0_dissertation.model.dissertation.class%</argument>
         </service>
+        <service id="n1c0_dissertation.manager.argument.default" class="%n1c0_dissertation.manager.argument.default.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="n1c0_dissertation.entity_manager" />
+            <argument>%n1c0_dissertation.model.argument.class%</argument>
+        </service>
+
 
         <service id="n1c0_dissertation.form_type.dissertation.default" class="N1c0\DissertationBundle\Form\DissertationType">
             <argument>%n1c0_dissertation.model.dissertation.class%</argument>
@@ -32,6 +40,18 @@
             <argument>%n1c0_dissertation.form.dissertation.type%</argument>
             <argument>%n1c0_dissertation.form.dissertation.name%</argument>
         </service>
+        
+        <service id="n1c0_dissertation.form_type.argument.default" class="N1c0\DissertationBundle\Form\ArgumentType">
+            <argument>%n1c0_dissertation.model.argument.class%</argument>
+            <tag name="form.type" alias="n1c0_dissertation_argument" />
+        </service>
+
+        <service id="n1c0_dissertation.form_factory.argument.default" class="N1c0\DissertationBundle\FormFactory\ArgumentFormFactory" public="false">
+            <argument type="service" id="form.factory" />
+            <argument>%n1c0_dissertation.form.argument.type%</argument>
+            <argument>%n1c0_dissertation.form.argument.name%</argument>
+        </service>
+
     </services>
 
 </container>

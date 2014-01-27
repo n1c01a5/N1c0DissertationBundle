@@ -6,13 +6,13 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class DissertationType extends AbstractType
+class ArgumentType extends AbstractType
 {
-    private $dissertationClass;
+    private $argumentClass;
 
-    public function __construct($dissertationClass)
+    public function __construct($argumentClass)
     {
-        $this->dissertationClass = $dissertationClass;
+        $this->argumentClass = $argumentClass;
     }
 
     /**
@@ -34,7 +34,7 @@ class DissertationType extends AbstractType
     {
         parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => $this->dissertationClass,
+            'data_class' => $this->argumentClass,
             'csrf_protection' => false
         ));
     }
@@ -44,6 +44,6 @@ class DissertationType extends AbstractType
      */
     public function getName()
     {
-        return 'n1c0_dissertation_dissertation';
+        return 'n1c0_dissertation_argument';
     }
 }

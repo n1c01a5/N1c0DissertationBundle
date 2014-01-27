@@ -49,11 +49,11 @@ framework:
 ```
     
 
-Step 2: Create your Dissertation class
+Step 2: Create your different entities
 --------------------------------------
 
 
-For example:
+For the dissertation entity:
 
 ``` php
 <?php
@@ -78,6 +78,31 @@ class Dissertation extends BaseDissertation
     protected $id;
 }
 ```
+For the argument entity:
+
+``` php
+<?php
+// src/MyProject/MyBundle/Entity/Argument.php
+
+namespace MyProject\MyBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use N1c0\DissertationBundle\Entity\Argument as BaseArgument;
+
+/**
+ * @ORM\Entity
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
+ */
+class Argument extends BaseArgument
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+}
+```
 
 Add in app/config/config.yml:
 ``` yaml
@@ -87,6 +112,7 @@ n1c0_dissertation:
     class:
         model:
             dissertation: MyProject\MyBundle\Entity\Dissertation
+            argument: MyProject\MyBundle\Entity\Argument
 
 entity_managers:
             default:

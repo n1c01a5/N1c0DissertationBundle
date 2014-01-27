@@ -16,7 +16,7 @@ interface ArgumentManagerInterface
      * @param  DissertationInterface $dissertation
      * @return array           of ArgumentInterface
      */
-    public function findArgumentssByDissertation(DissertationInterface $dissertation);
+    public function findArgumentsByDissertation(DissertationInterface $dissertation);
 
     /**
      * Returns an empty argument instance
