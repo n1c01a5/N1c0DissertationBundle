@@ -1,0 +1,15 @@
+{% block content %}
+    <h1 class="title">{{ 'argument.list'|trans({}, 'n1c0DissertationBundle') }}</h1>
+
+    <ul id="argument-list">
+        {% for argument in arguments %}
+            <li>
+                <a href="{{ path('api_1_get_argument', {'id': argument.id}) }}">{{ argument.title }}</a>
+                {#[<a href="{{ path('api_1_edit_arguments', {'id': argument.id}) }}">{{ 'argument.edit.link'|trans({}, 'n1c0DissertationBundle') }}</a>]#}
+                {#[<a href="{{ path('api_1_remove_arguments', {'id': argument.id}) }}">{{ 'argument.remove.link'|trans({}, 'n1c0DissertationBundle') }}</a>]#}
+            </li>
+        {% else %}
+            <li>{{ 'argument.list.empty'|trans({}, 'n1c0DissertationBundle') }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

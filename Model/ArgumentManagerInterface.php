@@ -11,6 +11,22 @@ namespace N1c0\DissertationBundle\Model;
 interface ArgumentManagerInterface
 {
     /**
+     * Get a list of Arguments.
+     *
+     * @param int $limit  the limit of the result
+     * @param int $offset starting from the offset
+     *
+     * @return array
+     */
+    public function all($limit = 5, $offset = 0);
+
+    /**
+     * @param  string          $id
+     * @return ArgumentInterface
+     */
+    public function findArgumentById($id);
+
+    /**
      * Returns a flat array of arguments with the specified dissertation.
      *
      * @param  DissertationInterface $dissertation
@@ -23,7 +39,7 @@ interface ArgumentManagerInterface
      *
      * @return Argument
      */
-    public function createArgument(DissertationInterface $dissertation, DissertationInterface $dissertation);
+    public function createArgument(DissertationInterface $dissertation);
 
     /**
      * Saves a argument

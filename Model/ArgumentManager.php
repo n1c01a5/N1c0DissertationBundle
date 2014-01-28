@@ -30,6 +30,28 @@ abstract class ArgumentManager implements ArgumentManagerInterface
     }
 
     /**
+     * Get a list of Arguments.
+     *
+     * @param int $limit  the limit of the result
+     * @param int $offset starting from the offset
+     *
+     * @return array
+     */
+    public function all($limit = 5, $offset = 0)
+    {
+        return $this->repository->findBy(array(), null, $limit, $offset);
+    }
+
+    /**
+     * @param  string          $id
+     * @return ArgumentInterface
+     */
+    public function findArgumentById($id)
+    {
+        return $this->repository->find($id);
+    }
+
+    /**
      * Returns an empty argument instance
      *
      * @return Argument

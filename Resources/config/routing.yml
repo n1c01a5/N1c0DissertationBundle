@@ -3,3 +3,9 @@ n1c0_dissertation_dissertation:
     prefix: /v1
     resource: N1c0\DissertationBundle\Controller\DissertationController
     name_prefix:  api_1_ # naming collision
+
+n1c0_dissertation_argument:
+    type: rest
+    prefix: /v1
+    resource: N1c0\DissertationBundle\Controller\ArgumentController
+    name_prefix:  api_1_ # naming collision

@@ -29,7 +29,7 @@ public function registerBundles()
         new FOS\RestBundle\FOSRestBundle(),
         new JMS\SerializerBundle\JMSSerializerBundle(),
         new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
-        new N1c0/DissertationBundle/N1c0DissertationBundle(),
+        new N1c0\DissertationBundle\N1c0DissertationBundle(),
     );
 }
 ```
@@ -49,11 +49,12 @@ framework:
 ```
     
 
-Step 2: Create your different entities
---------------------------------------
+Step 2: Setup Doctrine ORM mapping
+----------------------------------
 
+The ORM implementation does not provide a concrete Dissertation class for your use, you must create one. This can be done by extending the abstract entities provided by the bundle and creating the appropriate mappings.
 
-For the dissertation entity:
+For example, the dissertation entity:
 
 ``` php
 <?php
@@ -78,7 +79,7 @@ class Dissertation extends BaseDissertation
     protected $id;
 }
 ```
-For the argument entity:
+For example, the argument entity:
 
 ``` php
 <?php
@@ -101,6 +102,14 @@ class Argument extends BaseArgument
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * Dissertation of this argument
+     *
+     * @var Thread
+     * @ORM\ManyToOne(targetEntity="MyProject\MyBundle\Entity\Argument")
+     */
+    protected $dissertation;
 }
 ```
 
@@ -129,7 +138,7 @@ Step 3: Import N1c0DissertationBundle routing files
 n1c0_dissertation:
     type: rest
     prefix: /api
-    resource: "@N1c0Dissertation/Resources/config/routes.yml"
+    resource: "@N1c0Dissertation/Resources/config/routing.yml"
 ```
 
 Content negociation
@@ -137,31 +146,46 @@ Content negociation
 
 Each ressource is accessible into different formats.
 
-To get...
+HTTP verbs:
 
-In text/html:
+For the dissertations:
+
+GET:
+
+In html format:
 ```
 curl -i localhost:8000/api/v1/dissertations/10
 ```
 
-In json:
+In json format:
 ```
 curl -i -H "Accept: application/json" localhost:8000/api/v1/dissertations/10
 ```
 
-To post in html:
+POST:
 
+In html format:
 ```
 curl -X POST -d "n1c0_dissertation_dissertation%5Btitle%5D=myTitle&n1c0_dissertation_dissertation%5Bbody%5D=myBody" http://localhost:8000/api/v1/dissertations
 ```
 
-To post in json:
+In json format:
 ```
 curl -X POST -d '{"n1c0_dissertation_dissertation":{"title":"myTitle","body":"myBody"}}' http://localhost:8000/api/v1/dissertations.json --header "Content-Type:application/json" -v
 ```
-To put
+PUT:
+
+In json format:
 ```
 curl -X PUT -d '{"n1c0_dissertation_dissertation":{"title":"myNewTitle","body":"myNewBody http://localhost:8000/api/v1/dissertations/10 --header "Content-Type:application/json" -v
+```
+For the arguments:
+
+GET:
+
+In json format:
+```
+curl -i -H "Accept: application/json" localhost:8000/api/v1/arguments
 ```
 
 Documentation as bonus (NelmioApiDocBundle)
