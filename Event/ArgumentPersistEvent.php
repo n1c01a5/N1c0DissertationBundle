@@ -6,7 +6,7 @@ namespace N1c0\DissertationBundle\Event;
  * An event related to a persisting event that can be
  * cancelled by a listener.
  */
-class DissertationPersistEvent extends DissertationEvent
+class ArgumentPersistEvent extends ArgumentEvent
 {
     /**
      * @var bool
