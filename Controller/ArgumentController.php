@@ -101,7 +101,7 @@ class ArgumentController extends FOSRestController
      * )
      *
      * @param Request               $request      the request object
-     * @param int                   $id      the dissertation id
+     * @param int                   $id           the dissertation id
      *
      * @return array
      */
@@ -129,11 +129,11 @@ class ArgumentController extends FOSRestController
      *  templateVar = "form"
      * )
      *
-     * @param string $id
+     * @param string $id    the id dissertation
      *
      * @return FormTypeInterface
      */
-    public function newArgumentAction($id)
+    public function newDissertationArgumentAction($id)
     {
         $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
         if (!$dissertation) {
@@ -221,7 +221,7 @@ class ArgumentController extends FOSRestController
      * )
      *
      * @Annotations\View(
-     *  template = "N1c0DissertationBundle:Dissertation:editArgument.html.twig",
+     *  template = "N1c0DissertationBundle:Argument:editDissertationArgument.html.twig",
      *  templateVar = "form"
      * )
      *
@@ -236,7 +236,11 @@ class ArgumentController extends FOSRestController
     public function putDissertationArgumentsAction(Request $request, $id, $idArgument)
     {
         try {
-            // get $dissertation
+            $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
+            if (!$dissertation) {
+                throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
+            }
+
             $argument = $this->getOr404($idArgument);
 
             $form = $this->container->get('n1c0_dissertation.form_factory.argument')->createForm();

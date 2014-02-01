@@ -185,14 +185,19 @@ GET:
 
 In json format:
 ```
-curl -i -H "Accept: application/json" localhost:8000/api/v1/dissertaitons/10/arguments
+curl -i -H "Accept: application/json" localhost:8000/api/v1/dissertations/10/arguments
 ```
-POST
+POST:
 
 In json format:
 ```
 curl -X POST -d '{"n1c0_dissertation_argument":{"title":"myTitleArgument","body":"myBodyArgument"}}' http://localhost:8000/api/v1/dissertations/10/arguments.json --header "Content-Type:application/json" -v
 ```
+PUT:
+
+In json format:
+```
+curl -X PUT -d '{"n1c0_dissertation_argument":{"title":"myNewTitleArgument","body":"myNewBodyArgument"}}' http://localhost:8000/api/v1/dissertations/10/arguments/11 --header "Content-Type:application/json" -v 
 
 Documentation as bonus (NelmioApiDocBundle)
 -------------------------------------------
