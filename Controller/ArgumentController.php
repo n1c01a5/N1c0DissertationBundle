@@ -172,7 +172,7 @@ class ArgumentController extends FOSRestController
      *
      * @return FormTypeInterface|View
      */
-    public function postDissertationArgumentsAction(Request $request, $id)
+    public function postDissertationArgumentAction(Request $request, $id)
     {
         try {
             $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
@@ -233,7 +233,7 @@ class ArgumentController extends FOSRestController
      *
      * @throws NotFoundHttpException when argument not exist
      */
-    public function putDissertationArgumentsAction(Request $request, $id, $idArgument)
+    public function putDissertationArgumentAction(Request $request, $id, $idArgument)
     {
         try {
             $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
@@ -251,7 +251,7 @@ class ArgumentController extends FOSRestController
                 $argumentManager = $this->container->get('n1c0_dissertation.manager.argument');
                 if ($argumentManager->saveArgument($argument) !== false) {
                     $routeOptions = array(
-                        'id' => $dissertation->getId(), //get the id of the dissertation (error for the moment) $dissertation not defined
+                        'id' => $dissertation->getId(),                  
                         '_format' => $request->get('_format')
                     );
 
@@ -261,9 +261,6 @@ class ArgumentController extends FOSRestController
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
-
-        // Add a method onCreateDissertationError(FormInterface $form)
-        return new Response(sprintf("Error of the dissertation id '%s'.", $form->getData()->getId()), Codes::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -279,7 +276,7 @@ class ArgumentController extends FOSRestController
      * )
      *
      * @Annotations\View(
-     *  template = "n1c0DissertationBundle:Dissertation:editArgument.html.twig",
+     *  template = "N1c0DissertationBundle:Argument:editDissertationArgument.html.twig",
      *  templateVar = "form"
      * )
      *
@@ -291,25 +288,34 @@ class ArgumentController extends FOSRestController
      *
      * @throws NotFoundHttpException when argument not exist
      */
-    public function patchDissertationArgumentsAction(Request $request, $id, $idArgument)
+    public function patchDissertationArgumentAction(Request $request, $id, $idArgument)
     {
         try {
-            $dissertation = $this->container->get('n1c0_dissertation.argument.handler')->patch(
-                $this->getOr404($id),
-                $request->request->all()
-            );//TODO Patch dir handler not exists
+            $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
+            if (!$dissertation) {
+                throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
+            }
 
-            $routeOptions = array(
-                'id' => $dissertation->getId(),
-                '_format' => $request->get('_format')
-            );
+            $argument = $this->getOr404($idArgument);
 
-            return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_NO_CONTENT);
+            $form = $this->container->get('n1c0_dissertation.form_factory.argument')->createForm();
+            $form->setData($argument);
+            $form->handleRequest($request);
 
+            if ($form->isValid()) {
+                $argumentManager = $this->container->get('n1c0_dissertation.manager.argument');
+                if ($argumentManager->saveArgument($argument) !== false) {
+                    $routeOptions = array(
+                        'id' => $dissertation->getId(),                  
+                        '_format' => $request->get('_format')
+                    );
+
+                    return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_CREATED);
+                }
+            }
         } catch (InvalidFormException $exception) {
-
             return $exception->getForm();
-        }
+        }   
     }
 
     /**

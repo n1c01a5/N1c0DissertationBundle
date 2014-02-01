@@ -35,7 +35,8 @@ class ArgumentType extends AbstractType
         parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => $this->argumentClass,
-            'csrf_protection' => false
+            'csrf_protection' => false,
+            'method' => 'PATCH'
         ));
     }
 

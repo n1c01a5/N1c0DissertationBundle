@@ -197,7 +197,13 @@ PUT:
 
 In json format:
 ```
-curl -X PUT -d '{"n1c0_dissertation_argument":{"title":"myNewTitleArgument","body":"myNewBodyArgument"}}' http://localhost:8000/api/v1/dissertations/10/arguments/11 --header "Content-Type:application/json" -v 
+curl -X PUT -d '{"n1c0_dissertation_argument":{"title":"myNewTitleArgument","body":"myNewBodyArgument"}}' http://localhost:8000/api/v1/dissertations/10/arguments/11.json --header "Content-Type:application/json" -v 
+```
+PATCH:
+
+In json format:
+```
+curl -X PATCH -d '{"n1c0_dissertation_argument":{"title":"myNewTitleArgument"}}' http://localhost:8000/api/v1/dissertations/10/arguments/11.json --header "Content-Type:application/json" -v
 ```
 
 Documentation as bonus (NelmioApiDocBundle)
