@@ -84,6 +84,38 @@ class ArgumentController extends FOSRestController
     }
 
     /**
+     * Get the arguments of a dissertation.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful"
+     *   }
+     * )
+     *
+     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing arguments.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many arguments to return.")
+     *
+     * @Annotations\View(
+     *  templateVar="arguments"
+     * )
+     *
+     * @param Request               $request      the request object
+     * @param int                   $id      the dissertation id
+     *
+     * @return array
+     */
+    public function getDissertationArgumentsAction(Request $request, $id)
+    {
+        $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
+        if (!$dissertation) {
+            throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
+        }
+
+        return $this->container->get('n1c0_dissertation.manager.argument')->findArgumentsByDissertation($dissertation);
+    }
+
+    /**
      * Presents the form to use to create a new argument.
      *
      * @ApiDoc(
@@ -117,11 +149,11 @@ class ArgumentController extends FOSRestController
     }
 
     /**
-     * Create a Argument from the submitted data.
+     * Creates a new Argument for the Dissertation from the submitted data.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Creates a new argument from the submitted data.",
+     *   description = "Creates a new argument for the dissertation from the submitted data.",
      *   input = "N1c0\DissertationBundle\Form\ArgumentType",
      *   statusCodes = {
      *     200 = "Returned when successful",
@@ -136,11 +168,11 @@ class ArgumentController extends FOSRestController
      * )
      *
      * @param Request $request the request object
-     * @param string  $id      The id of the thread
+     * @param string  $id      The id of the dissertation 
      *
      * @return FormTypeInterface|View
      */
-    public function postArgumentAction(Request $request, $id)
+    public function postDissertationArgumentsAction(Request $request, $id)
     {
         try {
             $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
@@ -193,17 +225,19 @@ class ArgumentController extends FOSRestController
      *  templateVar = "form"
      * )
      *
-     * @param Request $request the request object
-     * @param int     $id      the argument id
+     * @param Request $request         the request object
+     * @param string  $id              the id of the dissertation 
+     * @param int     $idArgument      the argument id
      *
      * @return FormTypeInterface|View
      *
      * @throws NotFoundHttpException when argument not exist
      */
-    public function putDissertationAction(Request $request, $id)
+    public function putDissertationArgumentsAction(Request $request, $id, $idArgument)
     {
         try {
-            $argument = $this->getOr404($id);
+            // get $dissertation
+            $argument = $this->getOr404($idArgument);
 
             $form = $this->container->get('n1c0_dissertation.form_factory.argument')->createForm();
             $form->setData($argument);
@@ -229,7 +263,7 @@ class ArgumentController extends FOSRestController
     }
 
     /**
-     * Update existing argument from the submitted data or create a new argument at a specific location.
+     * Update existing argument for a dissertation from the submitted data or create a new argument at a specific location.
      *
      * @ApiDoc(
      *   resource = true,
@@ -245,14 +279,15 @@ class ArgumentController extends FOSRestController
      *  templateVar = "form"
      * )
      *
-     * @param Request $request the request object
-     * @param int     $id      the argument id
-     *
+     * @param Request $request         the request object
+     * @param string  $id              the id of the dissertation 
+     * @param int     $idArgument      the argument id
+
      * @return FormTypeInterface|View
      *
      * @throws NotFoundHttpException when argument not exist
      */
-    public function patchArgumentAction(Request $request, $id)
+    public function patchDissertationArgumentsAction(Request $request, $id, $idArgument)
     {
         try {
             $dissertation = $this->container->get('n1c0_dissertation.argument.handler')->patch(
