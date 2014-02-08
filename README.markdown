@@ -206,6 +206,68 @@ In json format:
 curl -X PATCH -d '{"n1c0_dissertation_argument":{"title":"myNewTitleArgument"}}' http://localhost:8000/api/v1/dissertations/10/arguments/11.json --header "Content-Type:application/json" -v
 ```
 
+Step 6: Integration with FOSUserBundle
+======================================
+By default, dissertations are made anonymously.
+[FOSUserBundle](http://github.com/FriendsOfSymfony/FOSUserBundle)
+authentication can be used to sign the dissertations.
+
+### A) Setup FOSUserBundle
+First you have to setup [FOSUserBundle](https://github.com/FriendsOfSymfony/FOSUserBundle). Check the [instructions](https://github.com/FriendsOfSymfony/FOSUserBundle/blob/master/Resources/doc/index.md).
+
+### B) Extend the Dissertation class
+In order to add an author to a dissertation, the Dissertation class should implement the
+`SignedDissertationInterface` and add a field to your mapping.
+
+For example in the ORM:
+
+``` php
+<?php
+// src/MyProject/MyBundle/Entity/Dissertation.php
+
+namespace MyProject\MyBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use N1c0\DissertationBundle\Entity\Dissertation as BaseDissertation;
+use N1c0\DissertationBundle\Model\SignedDissertationInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+
+/**
+ * @ORM\Entity
+ */
+class Dissertation extends BaseDissertation implements SignedDissertationInterface
+{
+    // .. fields
+
+    /**
+     * Author of the dissertation
+     *
+     * @ORM\ManyToOne(targetEntity="MyProject\MyBundle\Entity\User")
+     * @var User
+     */
+    protected $author;
+
+    public function setAuthor(UserInterface $author)
+    {
+        $this->author = $author;
+    }
+
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    public function getAuthorName()
+    {
+        if (null === $this->getAuthor()) {
+            return 'Anonymous';
+        }
+
+        return $this->getAuthor()->getUsername();
+    }
+}
+```
+
 Documentation as bonus (NelmioApiDocBundle)
 -------------------------------------------
 
