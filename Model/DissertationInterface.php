@@ -8,6 +8,11 @@ Interface DissertationInterface
      * @return mixed unique ID for this dissertation
      */
     public function getId();
+
+    /**
+     * @return string name of the dissertation author
+     */
+    public function getAuthorName();
     
     /**
      * Set title

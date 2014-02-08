@@ -106,7 +106,7 @@ class Argument extends BaseArgument
     /**
      * Dissertation of this argument
      *
-     * @var Thread
+     * @var Dissertation 
      * @ORM\ManyToOne(targetEntity="MyProject\MyBundle\Entity\Argument")
      */
     protected $dissertation;

@@ -15,7 +15,7 @@ class DissertationEvent extends Event
     /**
      * Constructs an event.
      *
-     * @param \n1c0\DissertationBundle\Model\DissertationInterface $dissertation
+     * @param \N1c0\DissertationBundle\Model\DissertationInterface $dissertation
      */
     public function __construct(DissertationInterface $dissertation)
     {
@@ -25,7 +25,7 @@ class DissertationEvent extends Event
     /**
      * Returns the dissertation for this event.
      *
-     * @return \n1c0\DissertationBundle\Model\DissertationInterface
+     * @return \N1c0\DissertationBundle\Model\DissertationInterface
      */
     public function getDissertation()
     {

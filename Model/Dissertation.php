@@ -73,6 +73,14 @@ abstract class Dissertation implements DissertationInterface
         $this->title = $title;
     }
 
+    /**
+     * @return string name of the dissertation author
+     */
+    public function getAuthorName()
+    {
+        return 'Anonymous';
+    }
+
     public function __toString()
     {
         return 'Element dissertation #'.$this->getId();

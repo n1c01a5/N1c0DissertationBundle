@@ -11,6 +11,7 @@
         
         <parameter key="n1c0_dissertation.manager.dissertation.default.class">N1c0\DissertationBundle\Entity\DissertationManager</parameter>
         <parameter key="n1c0_dissertation.manager.argument.default.class">N1c0\DissertationBundle\Entity\ArgumentManager</parameter>
+        <parameter key="n1c0_dissertation.listener.dissertation_blamer.class">N1c0\DissertationBundle\EventListener\DissertationBlamerListener</parameter>
     </parameters>
 
     <services>
@@ -50,6 +51,12 @@
             <argument type="service" id="form.factory" />
             <argument>%n1c0_dissertation.form.argument.type%</argument>
             <argument>%n1c0_dissertation.form.argument.name%</argument>
+        </service>
+
+        <service id="n1c0_dissertation.listener.dissertation_blamer" class="%n1c0_dissertation.listener.dissertation_blamer.class%">
+            <argument type="service" id="security.context" on-invalid="null" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="kernel.event_subscriber" />
         </service>
 
     </services>
