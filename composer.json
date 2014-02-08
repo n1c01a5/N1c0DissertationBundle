@@ -1,5 +1,5 @@
 {
-    "name": "n1c01a5/N1c0dissertation-bundle",
+    "name": "n1c01a5/n1c0dissertation-bundle",
     "license": "MIT",
     "type": "symfony-bundle",
     "description": "Bundle to manage dissertations with REST API",
