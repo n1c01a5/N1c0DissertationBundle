@@ -19,7 +19,6 @@ use N1c0\DissertationBundle\Exception\InvalidFormException;
 use N1c0\DissertationBundle\Form\DissertationType;
 use N1c0\DissertationBundle\Model\DissertationInterface;
 
-
 class DissertationController extends FOSRestController
 {
     /**
