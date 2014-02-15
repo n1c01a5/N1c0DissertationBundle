@@ -74,9 +74,9 @@ abstract class Dissertation implements DissertationInterface
     }
 
     /**
-     * @return string name of the dissertation author
+     * @return array with the names of the dissertation authors
      */
-    public function getAuthorName()
+    public function getAuthorsName()
     {
         return 'Anonymous';
     }

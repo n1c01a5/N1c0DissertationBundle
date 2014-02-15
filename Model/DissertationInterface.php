@@ -10,9 +10,9 @@ Interface DissertationInterface
     public function getId();
 
     /**
-     * @return string name of the dissertation author
+     * @return array with authors of the dissertation
      */
-    public function getAuthorName();
+    public function getAuthorsName();
     
     /**
      * Set title

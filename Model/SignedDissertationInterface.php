@@ -10,17 +10,24 @@ use Symfony\Component\Security\Core\User\UserInterface;
 interface SignedDissertationInterface extends DissertationInterface
 {
     /**
-     * Sets the author of the Dissertation
+     * Add user 
      *
-     * @param UserInterface $user
+     * @param Application\UserBundle\Entity\User $user
      */
-    public function setAuthor(UserInterface $author);
+    public function addAuthor(\Application\UserBundle\Entity\User $user);
 
     /**
-     * Gets the author of the Dissertation
+     * Remove user
+     *
+     * @param Application\UserBundle\Entity\User $user
+     */
+    public function removeUser(\Application\UserBundle\Entity\User $user);
+
+    /**
+     * Gets the authors of the Dissertation
      *
      * @return UserInterface
      */
-    public function getAuthor();
+    public function getAuthors();
 }
 

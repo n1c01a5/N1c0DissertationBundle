@@ -70,8 +70,8 @@ class DissertationBlamerListener implements EventSubscriberInterface
             return;
         }
 
-        if (null === $dissertation->getAuthor() && $this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $dissertation->setAuthor($this->securityContext->getToken()->getUser());
+        if ($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $dissertation->addAuthor($this->securityContext->getToken()->getUser());
         }
     }
 
