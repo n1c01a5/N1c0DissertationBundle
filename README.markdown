@@ -240,30 +240,46 @@ class Dissertation extends BaseDissertation implements SignedDissertationInterfa
     // .. fields
 
     /**
-     * Author of the dissertation
+     * Authors of the dissertation
      *
-     * @ORM\ManyToOne(targetEntity="MyProject\MyBundle\Entity\User")
+     * @ORM\ManyToMany(targetEntity="Application\UserBundle\Entity\User")
      * @var User
      */
-    protected $author;
+    protected $authors;
 
-    public function setAuthor(UserInterface $author)
+    public function __construct()
     {
-        $this->author = $author;
+        $this->authors = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function getAuthor()
+    /**
+     * Add author 
+     *
+     * @param Application\UserBundle\Entity\User $user
+     */
+    public function addAuthor(\Application\UserBundle\Entity\User $user)
     {
-        return $this->author;
+        $this->authors[] = $user;
     }
 
-    public function getAuthorName()
+    /**
+     * Remove user
+     *
+     * @param Application\UserBundle\Entity\User $user
+     */
+    public function removeUser(\Application\UserBundle\Entity\User $user)
     {
-        if (null === $this->getAuthor()) {
-            return 'Anonymous';
-        }
+        $this->authorss->removeElement($user);
+    }
 
-        return $this->getAuthor()->getUsername();
+    public function getAuthors()
+    {
+        return $this->authors;
+    }
+
+    public function getAuthorsName()
+    {
+        return $this->authors ?: parent::getAuthorsName(); 
     }
 }
 ```
