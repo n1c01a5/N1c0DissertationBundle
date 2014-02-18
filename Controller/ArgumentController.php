@@ -64,21 +64,26 @@ class ArgumentController extends FOSRestController
      *   output = "N1c0\DissertationBundle\Entity\Argument",
      *   statusCodes = {
      *     200 = "Returned when successful",
-     *     404 = "Returned when the argument is not found"
+     *     404 = "Returned when the argument or the dissertation is not found"
      *   }
      * )
      *
      * @Annotations\View(templateVar="argument")
      *
-     * @param int     $id      the argument id
+     * @param int                   $id                   the dissertation id
+     * @param int                   $argumentId           the argument id
      *
      * @return array
      *
      * @throws NotFoundHttpException when argument not exist
      */
-    public function getArgumentAction($id)
+    public function getDissertationArgumentAction($id, $argumentId)
     {
-        $argument = $this->getOr404($id);
+        $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
+        if (!$dissertation) {
+            throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
+        }
+        $argument = $this->getOr404($argumentId);
 
         return $argument;
     }

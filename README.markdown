@@ -29,6 +29,7 @@ public function registerBundles()
         new FOS\RestBundle\FOSRestBundle(),
         new JMS\SerializerBundle\JMSSerializerBundle(),
         new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+        new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
         new N1c0\DissertationBundle\N1c0DissertationBundle(),
     );
 }

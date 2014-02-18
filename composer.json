@@ -22,7 +22,7 @@
         "sensio/framework-extra-bundle": "~3.0",
         "friendsofsymfony/rest-bundle": "~1.1",
         "jms/serializer-bundle": "@dev",
-        "willdurand/rest-extra-bundle": "@dev",
+        "willdurand/hateoas-bundle": "@dev",
         "nelmio/api-doc-bundle": "@dev"
     },
     "require-dev": {

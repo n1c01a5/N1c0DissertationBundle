@@ -4,7 +4,7 @@
     <ul id="argument-list">
         {% for argument in arguments %}
             <li>
-                <a href="{{ path('api_1_get_argument', {'id': argument.id}) }}">{{ argument.title }}</a>
+                <a href="{{ path('api_1_get_dissertation_argument', {'id': argument.dissertation.id, 'argumentId': argument.id}) }}">{{ argument.title }}</a>
                 {#[<a href="{{ path('api_1_edit_arguments', {'id': argument.id}) }}">{{ 'argument.edit.link'|trans({}, 'n1c0DissertationBundle') }}</a>]#}
                 {#[<a href="{{ path('api_1_remove_arguments', {'id': argument.id}) }}">{{ 'argument.remove.link'|trans({}, 'n1c0DissertationBundle') }}</a>]#}
             </li>
