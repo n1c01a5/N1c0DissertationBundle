@@ -206,9 +206,25 @@ In json format:
 ```
 curl -X PATCH -d '{"n1c0_dissertation_argument":{"title":"myNewTitleArgument"}}' http://localhost:8000/api/v1/dissertations/10/arguments/11.json --header "Content-Type:application/json" -v
 ```
+HATEOAS REST
+============
 
-Step 6: Integration with FOSUserBundle
-======================================
+Introduction of the HATEOAS constraint.
+```
+{
+    "user": {
+        "id": 10,
+        "title": "myTitle",
+        "body": "MyBody",
+        "_links": {
+            "self": { "href": "http://localhost:8000/api/v1/dissertations/10" }
+        }
+    }
+}
+```
+
+Integration with FOSUserBundle
+==============================
 By default, dissertations are made anonymously.
 [FOSUserBundle](http://github.com/FriendsOfSymfony/FOSUserBundle)
 authentication can be used to sign the dissertations.
