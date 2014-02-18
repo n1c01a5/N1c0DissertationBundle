@@ -129,6 +129,10 @@ entity_managers:
                 mappings:
                     N1c0DissertationBundle: ~
                     MyBundleMyProjectBundle: ~
+
+assetic:
+    bundles:        ["N1c0DissertationBundle"]
+
 ```
 
 Step 3: Import N1c0DissertationBundle routing files

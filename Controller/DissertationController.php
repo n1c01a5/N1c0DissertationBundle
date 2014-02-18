@@ -253,6 +253,29 @@ class DissertationController extends FOSRestController
     }
 
     /**
+     * Get thread.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Gets a comment thread",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *   }
+     * )
+     *
+     * @Annotations\View(templateVar="dissertation")
+     *
+     * @param int     $id      the dissertation id
+     *
+     * @return array
+     */
+    public function getDissertationThreadAction($id)
+    {
+        $thread = $this->container->get('n1c0_dissertation.comment.dissertation_comment.default')->getThread($id);
+
+        return $thread;
+    }
+    /**
      * Fetch a Dissertation or throw an 404 Exception.
      *
      * @param mixed $id

@@ -1,0 +1,28 @@
+{% extends '::base.html.twig' %}
+{% block head_style %}
+{{ parent() }}
+{% stylesheets '@FOSCommentBundle/Resources/assets/css/comments.css' %}
+<link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+{% endstylesheets %}
+{% endblock head_style %}
+
+{% from 'MopaBootstrapBundle::flash.html.twig' import flash, advanced_flash %}
+{% block content_content %}
+<h1 class="title">Commentaires</h1>
+
+<div id="fos_comment_thread" data-thread="{{ 'thread_id' }}">
+
+{% include 'FOSCommentBundle:Thread:comments.html.twig' with {
+    'comments': comments,
+    'thread': thread
+} %}
+
+</div>
+
+{% endblock content_content %}
+{% block foot_script %}
+{{ parent() }}
+{% javascripts '@FOSCommentBundle/Resources/assets/js/comments.js' %}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock foot_script %}
