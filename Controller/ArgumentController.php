@@ -206,13 +206,13 @@ class ArgumentController extends FOSRestController
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the dissertation 
-     * @param int     $idArgument      the argument id
+     * @param int     $argumentId      the argument id
      *
      * @return FormTypeInterface|View
      *
      * @throws NotFoundHttpException when argument not exist
      */
-    public function putArgumentAction(Request $request, $id, $idArgument)
+    public function putArgumentAction(Request $request, $id, $argumentId)
     {
         try {
             $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
@@ -220,7 +220,7 @@ class ArgumentController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
             }
 
-            $argument = $this->getOr404($idArgument);
+            $argument = $this->getOr404($argumentId);
 
             $form = $this->container->get('n1c0_dissertation.form_factory.argument')->createForm();
             $form->setData($argument);
@@ -261,13 +261,13 @@ class ArgumentController extends FOSRestController
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the dissertation 
-     * @param int     $idArgument      the argument id
+     * @param int     $argumentId      the argument id
 
      * @return FormTypeInterface|View
      *
      * @throws NotFoundHttpException when argument not exist
      */
-    public function patchArgumentAction(Request $request, $id, $idArgument)
+    public function patchArgumentAction(Request $request, $id, $argumentId)
     {
         try {
             $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
@@ -275,7 +275,7 @@ class ArgumentController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
             }
 
-            $argument = $this->getOr404($idArgument);
+            $argument = $this->getOr404($argumentId);
 
             $form = $this->container->get('n1c0_dissertation.form_factory.argument')->createForm();
             $form->setData($argument);
