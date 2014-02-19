@@ -20,41 +20,12 @@ use N1c0\DissertationBundle\Form\DissertationType;
 use N1c0\DissertationBundle\Model\DissertationInterface;
 use N1c0\DissertationBundle\Form\ArgumentType;
 use N1c0\DissertationBundle\Model\ArgumentInterface;
+use N1c0\DissertationBundle\Entity\Dissertation;
+
 
 
 class ArgumentController extends FOSRestController
 {
-    /**
-     * List all arguments.
-     *
-     * @ApiDoc(
-     *   resource = true,
-     *   statusCodes = {
-     *     200 = "Returned when successful"
-     *   }
-     * )
-     *
-     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing arguments.")
-     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many arguments to return.")
-     *
-     * @Annotations\View(
-     *  templateVar="arguments"
-     * )
-     *
-     * @param Request               $request      the request object
-     * @param ParamFetcherInterface $paramFetcher param fetcher service
-     *
-     * @return array
-     */
-    public function getArgumentsAction(Request $request, ParamFetcherInterface $paramFetcher)
-    {
-        $offset = $paramFetcher->get('offset');
-        $offset = null == $offset ? 0 : $offset;
-        $limit = $paramFetcher->get('limit');
-
-        return $this->container->get('n1c0_dissertation.manager.argument')->all($limit, $offset);
-    }
-
     /**
      * Get single Argument.
      *
@@ -68,6 +39,7 @@ class ArgumentController extends FOSRestController
      *   }
      * )
      *
+     *
      * @Annotations\View(templateVar="argument")
      *
      * @param int                   $id                   the dissertation id
@@ -77,7 +49,7 @@ class ArgumentController extends FOSRestController
      *
      * @throws NotFoundHttpException when argument not exist
      */
-    public function getDissertationArgumentAction($id, $argumentId)
+    public function getArgumentAction($id, $argumentId)
     {
         $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
         if (!$dissertation) {
@@ -110,7 +82,7 @@ class ArgumentController extends FOSRestController
      *
      * @return array
      */
-    public function getDissertationArgumentsAction(Request $request, $id)
+    public function getArgumentsAction(Request $request, $id)
     {
         $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
         if (!$dissertation) {
@@ -134,11 +106,11 @@ class ArgumentController extends FOSRestController
      *  templateVar = "form"
      * )
      *
-     * @param string $id    the id dissertation
+     * @param int                   $id           the dissertation id
      *
      * @return FormTypeInterface
      */
-    public function newDissertationArgumentAction($id)
+    public function newArgumentAction($id)
     {
         $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
         if (!$dissertation) {
@@ -150,7 +122,10 @@ class ArgumentController extends FOSRestController
         $form = $this->container->get('n1c0_dissertation.form_factory.argument')->createForm();
         $form->setData($argument);
 
-        return $form;
+        return array(
+            'form' => $form, 
+            'id' => $id
+        );
     }
 
     /**
@@ -166,8 +141,9 @@ class ArgumentController extends FOSRestController
      *   }
      * )
      *
+     *
      * @Annotations\View(
-     *  template = "N1c0DissertationBundle:Dissertation:newArgument.html.twig",
+     *  template = "N1c0DissertationBundle:Argument:newArgument.html.twig",
      *  statusCode = Codes::HTTP_BAD_REQUEST,
      *  templateVar = "form"
      * )
@@ -177,7 +153,7 @@ class ArgumentController extends FOSRestController
      *
      * @return FormTypeInterface|View
      */
-    public function postDissertationArgumentAction(Request $request, $id)
+    public function postArgumentAction(Request $request, $id)
     {
         try {
             $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
@@ -199,12 +175,13 @@ class ArgumentController extends FOSRestController
                     $argumentManager->saveArgument($argument);
                 
                     $routeOptions = array(
-                        'id' => $form->getData()->getId(),
+                        'id' => $id,
+                        'argumentId' => $form->getData()->getId(),
                         '_format' => $request->get('_format')
                     );
 
                     // Add a method onCreateArgumentSuccess(FormInterface $form)
-                    return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_CREATED);
+                    return $this->routeRedirectView('api_1_get_dissertation_argument', $routeOptions, Codes::HTTP_CREATED);
                 }
             }
         } catch (InvalidFormException $exception) {
@@ -238,7 +215,7 @@ class ArgumentController extends FOSRestController
      *
      * @throws NotFoundHttpException when argument not exist
      */
-    public function putDissertationArgumentAction(Request $request, $id, $idArgument)
+    public function putArgumentAction(Request $request, $id, $idArgument)
     {
         try {
             $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
@@ -293,7 +270,7 @@ class ArgumentController extends FOSRestController
      *
      * @throws NotFoundHttpException when argument not exist
      */
-    public function patchDissertationArgumentAction(Request $request, $id, $idArgument)
+    public function patchArgumentAction(Request $request, $id, $idArgument)
     {
         try {
             $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);

@@ -6,6 +6,6 @@ n1c0_dissertation_dissertation:
 
 n1c0_dissertation_argument:
     type: rest
-    prefix: /v1
+    parent: n1c0_dissertation_dissertation
     resource: N1c0\DissertationBundle\Controller\ArgumentController
     name_prefix:  api_1_ # naming collision

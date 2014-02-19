@@ -310,7 +310,7 @@ Integration with FOSCommentBundle
 
 Add in ```src/MyProject/MyBundle/Resources/views/Dissertation/getDissertations.html.twig```:
 ```
-{{ dissertation.body }} <a href="{{ path('api_1_get_dissertation_thread', {'id': dissertation.id}) }}">Commentaires</a>
+<a href="{{ path('api_1_get_dissertation_thread', {'id': dissertation.id}) }}">Commentaires</a>
 ```
 
 Documentation as bonus (NelmioApiDocBundle)
