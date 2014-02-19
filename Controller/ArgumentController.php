@@ -301,6 +301,32 @@ class ArgumentController extends FOSRestController
     }
 
     /**
+     * Get thread for an argument.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Gets a argument thread",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *   }
+     * )
+     *
+     * @Annotations\View(templateVar="argument")
+     *
+     * @param int     $id               the dissertation id
+     * @param int     $argumentId       the argument id
+     *
+     * @return array
+     */
+    public function getArgumentThreadAction($id, $argumentId)
+    {
+        $thread = $this->container->get('n1c0_dissertation.comment.dissertation_comment.default')->getThread($argumentId);
+
+        return $thread;
+    }
+
+
+    /**
      * Fetch a Argument or throw an 404 Exception.
      *
      * @param mixed $id

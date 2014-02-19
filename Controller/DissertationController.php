@@ -253,7 +253,7 @@ class DissertationController extends FOSRestController
     }
 
     /**
-     * Get thread.
+     * Get thread for the dissertation.
      *
      * @ApiDoc(
      *   resource = true,
@@ -265,7 +265,7 @@ class DissertationController extends FOSRestController
      *
      * @Annotations\View(templateVar="dissertation")
      *
-     * @param int     $id      the dissertation id
+     * @param int     $id      the dissertation uuid
      *
      * @return array
      */
@@ -275,6 +275,7 @@ class DissertationController extends FOSRestController
 
         return $thread;
     }
+
     /**
      * Fetch a Dissertation or throw an 404 Exception.
      *
