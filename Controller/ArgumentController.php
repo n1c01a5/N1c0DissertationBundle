@@ -20,9 +20,6 @@ use N1c0\DissertationBundle\Form\DissertationType;
 use N1c0\DissertationBundle\Model\DissertationInterface;
 use N1c0\DissertationBundle\Form\ArgumentType;
 use N1c0\DissertationBundle\Model\ArgumentInterface;
-use N1c0\DissertationBundle\Entity\Dissertation;
-
-
 
 class ArgumentController extends FOSRestController
 {
