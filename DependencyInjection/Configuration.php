@@ -58,7 +58,6 @@ class Configuration implements ConfigurationInterface
                             ->children()
                                 ->scalarNode('dissertation')->cannotBeEmpty()->defaultValue('n1c0_dissertation.manager.dissertation.default')->end()
                                 ->scalarNode('argument')->cannotBeEmpty()->defaultValue('n1c0_dissertation.manager.argument.default')->end()
-
                             ->end()
                         ->end()
                         ->arrayNode('form_factory')->addDefaultsIfNotSet()

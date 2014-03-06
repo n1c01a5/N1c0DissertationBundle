@@ -10,7 +10,7 @@ use DateTime;
 abstract class Dissertation implements DissertationInterface
 {
     /**
-     * Id, a unique string that binds the elements together in a dissertation (tree).
+     * Id, a unique string that binds the elements together in a dissertation (tree).
      * It can be a url or really anything unique.
      *
      * @var mixed

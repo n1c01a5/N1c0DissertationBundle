@@ -74,8 +74,8 @@ class Dissertation extends BaseDissertation
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="guid", length=36)
+     * @ORM\GeneratedValue(strategy="UUID")
      */
     protected $id;
 }
@@ -99,8 +99,8 @@ class Argument extends BaseArgument
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="guid", length=36)
+     * @ORM\GeneratedValue(strategy="UUID")
      */
     protected $id;
 
