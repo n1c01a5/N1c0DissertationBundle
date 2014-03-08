@@ -64,8 +64,8 @@
 
         <service id="n1c0_dissertation.comment.dissertation_comment.default" class="%n1c0_dissertation.comment.dissertation_comment.class%">
             <argument type="service" id="request_stack" />
-            <argument type="service" id="n1c0_comment.manager.thread" on-invalid="null" />
-            <argument type="service" id="n1c0_comment.manager.comment" on-invalid="null" />
+            <argument type="service" id="fos_comment.manager.thread" on-invalid="null" />
+            <argument type="service" id="fos_comment.manager.comment" on-invalid="null" />
         </service>
 
         <service id="n1c0_dissertation.acl.dissertation.security" class="N1c0\DissertationBundle\Acl\SecurityDissertationAcl">

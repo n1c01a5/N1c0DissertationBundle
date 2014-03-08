@@ -12,8 +12,8 @@ class Thread {
     public function __construct(RequestStack $requestStack, $appThread, $appComment)
     {
         $this->requestStack = $requestStack;
-        $this->appThread = $appThread;
-        $this->appComment    = $appComment;
+        $this->appThread    = $appThread;
+        $this->appComment   = $appComment;
     }
 
     public function getThread($id)
