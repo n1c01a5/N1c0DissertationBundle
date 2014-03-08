@@ -64,6 +64,14 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('delete')->cannotBeEmpty()->defaultValue('ROLE_ADMIN')->end()
                             ->end()
                         ->end()
+                        ->arrayNode('argument')->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('create')->cannotBeEmpty()->defaultValue('IS_AUTHENTICATED_ANONYMOUSLY')->end()
+                                ->scalarNode('view')->cannotBeEmpty()->defaultValue('IS_AUTHENTICATED_ANONYMOUSLY')->end()
+                                ->scalarNode('edit')->cannotBeEmpty()->defaultValue('ROLE_ADMIN')->end()
+                                ->scalarNode('delete')->cannotBeEmpty()->defaultValue('ROLE_ADMIN')->end()
+                            ->end()
+                        ->end()
                     ->end()
                 ->end()
 
@@ -78,6 +86,8 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('acl')->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('dissertation')->cannotBeEmpty()->defaultValue('n1c0_dissertation.acl.dissertation.security')->end()
+
+                                ->scalarNode('argument')->cannotBeEmpty()->defaultValue('n1c0_dissertation.acl.argument.security')->end()
                             ->end()
                         ->end()
                         ->arrayNode('form_factory')->addDefaultsIfNotSet()

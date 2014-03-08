@@ -54,8 +54,10 @@ class n1c0DissertationExtension extends Extension
 
         foreach (array(1 => 'create', 'view', 'edit', 'delete') as $index => $perm) {
             $container->getDefinition('n1c0_dissertation.acl.dissertation.roles')->replaceArgument($index, $config['acl_roles']['dissertation'][$perm]);
+            $container->getDefinition('n1c0_dissertation.acl.argument.roles')->replaceArgument($index, $config['acl_roles']['argument'][$perm]);
         }
 
         $container->setAlias('n1c0_dissertation.acl.dissertation', $config['service']['acl']['dissertation']);
+        $container->setAlias('n1c0_dissertation.acl.argument', $config['service']['acl']['argument']);
     }
 }

@@ -4,7 +4,6 @@ namespace N1c0\DissertationBundle\Acl;
 
 use N1c0\DissertationBundle\Model\DissertationInterface;
 use N1c0\DissertationBundle\Model\DissertationManagerInterface;
-use N1c0\DissertationBundle\Model\ThreadInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**

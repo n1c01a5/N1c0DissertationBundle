@@ -15,6 +15,7 @@
         <parameter key="n1c0_dissertation.comment.dissertation_comment.class">N1c0\DissertationBundle\Comment\Thread</parameter>
         <parameter key="request_stack.class">Symfony\Component\HttpFoundation\RequestStack</parameter>
         <parameter key="n1c0_dissertation.manager.dissertation.acl.class">N1c0\DissertationBundle\Acl\AclDissertationManager</parameter>
+        <parameter key="n1c0_dissertation.manager.argument.acl.class">N1c0\DissertationBundle\Acl\AclArgumentManager</parameter>
     </parameters>
 
     <services>
@@ -87,6 +88,27 @@
         <service id="n1c0_dissertation.manager.dissertation.acl" class="%n1c0_dissertation.manager.dissertation.acl.class%" public="false">
             <argument type="service" id="n1c0_dissertation.manager.dissertation.default" />
             <argument type="service" id="n1c0_dissertation.acl.dissertation" />
+        </service>
+
+        <service id="n1c0_dissertation.acl.argument.security" class="N1c0\DissertationBundle\Acl\SecurityArgumentAcl">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
+            <argument type="service" id="security.acl.provider" />
+            <argument>%n1c0_dissertation.model.argument.class%</argument>
+        </service>
+
+        <service id="n1c0_dissertation.acl.argument.roles" class="N1c0\DissertationBundle\Acl\RoleArgumentAcl">
+            <argument type="service" id="security.context" />
+            <argument /> <!-- Create role -->
+            <argument /> <!-- View role -->
+            <argument /> <!-- Edit role -->
+            <argument /> <!-- Delete role -->
+            <argument>%n1c0_dissertation.model.argument.class%</argument>
+        </service>
+
+        <service id="n1c0_dissertation.manager.argument.acl" class="%n1c0_dissertation.manager.argument.acl.class%" public="false">
+            <argument type="service" id="n1c0_dissertation.manager.argument.default" />
+            <argument type="service" id="n1c0_dissertation.acl.argument" />
         </service>
 
     </services>
