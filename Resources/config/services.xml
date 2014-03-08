@@ -14,6 +14,7 @@
         <parameter key="n1c0_dissertation.listener.dissertation_blamer.class">N1c0\DissertationBundle\EventListener\DissertationBlamerListener</parameter>
         <parameter key="n1c0_dissertation.comment.dissertation_comment.class">N1c0\DissertationBundle\Comment\Thread</parameter>
         <parameter key="request_stack.class">Symfony\Component\HttpFoundation\RequestStack</parameter>
+        <parameter key="n1c0_dissertation.manager.dissertation.acl.class">N1c0\DissertationBundle\Acl\AclDissertationManager</parameter>
     </parameters>
 
     <services>
@@ -63,8 +64,29 @@
 
         <service id="n1c0_dissertation.comment.dissertation_comment.default" class="%n1c0_dissertation.comment.dissertation_comment.class%">
             <argument type="service" id="request_stack" />
-            <argument type="service" id="fos_comment.manager.thread" on-invalid="null" />
-            <argument type="service" id="fos_comment.manager.comment" on-invalid="null" />
+            <argument type="service" id="n1c0_comment.manager.thread" on-invalid="null" />
+            <argument type="service" id="n1c0_comment.manager.comment" on-invalid="null" />
+        </service>
+
+        <service id="n1c0_dissertation.acl.dissertation.security" class="N1c0\DissertationBundle\Acl\SecurityDissertationAcl">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
+            <argument type="service" id="security.acl.provider" />
+            <argument>%n1c0_dissertation.model.dissertation.class%</argument>
+        </service>
+
+        <service id="n1c0_dissertation.acl.dissertation.roles" class="N1c0\DissertationBundle\Acl\RoleDissertationAcl">
+            <argument type="service" id="security.context" />
+            <argument /> <!-- Create role -->
+            <argument /> <!-- View role -->
+            <argument /> <!-- Edit role -->
+            <argument /> <!-- Delete role -->
+            <argument>%n1c0_dissertation.model.dissertation.class%</argument>
+        </service>
+
+        <service id="n1c0_dissertation.manager.dissertation.acl" class="%n1c0_dissertation.manager.dissertation.acl.class%" public="false">
+            <argument type="service" id="n1c0_dissertation.manager.dissertation.default" />
+            <argument type="service" id="n1c0_dissertation.acl.dissertation" />
         </service>
 
     </services>

@@ -32,6 +32,20 @@ abstract class Dissertation implements DissertationInterface
     protected $body;
 
     /**
+     * Current state of the dissertation.
+     *
+     * @var integer
+     */
+    protected $state = 0;
+
+    /**
+     * The previous state of the dissertation.
+     *
+     * @var integer
+     */
+    protected $previousState = 0;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -84,5 +98,30 @@ abstract class Dissertation implements DissertationInterface
     public function __toString()
     {
         return 'Element dissertation #'.$this->getId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setState($state)
+    {
+        $this->previousState = $this->state;
+        $this->state = $state;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPreviousState()
+    {
+        return $this->previousState;
     }
 }
