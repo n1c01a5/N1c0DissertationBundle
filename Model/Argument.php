@@ -29,7 +29,7 @@ abstract class Argument implements ArgumentInterface
      * @var string
      */
     protected $body;
-
+    
     /**
      * Should be mapped by the end developer.
      *
@@ -69,6 +69,7 @@ abstract class Argument implements ArgumentInterface
     {
         return $this->title;
     }
+
 
     /**
      * @param  string

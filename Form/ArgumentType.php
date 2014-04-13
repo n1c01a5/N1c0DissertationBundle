@@ -23,6 +23,7 @@ class ArgumentType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('category')
             ->add('body')
         ;
     }
