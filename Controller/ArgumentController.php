@@ -177,9 +177,19 @@ class ArgumentController extends FOSRestController
                         '_format' => $request->get('_format')
                     );
 
-                    // Add a method onCreateArgumentSuccess(FormInterface $form)
-                    return $this->routeRedirectView('api_1_get_dissertation_argument', $routeOptions, Codes::HTTP_CREATED);
+                    $response['success'] = true;
+                    
+                    $request = $this->container->get('request');
+                    $isAjax = $request->isXmlHttpRequest();
+
+                    if($isAjax == false) { 
+                        // Add a method onCreateArgumentSuccess(FormInterface $form)
+                        return $this->routeRedirectView('api_1_get_dissertation_argument', $routeOptions, Codes::HTTP_CREATED);
+                    }
+                } else {
+                    $response['success'] = false;
                 }
+                return new JsonResponse( $response );
             }
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
