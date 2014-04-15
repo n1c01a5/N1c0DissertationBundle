@@ -31,20 +31,25 @@ class n1c0DissertationExtension extends Extension
 
         $container->setParameter('n1c0_dissertation.model.dissertation.class', $config['class']['model']['dissertation']);
         $container->setParameter('n1c0_dissertation.model.argument.class', $config['class']['model']['argument']);
+        $container->setParameter('n1c0_dissertation.model.introduction.class', $config['class']['model']['introduction']);
 
         $container->setParameter('n1c0_dissertation.model_manager_name', $config['model_manager_name']);
 
         $container->setParameter('n1c0_dissertation.form.dissertation.type', $config['form']['dissertation']['type']);
         $container->setParameter('n1c0_dissertation.form.argument.type', $config['form']['argument']['type']);
+        $container->setParameter('n1c0_dissertation.form.introduction.type', $config['form']['introduction']['type']);
 
         $container->setParameter('n1c0_dissertation.form.dissertation.name', $config['form']['dissertation']['name']);
         $container->setParameter('n1c0_dissertation.form.argument.name', $config['form']['argument']['name']);
+        $container->setParameter('n1c0_dissertation.form.introduction.name', $config['form']['introduction']['name']);
 
         $container->setAlias('n1c0_dissertation.form_factory.dissertation', $config['service']['form_factory']['dissertation']);
         $container->setAlias('n1c0_dissertation.form_factory.argument', $config['service']['form_factory']['argument']);
+        $container->setAlias('n1c0_dissertation.form_factory.introduction', $config['service']['form_factory']['introduction']);
 
         $container->setAlias('n1c0_dissertation.manager.dissertation', $config['service']['manager']['dissertation']);
         $container->setAlias('n1c0_dissertation.manager.argument', $config['service']['manager']['argument']);
+        $container->setAlias('n1c0_dissertation.manager.introduction', $config['service']['manager']['introduction']);
     }
 
     protected function loadAcl(ContainerBuilder $container, array $config)
@@ -55,9 +60,11 @@ class n1c0DissertationExtension extends Extension
         foreach (array(1 => 'create', 'view', 'edit', 'delete') as $index => $perm) {
             $container->getDefinition('n1c0_dissertation.acl.dissertation.roles')->replaceArgument($index, $config['acl_roles']['dissertation'][$perm]);
             $container->getDefinition('n1c0_dissertation.acl.argument.roles')->replaceArgument($index, $config['acl_roles']['argument'][$perm]);
+            $container->getDefinition('n1c0_dissertation.acl.introduction.roles')->replaceArgument($index, $config['acl_roles']['introduction'][$perm]);
         }
 
         $container->setAlias('n1c0_dissertation.acl.dissertation', $config['service']['acl']['dissertation']);
         $container->setAlias('n1c0_dissertation.acl.argument', $config['service']['acl']['argument']);
+        $container->setAlias('n1c0_dissertation.acl.introduction', $config['service']['acl']['introduction']);
     }
 }
