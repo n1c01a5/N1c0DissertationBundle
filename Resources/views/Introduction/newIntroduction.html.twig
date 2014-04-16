@@ -1,7 +1,7 @@
 <h1>Create an new party form</h1>
 {%  if (form is not null) %}
-    <form action="{{ url('api_1_post_dissertation_argument', {'id':id}) }}" method="POST" {{ form_enctype(form) }}>
+    <form action="{{ url('api_1_post_dissertation_introduction', {'id':id}) }}" method="POST" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
-    </form>
     <input id="driver" type="submit" value="submit">
+    </form>
 {% endif %}

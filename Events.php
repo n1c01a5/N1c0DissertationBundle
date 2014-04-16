@@ -80,7 +80,7 @@ final class Events
      *
      * @var string
      */
-    const DISSERTATION_CREATE = 'n1c0_dissertation.introductionargument.create';
+    const INTRODUCTION_CREATE = 'n1c0_dissertation.introduction.create';
 
     /**
      * The PRE_PERSIST event occurs prior to the persistence backend

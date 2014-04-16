@@ -9,3 +9,9 @@ n1c0_dissertation_argument:
     parent: n1c0_dissertation_dissertation
     resource: N1c0\DissertationBundle\Controller\ArgumentController
     name_prefix:  api_1_ # naming collision
+
+n1c0_dissertation_introduction:
+    type: rest
+    parent: n1c0_dissertation_dissertation
+    resource: N1c0\DissertationBundle\Controller\IntroductionController
+    name_prefix:  api_1_ # naming collision
