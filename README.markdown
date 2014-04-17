@@ -345,6 +345,182 @@ n1c0_dissertation:
             delete: ROLE_ADMIN
 ```
 
+Using a markup parser
+=====================
+
+N1c0Dissertation bundle allows a developer to implement RawDissertationInterface, which
+will tell the bundle that your dissertations are to be parsed for a markup language.
+
+You will also need to configure a rawBody field in your database to store the parsed dissertations.
+
+```php
+use N1c0\DissertationBundle\Model\RawDissertationInterface;
+
+class Dissertation extends BaseDissertation implements RawDissertationInterface
+{
+    /**
+     * @ORM\Column(name="rawBody", type="text", nullable=true)
+     * @var string
+     */
+    protected $rawBody;
+    
+    ... also add getter and setter as defined in the RawDissertationInterface ...
+}
+```
+
+When a comment is added, it is parsed and setRawBody() is called with the raw version 
+of the comment which is then stored in the database and shown when the dissertation is later rendered.
+
+Any markup language is supported, all you need is a bridging class that
+implements `Markup\ParserInterface` and returns the parsed result of a dissertation
+in raw html to be displayed on the page.
+
+To set up your own custom markup parser, you are required to define a service
+that implements the above interface, and to tell N1c0DissertationBundle about it,
+adjust the configuration accordingly.
+
+``` yaml
+# app/config/config.yml
+
+n1c0_dissertation:
+    service:
+        markup: your_markup_service
+```
+
+For example using the Sundown PECL extension as Markup service
+==============================================================
+
+The markup system in N1c0DissertationBundle is flexible and allows you to use any
+syntax language that a parser exists for. PECL has an extension for markdown
+parsing called Sundown, which is faster than pure PHP implementations of a
+markdown parser.
+
+N1c0DissertationBundle doesnt ship with a bridge for this extension, but it is
+trivial to implement.
+
+First, you will need to use PECL to install Sundown. `pecl install sundown`.
+
+You will want to create the service below in one of your application bundles.
+
+``` php
+<?php
+// src/Vendor/DissertationBundle/Markup/Sundown.php
+
+namespace Vendor\DissertationBundle\Markup;
+
+use N1c0\DissertationBundle\Markup\ParserInterface;
+use Sundown\Markdown;
+
+class Sundown implements ParserInterface
+{
+    private $parser;
+
+    protected function getParser()
+    {
+        if (null === $this->parser) {
+            $this->parser = new Markdown(
+                new \Sundown\Render\HTML(array('filter_html' => true)),
+                array('autolink' => true)
+            );
+        }
+
+        return $this->parser;
+    }
+
+    public function parse($raw)
+    {
+        return $this->getParser()->render($raw);
+    }
+}
+```
+
+And the service definition to enable this parser bridge
+
+``` yaml
+# app/config/config.yml
+
+services:
+    # ...
+    markup.sundown_markdown:
+        class: Vendor\DissertationBundle\Markup\Sundown
+    # ...
+
+n1c0_dissertation:
+    # ...
+    service:
+        markup: markup.sundown_markdown
+    # ...
+```
+
+An other example, using Pandoc as Markup service
+================================================
+
+Pandoc is a Haskell program that allows you to convert documents from one format to another. See more in [Pandoc](http://johnmacfarlane.net/pandoc/index.html).
+
+To install Pandoc run this following command
+``` bash
+$ apt-get install pandoc
+```
+For more information on the installation of Pandoc, see [Pandoc installation](http://johnmacfarlane.net/pandoc/installing.html).
+
+And we need a naive PHP Wrapper.
+The recommended method to installing Pandoc PHP is with [composer](http://getcomposer.org)
+
+```json
+{
+    "require": {
+        "ryakad/pandoc-php": "dev-master"
+    }
+}
+```
+Once installed you can create a service markup like
+
+``` php
+<?php
+
+namespace vendor\DissertationBundle\Markup;
+
+use N1c0\DissertationBundle\Markup\ParserInterface;
+use Pandoc\Pandoc;
+
+class MarkupPandoc implements ParserInterface
+{
+    private $parser;
+
+    protected function getParser()
+    {
+        if (null === $this->parser) {
+            $this->parser = new Pandoc();        
+        }
+
+        return $this->parser;
+    }
+
+    public function parse($raw)
+    {
+        return $this->getParser()->convert($raw, "markdown", "html");
+    }
+}
+```
+And the service definition to enable this parser bridge
+
+``` yaml
+# app/config/config.yml
+
+services:
+    # ...
+    markup.pandoc_markdown:
+        class: Vendor\DissertationBundle\Markup\MarkupPandoc
+    # ...
+
+n1c0_dissertation:
+    # ...
+    service:
+        markup: markup.pandoc_markdown
+    # ...
+```
+
+
 Integration with FOSCommentBundle
 ---------------------------------
 
