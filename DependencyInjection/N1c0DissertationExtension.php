@@ -1,9 +1,19 @@
 <?php
 
+/**
+ * This file is part of the N1c0DissertationBundle package.
+ *
+ * (c) 
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace N1c0\DissertationBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -50,6 +60,9 @@ class n1c0DissertationExtension extends Extension
         $container->setAlias('n1c0_dissertation.manager.dissertation', $config['service']['manager']['dissertation']);
         $container->setAlias('n1c0_dissertation.manager.argument', $config['service']['manager']['argument']);
         $container->setAlias('n1c0_dissertation.manager.introduction', $config['service']['manager']['introduction']);
+
+        // Add a condition if markup so...
+        $container->setAlias('n1c0_dissertation.markup', new Alias($config['service']['markup'], false));
     }
 
     protected function loadAcl(ContainerBuilder $container, array $config)

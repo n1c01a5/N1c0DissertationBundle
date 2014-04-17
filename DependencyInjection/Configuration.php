@@ -116,6 +116,7 @@ class Configuration implements ConfigurationInterface
 
                             ->end()
                         ->end()
+                        ->scalarNode('markup')->end()
                     ->end()
                 ->end();
 

@@ -151,6 +151,11 @@
             <argument type="service" id="n1c0_dissertation.acl.introduction" />
         </service>
 
+        <service id="n1c0_dissertation.listener.dissertation_markup" class="N1c0\DissertationBundle\EventListener\DissertationMarkupListener">
+            <tag name="kernel.event_subscriber" />
+            <argument type="service" id="n1c0_dissertation.markup" />
+        </service>
+
     </services>
 
 </container>
