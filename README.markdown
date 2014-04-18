@@ -30,11 +30,12 @@ public function registerBundles()
         new JMS\SerializerBundle\JMSSerializerBundle(),
         new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
         new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
+        new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
         new N1c0\DissertationBundle\N1c0DissertationBundle(),
     );
 }
 ```
-FOSRestBundle and NelmioApiDocBundle must be configured.
+FOSRestBundle, StofDoctrineExtensionsBundle and NelmioApiDocBundle must be configured.
 
 ### C) Enable Http Method Override
 
