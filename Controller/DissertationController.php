@@ -32,7 +32,7 @@ class DissertationController extends FOSRestController
      * )
      *
      * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing dissertations.")
-     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many dissertations to return.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", default="100", description="How many dissertations to return.")
      *
      * @Annotations\View(
      *  templateVar="dissertations"
@@ -102,6 +102,33 @@ class DissertationController extends FOSRestController
     }
 
     /**
+     * Edits a dissertation.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful"
+     *   }
+     * )
+     * 
+     * @Annotations\View(
+     *  template = "N1c0DissertationBundle:Dissertation:editDissertation.html.twig",
+     *  templateVar = "form"
+     * )
+     *
+     * @param int     $id      the dissertation id
+     * @return FormTypeInterface
+     */
+    public function editDissertationAction($id)
+    {
+        $dissertation = $this->getOr404($id);
+        $form = $this->container->get('n1c0_dissertation.form_factory.dissertation')->createForm();
+        $form->setData($dissertation);
+    
+        return array('form' => $form, 'id'=>$id);
+    }
+
+    /**
      * Create a Dissertation from the submitted data.
      *
      * @ApiDoc(
@@ -159,9 +186,10 @@ class DissertationController extends FOSRestController
      *
      * @ApiDoc(
      *   resource = true,
+     *   description = "Updates a dissertation.",
      *   input = "N1c0\DemoBundle\Form\DissertationType",
      *   statusCodes = {
-     *     201 = "Returned when the Dissertation is created",
+     *     200 = "Returned when the Dissertation is updated",
      *     204 = "Returned when successful",
      *     400 = "Returned when the form has errors"
      *   }
@@ -190,13 +218,13 @@ class DissertationController extends FOSRestController
 
             if ($form->isValid()) {
                 $dissertationManager = $this->container->get('n1c0_dissertation.manager.dissertation');
-                if ($dissertationManager->saveDissertation($dissertation) !== false) {
+                if($dissertationManager->saveDissertation($dissertation) !== false) {
                     $routeOptions = array(
                         'id' => $dissertation->getId(),
                         '_format' => $request->get('_format')
                     );
 
-                    return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_CREATED);
+                    return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_OK); // Must return 200 for ajax request
                 }
             }
         } catch (InvalidFormException $exception) {
@@ -205,51 +233,6 @@ class DissertationController extends FOSRestController
 
         // Add a method onCreateDissertationError(FormInterface $form)
         return new Response(sprintf("Error of the dissertation id '%s'.", $form->getData()->getId()), Codes::HTTP_BAD_REQUEST);
-    }
-
-    /**
-     * Update existing dissertation from the submitted data or create a new dissertation at a specific location.
-     *
-     * @ApiDoc(
-     *   resource = true,
-     *   input = "N1c0\DemoBundle\Form\DissertationType",
-     *   statusCodes = {
-     *     204 = "Returned when successful",
-     *     400 = "Returned when the form has errors"
-     *   }
-     * )
-     *
-     * @Annotations\View(
-     *  template = "n1c0DissertationBundle:Dissertation:editDissertation.html.twig",
-     *  templateVar = "form"
-     * )
-     *
-     * @param Request $request the request object
-     * @param int     $id      the dissertation id
-     *
-     * @return FormTypeInterface|View
-     *
-     * @throws NotFoundHttpException when dissertation not exist
-     */
-    public function patchDissertationAction(Request $request, $id)
-    {
-        try {
-            $dissertation = $this->container->get('n1c0_dissertation.dissertation.handler')->patch(
-                $this->getOr404($id),
-                $request->request->all()
-            );
-
-            $routeOptions = array(
-                'id' => $dissertation->getId(),
-                '_format' => $request->get('_format')
-            );
-
-            return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_NO_CONTENT);
-
-        } catch (InvalidFormException $exception) {
-
-            return $exception->getForm();
-        }
     }
 
     /**
@@ -292,5 +275,140 @@ class DissertationController extends FOSRestController
         }
 
         return $dissertation;
+    }
+
+    /**
+     * Get download for the dissertation.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Gets a download dissertation",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *   }
+     * )
+     *
+     * @Annotations\View(templateVar="dissertation")
+     *
+     * @param int     $id      the dissertation uuid
+     *
+     * @return array
+     * @throws NotFoundHttpException when dissertation not exist
+     */
+    public function getDissertationDownloadAction($id)
+    {
+        if (!($dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id))) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
+        }
+
+        $formats = array(
+            "native",
+            "json",
+            "docx",
+            "odt",
+            "epub",
+            "epub3",
+            "fb2",
+            "html",
+            "html5",
+            "slidy",
+            "dzslides",
+            "docbook",
+            "opendocument",
+            "latex",
+            "beamer",
+            "context",
+            "texinfo",
+            "markdown",
+            "pdf",
+            "plain",
+            "rst",
+            "mediawiki",
+            "textile",
+            "rtf",
+            "org",
+            "asciidoc"
+        );
+
+        return array('formats' => $formats, 'id' => $id);
+    }
+
+    /**
+     * Convert the dissertation in pdf format.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Convert the dissertation",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *   }
+     * )
+     *
+     * @param int     $id      the dissertation uuid
+     * @param string  $format  the format to convert dissertation 
+     *
+     * @return Response
+     * @throws NotFoundHttpException when dissertation not exist
+     */
+    public function getDissertationConvertAction($id, $format)
+    {
+        if (!($dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id))) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
+        }
+
+        $dissertationConvert = $this->container->get('n1c0_dissertation.download')->getConvert($id, $format);
+
+        $response = new Response();
+        $response->setContent($dissertationConvert);
+        $response->headers->set('Content-Type', 'application/force-download');
+        switch ($format) {
+            case "native":
+                $ext = "";
+            break;
+            case "s5":
+                $ext = "html";
+            break;
+            case "slidy":
+                $ext = "html";
+            break;
+            case "slideous":
+                $ext = "html";
+            break;
+            case "dzslides":
+                $ext = "html";
+            break;
+            case "latex":
+                $ext = "tex";
+            break;
+            case "context":
+                $ext = "tex";
+            break;
+            case "beamer":
+                $ext = "pdf";
+            break;
+            case "rst":
+                $ext = "text";
+            break;
+            case "docbook":
+                $ext = "db";
+            break;
+            case "man":
+                $ext = "";
+            break;
+            case "asciidoc":
+                $ext = "txt";
+            break;
+            case "markdown":
+                $ext = "md";
+            break;
+            case "epub3":
+                $ext = "epub";
+            break;
+            default:
+                $ext = $format;       
+        }        
+        $response->headers->set('Content-disposition', 'filename='.$dissertation->getTitle().'.'.$ext);
+         
+        return $response;
     }
 }
