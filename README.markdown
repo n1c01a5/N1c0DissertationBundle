@@ -36,6 +36,7 @@ public function registerBundles()
 }
 ```
 FOSRestBundle, StofDoctrineExtensionsBundle and NelmioApiDocBundle must be configured.
+This bundle require the Diff implementation for PHP: "sebastian/diff": "*" (``composer.json``).
 
 ### C) Enable Http Method Override
 
