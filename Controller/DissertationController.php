@@ -236,6 +236,60 @@ class DissertationController extends FOSRestController
     }
 
     /**
+     * Update existing dissertation from the submitted data or create a new dissertation at a specific location.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Updates a dissertation.",
+     *   input = "N1c0\DemoBundle\Form\DissertationType",
+     *   statusCodes = {
+     *     200 = "Returned when the Dissertation is updated",
+     *     204 = "Returned when successful",
+     *     400 = "Returned when the form has errors"
+     *   }
+     * )
+     *
+     * @Annotations\View(
+     *  template = "N1c0DissertationBundle:Dissertation:editDissertation.html.twig",
+     *  templateVar = "form"
+     * )
+     *
+     * @param Request $request the request object
+     * @param int     $id      the dissertation id
+     *
+     * @return FormTypeInterface|View
+     *
+     * @throws NotFoundHttpException when dissertation not exist
+     */
+    public function patchDissertationAction(Request $request, $id)
+    {
+        try {
+            $dissertation = $this->getOr404($id);
+
+            $form = $this->container->get('n1c0_dissertation.form_factory.dissertation')->createForm();
+            $form->setData($dissertation);
+            $form->bind($request);
+
+            if ($form->isValid()) {
+                $dissertationManager = $this->container->get('n1c0_dissertation.manager.dissertation');
+                if($dissertationManager->saveDissertation($dissertation) !== false) {
+                    $routeOptions = array(
+                        'id' => $dissertation->getId(),
+                        '_format' => $request->get('_format')
+                    );
+
+                    return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_OK); // Must return 200 for ajax request
+                }
+            }
+        } catch (InvalidFormException $exception) {
+            return $exception->getForm();
+        }
+
+        // Add a method onCreateDissertationError(FormInterface $form)
+        return new Response(sprintf("Error of the dissertation id '%s'.", $form->getData()->getId()), Codes::HTTP_BAD_REQUEST);
+    }
+
+    /**
      * Get thread for the dissertation.
      *
      * @ApiDoc(
@@ -410,5 +464,36 @@ class DissertationController extends FOSRestController
         $response->headers->set('Content-disposition', 'filename='.$dissertation->getTitle().'.'.$ext);
          
         return $response;
+    }
+    
+    /**
+     * Get logs of a single Dissertation.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Gets lofs of a Dissertation for a given id",
+     *   output = "Gedmo\Loggable\Entity\LogEntry",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the dissertation is not found"
+     *   }
+     * )
+     *
+     * @Annotations\View(templateVar="dissertation")
+     *
+     * @param int     $id      the dissertation id
+     *
+     * @return array
+     *
+     * @throws NotFoundHttpException when dissertation not exist
+     */
+    public function logsDissertationAction($id)
+    {
+        $dissertation = $this->getOr404($id);
+        $repo = $em->getRepository('Gedmo\Loggable\Entity\LogEntry'); // we use default log entry class
+        $entity = $em->find('Entity\Dissertation', $dissertation->getId());
+        $logs = $repo->getLogEntries($entity);
+        
+        return $logs;
     }
 }

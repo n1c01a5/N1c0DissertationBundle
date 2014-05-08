@@ -15,3 +15,9 @@ n1c0_dissertation_introduction:
     parent: n1c0_dissertation_dissertation
     resource: N1c0\DissertationBundle\Controller\IntroductionController
     name_prefix:  api_1_ # naming collision
+
+n1c0_dissertation_logs:
+    type: rest
+    parent: n1c0_dissertation_dissertation
+    resource: N1c0\DissertationBundle\Controller\LogController
+    name_prefix:  api_1_ # naming collision
