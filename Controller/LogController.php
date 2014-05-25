@@ -58,7 +58,8 @@ class LogController extends FOSRestController
         
         for($i = 1; $i <= $c; $i++) {
             $repo->revert($entity, $i);
-            $logsDissertation[$i] = $entity->getTitle();  //faire un tableau a 2 entrees $logsDissertations[$i]['title']...
+            $logsDissertation[$i]['title'] = $entity->getTitle();
+            $logsDissertation[$i]['body'] = $entity->getBody(); 
         }
         
         return array('logsDissertation' => $logsDissertation);

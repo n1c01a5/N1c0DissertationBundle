@@ -52,9 +52,8 @@ class IntroductionController extends FOSRestController
         if (!$dissertation) {
             throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
         }
-        $introduction = $this->getOr404($introductionId);
-
-        return $introduction;
+        
+        return $this->getOr404($introductionId);
     }
 
     /**
@@ -74,12 +73,11 @@ class IntroductionController extends FOSRestController
      *  templateVar="introductions"
      * )
      *
-     * @param Request               $request      the request object
      * @param int                   $id           the dissertation id
      *
      * @return array
      */
-    public function getIntroductionsAction(Request $request, $id)
+    public function getIntroductionsAction($id)
     {
         $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
         if (!$dissertation) {
@@ -124,6 +122,45 @@ class IntroductionController extends FOSRestController
             'id' => $id
         );
     }
+
+    /**
+     * Edits an introduction.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful"
+     *   }
+     * )
+     * 
+     * @Annotations\View(
+     *  template = "N1c0DissertationBundle:Introduction:editIntroduction.html.twig",
+     *  templateVar = "form"
+     * )
+     *
+     * @param int     $id                       the dissertation id
+     * @param int     $introductionId           the introduction id
+     *
+     * @return FormTypeInterface
+     */
+    public function editIntroductionAction($id, $introductionId)
+    {
+        $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
+        if (!$dissertation) {
+            throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
+        }
+        $introduction = $this->getOr404($introductionId);
+
+        $form = $this->container->get('n1c0_dissertation.form_factory.introduction')->createForm();
+        $form->setData($introduction);
+    
+        return array(
+            'form' => $form,
+            'id'=>$id,
+            'introductionId' => $introduction->getId()
+        );
+    }
+
 
     /**
      * Creates a new Introduction for the Dissertation from the submitted data.
@@ -244,7 +281,7 @@ class IntroductionController extends FOSRestController
                         '_format' => $request->get('_format')
                     );
 
-                    return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_CREATED);
+                    return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_OK);
                 }
             }
         } catch (InvalidFormException $exception) {
@@ -318,7 +355,7 @@ class IntroductionController extends FOSRestController
      *   }
      * )
      *
-     * @Annotations\View(templateVar="introduction")
+     * @Annotations\View(templateVar="thread")
      *
      * @param int     $id               the dissertation id
      * @param int     $introductionId       the introduction id
@@ -327,10 +364,82 @@ class IntroductionController extends FOSRestController
      */
     public function getIntroductionThreadAction($id, $introductionId)
     {
-        $thread = $this->container->get('n1c0_dissertation.comment.dissertation_comment.default')->getThread($introductionId);
-
-        return $thread;
+        return $this->container->get('n1c0_dissertation.comment.dissertation_comment.default')->getThread($introductionId);
     }
+
+    /**
+     * Get a single raw Introduction.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Gets a raw Introduction for a given id",
+     *   output = "N1c0\DissertationBundle\Entity\Introduction",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the introduction or the dissertation is not found"
+     *   }
+     * )
+     *
+     *
+     * @Annotations\View(templateVar="introduction")
+     *
+     * @param int                   $id                   the dissertation id
+     * @param int                   $argumentId           the introduction id
+     *
+     * @return array
+     *
+     * @throws NotFoundHttpException when introduction not exist
+     */
+    public function getIntroductionrawAction($id, $introductionId)
+    {
+        $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
+        if (!$dissertation) {
+            throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
+        }
+
+        return $this->getOr404($introductionId);
+    }
+
+    /**
+     * Get ids the introductions of a dissertation.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful"
+     *   }
+     * )
+     *
+     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing introductions.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many introductions to return.")
+     *
+     * @Annotations\View(
+     *  templateVar="introductionsIds"
+     * )
+     *
+     * @param int                   $id           the dissertation id
+     *
+     * @return array
+     */
+    public function getIntroductionsidsAction($id)
+    {
+        $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
+        if (!$dissertation) {
+            throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
+        }
+
+        $introductions =  $this->container->get('n1c0_dissertation.manager.introduction')->findIntroductionsByDissertation($dissertation);
+
+        $i = 0;
+
+        foreach($introductions as $introduction) {
+            $introductionsIds[$i] = $introduction->getId();
+            $i++;
+        }
+
+        return $introductionsIds;
+    } 
+
 
 
     /**

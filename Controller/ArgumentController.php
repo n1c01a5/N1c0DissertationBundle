@@ -52,9 +52,8 @@ class ArgumentController extends FOSRestController
         if (!$dissertation) {
             throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
         }
-        $argument = $this->getOr404($argumentId);
-
-        return $argument;
+        
+        return $this->getOr404($argumentId);
     }
 
     /**
@@ -74,12 +73,11 @@ class ArgumentController extends FOSRestController
      *  templateVar="arguments"
      * )
      *
-     * @param Request               $request      the request object
      * @param int                   $id           the dissertation id
      *
      * @return array
      */
-    public function getArgumentsAction(Request $request, $id)
+    public function getArgumentsAction($id)
     {
         $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
         if (!$dissertation) {
@@ -122,6 +120,43 @@ class ArgumentController extends FOSRestController
         return array(
             'form' => $form, 
             'id' => $id
+        );
+    }
+
+    /**
+     * Edits an argument.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful"
+     *   }
+     * )
+     * 
+     * @Annotations\View(
+     *  template = "N1c0DissertationBundle:Argument:editArgument.html.twig",
+     *  templateVar = "form"
+     * )
+     *
+     * @param int     $id      the dissertation id
+     * @param int     $argumentId           the argument id
+     *
+     * @return FormTypeInterface
+     */
+    public function editArgumentAction($id, $argumentId)
+    {
+        $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
+        if (!$dissertation) {
+            throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
+        }
+        $argument = $this->getOr404($argumentId);
+        $form = $this->container->get('n1c0_dissertation.form_factory.argument')->createForm();
+        $form->setData($argument);
+    
+        return array(
+            'form' => $form,
+            'id'=>$id,
+            'argumentId' => $argument->getId()
         );
     }
 
@@ -210,7 +245,7 @@ class ArgumentController extends FOSRestController
      * )
      *
      * @Annotations\View(
-     *  template = "N1c0DissertationBundle:Argument:editDissertationArgument.html.twig",
+     *  template = "N1c0DissertationBundle:Argument:editArgument.html.twig",
      *  templateVar = "form"
      * )
      *
@@ -244,7 +279,7 @@ class ArgumentController extends FOSRestController
                         '_format' => $request->get('_format')
                     );
 
-                    return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_CREATED);
+                    return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_OK);
                 }
             }
         } catch (InvalidFormException $exception) {
@@ -318,7 +353,7 @@ class ArgumentController extends FOSRestController
      *   }
      * )
      *
-     * @Annotations\View(templateVar="argument")
+     * @Annotations\View(templateVar="thread")
      *
      * @param int     $id               the dissertation id
      * @param int     $argumentId       the argument id
@@ -327,11 +362,80 @@ class ArgumentController extends FOSRestController
      */
     public function getArgumentThreadAction($id, $argumentId)
     {
-        $thread = $this->container->get('n1c0_dissertation.comment.dissertation_comment.default')->getThread($argumentId);
-
-        return $thread;
+        return $this->container->get('n1c0_dissertation.comment.dissertation_comment.default')->getThread($argumentId);
     }
 
+    /**
+     * Get a single raw Argument.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Gets a raw Argument for a given id",
+     *   output = "N1c0\DissertationBundle\Entity\Argument",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the argument or the dissertation is not found"
+     *   }
+     * )
+     *
+     *
+     * @Annotations\View(templateVar="argument")
+     *
+     * @param int                   $id                   the dissertation id
+     * @param int                   $argumentId           the argument id
+     *
+     * @return array
+     *
+     * @throws NotFoundHttpException when argument not exist
+     */
+    public function getArgumentrawAction($id, $argumentId)
+    {
+        $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
+        if (!$dissertation) {
+            throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
+        }
+
+        return  $this->getOr404($argumentId);
+    }
+
+    /**
+     * Get ids the arguments of a dissertation.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful"
+     *   }
+     * )
+     *
+     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing arguments.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many arguments to return.")
+     *
+     * @Annotations\View(
+     *  templateVar="argumentsIds"
+     * )
+     *
+     * @param int                   $id           the dissertation id
+     *
+     * @return array
+     */
+    public function getArgumentsidsAction($id)
+    {
+        $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
+        if (!$dissertation) {
+            throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
+        }
+
+        $arguments =  $this->container->get('n1c0_dissertation.manager.argument')->findArgumentsByDissertation($dissertation);
+        $i = 0;
+
+        foreach($arguments as $argument) {
+            $argumentsIds[$i] = $argument->getId();
+            $i++;
+        }
+
+        return $argumentsIds;
+    } 
 
     /**
      * Fetch a Argument or throw an 404 Exception.
