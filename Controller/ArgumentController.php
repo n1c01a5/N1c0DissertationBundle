@@ -454,4 +454,156 @@ class ArgumentController extends FOSRestController
 
         return $argument;
     }
+
+    /**
+     * Get download for the argument of the dissertation.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Gets a download argument",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *   }
+     * )
+     *
+     * @Annotations\View(templateVar="argument")
+     *
+     * @param int     $id              the dissertation uuid
+     * @param int     $argumentId      the argument uuid
+     *
+     * @return array
+     * @throws NotFoundHttpException when dissertation not exist
+     * @throws NotFoundHttpException when argument not exist
+     */
+    public function getArgumentDownloadAction($id, $argumentId)
+    {
+        if (!($dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id))) {
+            throw new NotFoundHttpException(sprintf('The resource dissertation \'%s\' was not found.',$id));
+        }
+
+        if (!($argument = $this->container->get('n1c0_dissertation.manager.argument')->findArgumentById($argumentId))) {
+            throw new NotFoundHttpException(sprintf('The resource argument \'%s\' was not found.', $argumentId));
+        }
+
+        $formats = array(
+            "native",
+            "json",
+            "docx",
+            "odt",
+            "epub",
+            "epub3",
+            "fb2",
+            "html",
+            "html5",
+            "slidy",
+            "dzslides",
+            "docbook",
+            "opendocument",
+            "latex",
+            "beamer",
+            "context",
+            "texinfo",
+            "markdown",
+            "pdf",
+            "plain",
+            "rst",
+            "mediawiki",
+            "textile",
+            "rtf",
+            "org",
+            "asciidoc"
+        );
+
+        return array(
+            'formats'    => $formats, 
+            'argument'   => $argument
+        );
+    }
+
+    /**
+     * Convert the argument in pdf format.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Convert the argument",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *   }
+     * )
+     *
+     * @param int     $id              the dissertation uuid
+     * @param int     $argumentId      the argument uuid
+     * @param string  $format          the format to convert dissertation 
+     *
+     * @return Response
+     * @throws NotFoundHttpException when dissertation not exist
+     * @throws NotFoundHttpException when argument not exist
+     */
+    public function getArgumentConvertAction($id, $argumentId, $format)
+    {
+        if (!($dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id))) {
+            throw new NotFoundHttpException(sprintf('The resource dissertation \'%s\' was not found.',$id));
+        }
+
+        if (!($argument = $this->container->get('n1c0_dissertation.manager.argument')->findArgumentById($argumentId))) {
+            throw new NotFoundHttpException(sprintf('The resource argument \'%s\' was not found.',$argumentId));
+        }
+
+        $argumentConvert = $this->container->get('n1c0_dissertation.argument.download')->getConvert($argumentId, $format);
+
+        $response = new Response();
+        $response->setContent($argumentConvert);
+        $response->headers->set('Content-Type', 'application/force-download');
+        switch ($format) {
+            case "native":
+                $ext = "";
+            break;
+            case "s5":
+                $ext = "html";
+            break;
+            case "slidy":
+                $ext = "html";
+            break;
+            case "slideous":
+                $ext = "html";
+            break;
+            case "dzslides":
+                $ext = "html";
+            break;
+            case "latex":
+                $ext = "tex";
+            break;
+            case "context":
+                $ext = "tex";
+            break;
+            case "beamer":
+                $ext = "pdf";
+            break;
+            case "rst":
+                $ext = "text";
+            break;
+            case "docbook":
+                $ext = "db";
+            break;
+            case "man":
+                $ext = "";
+            break;
+            case "asciidoc":
+                $ext = "txt";
+            break;
+            case "markdown":
+                $ext = "md";
+            break;
+            case "epub3":
+                $ext = "epub";
+            break;
+            default:
+                $ext = $format;       
+        }
+        
+        $response->headers->set('Content-disposition', 'filename='.$argument->getTitle().'.'.$ext);
+         
+        return $response;
+    }
+
 }

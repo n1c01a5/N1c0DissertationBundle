@@ -4,20 +4,20 @@ namespace N1c0\DissertationBundle\Download;
 
 use Pandoc\Pandoc;
 
-class Download 
+class DownloadArgument 
 {
-    private $appDissertation;
+    private $appArgument;
 
-    public function __construct($appDissertation)
+    public function __construct($appArgument)
     {
-        $this->appDissertation = $appDissertation;
+        $this->appArgument = $appArgument;
     }
 
     public function getConvert($id, $format)
     {
         $pandoc = new Pandoc();
         // catch the entity
-        $raw = $this->appDissertation->findDissertationById($id)->getBody();
+        $raw = $this->appArgument->findArgumentById($id)->getBody();
         $options = array(
             "from"  => "markdown",
             "to"    => $format

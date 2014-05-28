@@ -459,4 +459,152 @@ class IntroductionController extends FOSRestController
 
         return $introduction;
     }
+
+    /**
+     * Get download for the introduction.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Gets a download introduction",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *   }
+     * )
+     *
+     * @Annotations\View(templateVar="introduction")
+     *
+     * @param int     $id                  the dissertation uuid
+     * @param int     $introductionId      the introduction uuid
+     *
+     * @return array
+     * @throws NotFoundHttpException when dissertation not exist
+     */
+    public function getIntroductionDownloadAction($id, $introductionId)
+    {
+        if (!($dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id))) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
+        }
+
+        if (!($introduction = $this->container->get('n1c0_dissertation.manager.introduction')->findIntroductionById($id))) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
+        }
+
+
+        $formats = array(
+            "native",
+            "json",
+            "docx",
+            "odt",
+            "epub",
+            "epub3",
+            "fb2",
+            "html",
+            "html5",
+            "slidy",
+            "dzslides",
+            "docbook",
+            "opendocument",
+            "latex",
+            "beamer",
+            "context",
+            "texinfo",
+            "markdown",
+            "pdf",
+            "plain",
+            "rst",
+            "mediawiki",
+            "textile",
+            "rtf",
+            "org",
+            "asciidoc"
+        );
+
+        return array(
+            'formats'        => $formats, 
+            'id'             => $id,
+            'introductionId' => $introductionId
+        );
+    }
+
+    /**
+     * Convert the introduction in pdf format.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Convert the introduction",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *   }
+     * )
+     *
+     * @param int     $id                  the dissertation uuid
+     * @param int     $introductionId      the introduction uuid
+     * @param string  $format              the format to convert dissertation 
+     *
+     * @return Response
+     * @throws NotFoundHttpException when dissertation not exist
+     */
+    public function getIntroductionConvertAction($id, $introductionId, $format)
+    {
+        if (!($dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id))) {
+            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
+        }
+
+        $introductionConvert = $this->container->get('n1c0_dissertation.introduction.download')->getConvert($id, $format);
+
+        $response = new Response();
+        $response->setContent($introductionConvert);
+        $response->headers->set('Content-Type', 'application/force-download');
+        switch ($format) {
+            case "native":
+                $ext = "";
+            break;
+            case "s5":
+                $ext = "html";
+            break;
+            case "slidy":
+                $ext = "html";
+            break;
+            case "slideous":
+                $ext = "html";
+            break;
+            case "dzslides":
+                $ext = "html";
+            break;
+            case "latex":
+                $ext = "tex";
+            break;
+            case "context":
+                $ext = "tex";
+            break;
+            case "beamer":
+                $ext = "pdf";
+            break;
+            case "rst":
+                $ext = "text";
+            break;
+            case "docbook":
+                $ext = "db";
+            break;
+            case "man":
+                $ext = "";
+            break;
+            case "asciidoc":
+                $ext = "txt";
+            break;
+            case "markdown":
+                $ext = "md";
+            break;
+            case "epub3":
+                $ext = "epub";
+            break;
+            default:
+                $ext = $format;       
+        }
+   
+        $response->headers->set('Content-disposition', 'filename='.$introduction->getTitle().'.'.$ext);
+         
+        return $response;
+    }
+
 }

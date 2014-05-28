@@ -19,7 +19,9 @@
         <parameter key="n1c0_dissertation.manager.dissertation.acl.class">N1c0\DissertationBundle\Acl\AclDissertationManager</parameter>
         <parameter key="n1c0_dissertation.manager.argument.acl.class">N1c0\DissertationBundle\Acl\AclArgumentManager</parameter>
         <parameter key="n1c0_dissertation.manager.introduction.acl.class">N1c0\DissertationBundle\Acl\AclIntroductionManager</parameter>
-        <parameter key="n1c0_dissertation.download.class">N1c0\DissertationBundle\Download\Download</parameter>
+        <parameter key="n1c0_dissertation.download.dissertation.class">N1c0\DissertationBundle\Download\DownloadDissertation</parameter>
+        <parameter key="n1c0_dissertation.download.introduction.class">N1c0\DissertationBundle\Download\DownloadIntroduction</parameter>
+        <parameter key="n1c0_dissertation.download.argument.class">N1c0\DissertationBundle\Download\DownloadArgument</parameter>
     </parameters>
 
     <services>
@@ -157,9 +159,17 @@
             <argument type="service" id="n1c0_dissertation.markup" />
         </service>
 
-        <service id="n1c0_dissertation.download" class="%n1c0_dissertation.download.class%">
+        <service id="n1c0_dissertation.dissertation.download" class="%n1c0_dissertation.download.dissertation.class%">
             <argument type="service" id="n1c0_dissertation.manager.dissertation" on-invalid="null" />
         </service>
+        <service id="n1c0_dissertation.introduction.download" class="%n1c0_dissertation.download.introduction.class%">
+            <argument type="service" id="n1c0_dissertation.manager.introduction" on-invalid="null" />
+        </service>
+        <service id="n1c0_dissertation.argument.download" class="%n1c0_dissertation.download.argument.class%">
+            <argument type="service" id="n1c0_dissertation.manager.argument" on-invalid="null" />
+        </service>
+
+
 
     </services>
 

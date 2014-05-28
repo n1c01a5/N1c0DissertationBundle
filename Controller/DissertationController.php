@@ -410,7 +410,7 @@ class DissertationController extends FOSRestController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
-        $dissertationConvert = $this->container->get('n1c0_dissertation.download')->getConvert($id, $format);
+        $dissertationConvert = $this->container->get('n1c0_dissertation.dissertation.download')->getConvert($id, $format);
 
         $response = new Response();
         $response->setContent($dissertationConvert);
