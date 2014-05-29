@@ -16,7 +16,13 @@ class DownloadIntroduction
     public function getConvert($id, $format)
     {
         $pandoc = new Pandoc();
-        // catch the entity
+
+        if('pdf' == $format || 'beamer' == $format) {
+            $raw = htmlspecialchars(htmlentities($raw));
+            $quotes = array('&amp;quot;', '&amp;laquo;', '&amp;raquo;');
+            $raw = str_replace($quotes, '"', $raw);
+        }
+
         $raw = $this->appIntroduction->findIntroductionById($id)->getBody();
         $options = array(
             "from"  => "markdown",

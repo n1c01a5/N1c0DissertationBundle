@@ -16,8 +16,15 @@ class DownloadDissertation
     public function getConvert($id, $format)
     {
         $pandoc = new Pandoc();
-        // catch the entity
+
         $raw = $this->appDissertation->findDissertationById($id)->getBody();
+        
+        if('pdf' == $format || 'beamer' == $format) {
+            $raw = htmlspecialchars(htmlentities($raw));
+            $quotes = array('&amp;quot;', '&amp;laquo;', '&amp;raquo;');
+            $raw = str_replace($quotes, '"', $raw);
+        }
+
         $options = array(
             "from"  => "markdown",
             "to"    => $format
