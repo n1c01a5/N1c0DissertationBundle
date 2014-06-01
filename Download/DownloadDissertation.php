@@ -17,20 +17,27 @@ class DownloadDissertation
     {
         $pandoc = new Pandoc();
 
-        $raw = $this->appDissertation->findDissertationById($id)->getBody();
+        $dissertation = $this->appDissertation->findDissertationById($id);
+
+        $raw = '#'.$dissertation->getTitle();
+        $raw .= "\r\n";
+        $raw .= '##'.$dissertation->getBody();
         
-        if('pdf' == $format || 'beamer' == $format) {
-            $raw = htmlspecialchars(htmlentities($raw));
-            $quotes = array('&amp;quot;', '&amp;laquo;', '&amp;raquo;');
-            $raw = str_replace($quotes, '"', $raw);
+        $lenghtElement = max(count($dissertation->getIntroductions()), count($dissertation->getArguments()));
+
+        for($i = 0; $i < $lenghtElement; $i++) {
+            $raw .= "\r\n";
+            $raw .= $dissertation->getIntroductions()[$i]->getBody();
+            $raw .= "\r\n";
+            $raw .= $dissertation->getArguments()[$i]->getBody();
         }
 
         $options = array(
             "from"  => "markdown",
-            "to"    => $format
+            "to"    => $format,
+            "toc" => null
         );
-        $result = $pandoc->runWith($raw, $options);
-        
-        return $result;  
+
+        return $pandoc->runWith($raw, $options);
     }
 }

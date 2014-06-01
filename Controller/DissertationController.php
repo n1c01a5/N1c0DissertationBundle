@@ -384,7 +384,10 @@ class DissertationController extends FOSRestController
             "asciidoc"
         );
 
-        return array('formats' => $formats, 'id' => $id);
+        return array(
+            'formats' => $formats,
+            'id' => $id
+        );
     }
 
     /**
