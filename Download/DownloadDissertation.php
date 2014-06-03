@@ -33,6 +33,7 @@ class DownloadDissertation
         }
 
         $options = array(
+            "latex-engine" => "xelatex",
             "from"  => "markdown",
             "to"    => $format,
             "toc" => null
