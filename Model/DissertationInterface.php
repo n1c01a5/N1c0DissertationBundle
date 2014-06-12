@@ -53,6 +53,36 @@ Interface DissertationInterface
     public function getBody();
 
     /**
+     * Set commitTitle
+     *
+     * @param string $commitTitle
+     * @return DissertationInterface
+     */
+    public function setCommitTitle($commitTitle);
+
+    /**
+     * Get commitTitle
+     *
+     * @return string 
+     */
+    public function getCommitTitle();
+
+    /**
+     * Set commitBody
+     *
+     * @param string $commitBody
+     * @return DissertationInterface
+     */
+    public function setCommitBody($commitBody);
+
+    /**
+     * Get commitBody
+     *
+     * @return string 
+     */
+    public function getCommitBody();
+
+    /**
      * @return integer The current state of the comment
      */
     public function getState();

@@ -3,16 +3,16 @@
 namespace N1c0\DissertationBundle\EventListener;
 
 use N1c0\DissertationBundle\Events;
-use N1c0\DissertationBundle\Event\DissertationEvent;
-use N1c0\DissertationBundle\Model\SignedDissertationInterface;
+use N1c0\DissertationBundle\Event\ArgumentEvent;
+use N1c0\DissertationBundle\Model\SignedArgumentInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
- * Blames a dissertation using Symfony2 security component
+ * Blames a argument using Symfony2 security component
  */
-class DissertationBlamerListener implements EventSubscriberInterface
+class ArgumentBlamerListener implements EventSubscriberInterface
 {
     /**
      * @var SecurityContext
@@ -37,26 +37,26 @@ class DissertationBlamerListener implements EventSubscriberInterface
     }
 
     /**
-     * Assigns the currently logged in user to a Dissertation.
+     * Assigns the currently logged in user to a Argument.
      *
-     * @param  \N1c0\DissertationBundle\Event\DissertationEvent $event
+     * @param  \N1c0\DissertationBundle\Event\ArgumentEvent $event
      * @return void
      */
-    public function blame(DissertationEvent $event)
+    public function blame(ArgumentEvent $event)
     {
-        $dissertation = $event->getDissertation();
+        $argument = $event->getArgument();
 
         if (null === $this->securityContext) {
             if ($this->logger) {
-                $this->logger->debug("Dissertation Blamer did not receive the security.context service.");
+                $this->logger->debug("Argument Blamer did not receive the security.context service.");
             }
 
             return;
         }
 
-        if (!$dissertation instanceof SignedDissertationInterface) {
+        if (!$argument instanceof SignedArgumentInterface) {
             if ($this->logger) {
-                $this->logger->debug("Dissertation does not implement SignedDissertationInterface, skipping");
+                $this->logger->debug("Argument does not implement SignedArgumentInterface, skipping");
             }
 
             return;
@@ -72,15 +72,17 @@ class DissertationBlamerListener implements EventSubscriberInterface
 
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->securityContext->getToken()->getUser();
-            if (!$dissertation->getAuthors()->contains($user)) {
-                $dissertation->addAuthor($user);
+            if (!$argument->getAuthors()->contains($user)) {
+                $argument->addAuthor($user);
             }
-
+            if (!$argument->getDissertation()->getAuthors()->contains($user)) {
+                $argument->getDissertation()->addAuthor($user);
+            }
         }
     }
 
     public static function getSubscribedEvents()
     {
-        return array(Events::DISSERTATION_PRE_PERSIST => 'blame');
+        return array(Events::ARGUMENT_PRE_PERSIST => 'blame');
     }
 }

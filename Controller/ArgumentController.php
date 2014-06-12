@@ -203,9 +203,10 @@ class ArgumentController extends FOSRestController
                 $form->bind($request);
 
                 if ($form->isValid()) {
-                    // Add the argument 
                     $argumentManager->saveArgument($argument);
                 
+                    //$dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->addAuthor($argument->getAuthor);
+
                     $routeOptions = array(
                         'id' => $id,
                         'argumentId' => $form->getData()->getId(),

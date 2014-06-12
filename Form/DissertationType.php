@@ -24,6 +24,8 @@ class DissertationType extends AbstractType
         $builder
             ->add('title')
             ->add('body')
+            ->add('commitTitle')
+            ->add('commitBody')
         ;
     }
     

@@ -27,16 +27,18 @@ class DownloadDissertation
 
         for($i = 0; $i < $lenghtElement; $i++) {
             $raw .= "\r\n";
-            $raw .= $dissertation->getIntroductions()[$i]->getBody();
-            $raw .= "\r\n";
+            //if(null != $dissertation->getIntroductions()[$i]) {
+              //  $raw .= $dissertation->getIntroductions()[$i]->getBody();
+                //$raw .= "\r\n";
+            //}
             $raw .= $dissertation->getArguments()[$i]->getBody();
         }
 
         $options = array(
             "latex-engine" => "xelatex",
-            "from"  => "markdown",
-            "to"    => $format,
-            "toc" => null
+            "from"         => "markdown",
+            "to"           => $format,
+            "toc"          => null
         );
 
         return $pandoc->runWith($raw, $options);

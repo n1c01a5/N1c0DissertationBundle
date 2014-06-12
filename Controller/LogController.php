@@ -35,7 +35,7 @@ class LogController extends FOSRestController
      * )
      *
      *
-     * @Annotations\View(templateVar="log")
+     * @Annotations\View(templateVar="logsDissertation")
      *
      * @param int                   $id                   the dissertation id
      *
@@ -60,9 +60,11 @@ class LogController extends FOSRestController
             $repo->revert($entity, $i);
             $logsDissertation[$i]['title'] = $entity->getTitle();
             $logsDissertation[$i]['body'] = $entity->getBody(); 
+            $logsDissertation[$i]['commitTitle'] = $entity->getCommitTitle(); 
+            $logsDissertation[$i]['commitBody'] = $entity->getCommitBody(); 
         }
         
-        return array('logsDissertation' => $logsDissertation);
+        return $logsDissertation;
 
     }
     

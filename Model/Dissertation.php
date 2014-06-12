@@ -32,6 +32,20 @@ abstract class Dissertation implements DissertationInterface
     protected $body;
 
     /**
+     * CommitTitle
+     *
+     * @var string
+     */
+    protected $commitTitle;
+
+    /**
+     * CommitBody
+     *
+     * @var string
+     */
+    protected $commitBody;
+
+    /**
      * Current state of the dissertation.
      *
      * @var integer
@@ -85,6 +99,40 @@ abstract class Dissertation implements DissertationInterface
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommitBody()
+    {
+        return $this->commitBody;
+    }
+
+    /**
+     * @param  string
+     * @return null
+     */
+    public function setCommitBody($commitBody)
+    {
+        $this->commitBody = $commitBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommitTitle()
+    {
+        return $this->commitTitle;
+    }
+
+    /**
+     * @param  string
+     * @return null
+     */
+    public function setCommitTitle($commitTitle)
+    {
+        $this->commitTitle = $commitTitle;
     }
 
     /**

@@ -8,6 +8,11 @@ Interface ArgumentInterface
      * @return mixed unique ID for this argument
      */
     public function getId();
+
+    /**
+     * @return array with authors of the dissertation
+     */
+    public function getAuthorsName();
     
     /**
      * Set title

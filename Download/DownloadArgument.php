@@ -19,18 +19,12 @@ class DownloadArgument
 
         $raw = $this->appArgument->findArgumentById($id)->getBody();
 
-        if('pdf' == $format || 'beamer' == $format) {
-            $raw = htmlspecialchars(htmlentities($raw));
-            $quotes = array('&amp;quot;', '&amp;laquo;', '&amp;raquo;');
-            $raw = str_replace($quotes, '"', $raw);
-        }
-
         $options = array(
-            "from"  => "markdown",
-            "to"    => $format
+            "latex-engine" => "xelatex",
+            "from"         => "markdown",
+            "to"           => $format
         );
-        $result = $pandoc->runWith($raw, $options);
-        
-        return $result;  
+
+        return  $pandoc->runWith($raw, $options);
     }
 }

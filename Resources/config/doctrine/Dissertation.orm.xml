@@ -16,6 +16,14 @@
             <gedmo:versioned/>
         </field>
 
+        <field name="commitTitle" column="committitle" type="text">
+            <gedmo:versioned/>
+        </field>
+
+        <field name="commitBody" column="commitbody" type="text">
+            <gedmo:versioned/>
+        </field>
+
         <gedmo:loggable log-entry-class="Gedmo\Loggable\Entity\LogEntry"/>
 
     </mapped-superclass>

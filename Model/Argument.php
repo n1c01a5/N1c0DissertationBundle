@@ -102,4 +102,12 @@ abstract class Argument implements ArgumentInterface
     {
         return 'Argument #'.$this->getId();
     }
+
+    /**
+     * @return array with the names of the argument authors
+     */
+    public function getAuthorsName()
+    {
+        return 'Anonymous';
+    }
 }
