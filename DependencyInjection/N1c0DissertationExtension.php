@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class n1c0DissertationExtension extends Extension
+class N1c0DissertationExtension extends Extension
 {
     /**
      * {@inheritDoc}
