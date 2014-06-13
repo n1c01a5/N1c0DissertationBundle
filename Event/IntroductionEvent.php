@@ -1,6 +1,6 @@
 <?php
 
-namespace n1c0\DissertationBundle\Event;
+namespace N1c0\DissertationBundle\Event;
 
 use N1c0\DissertationBundle\Model\IntroductionInterface;
 use Symfony\Component\EventDispatcher\Event;
