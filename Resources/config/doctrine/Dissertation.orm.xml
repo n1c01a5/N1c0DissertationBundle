@@ -24,6 +24,10 @@
             <gedmo:versioned/>
         </field>
 
+        <field name="createdAt" column="created_at" type="datetime">
+            <gedmo:versioned/>
+        </field>
+
         <gedmo:loggable log-entry-class="Gedmo\Loggable\Entity\LogEntry"/>
 
     </mapped-superclass>

@@ -21,6 +21,16 @@ Interface DissertationInterface
      * @return array with authors of the dissertation
      */
     public function getAuthorsName();
+
+    /**
+     * @return array with the last author of the dissertation
+     */
+    public function getAuthorName();
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt();
     
     /**
      * Set title

@@ -46,6 +46,11 @@ abstract class Dissertation implements DissertationInterface
     protected $commitBody;
 
     /**
+     * @var DateTime
+     */
+    protected $createdAt;
+
+    /**
      * Current state of the dissertation.
      *
      * @var integer
@@ -58,6 +63,11 @@ abstract class Dissertation implements DissertationInterface
      * @var integer
      */
     protected $previousState = 0;
+
+    public function __construct()
+    {
+        $this->createdAt = new DateTime();
+    }
 
     /**
      * @return mixed
@@ -141,6 +151,31 @@ abstract class Dissertation implements DissertationInterface
     public function getAuthorsName()
     {
         return 'Anonymous';
+    }
+
+    /**
+     * @return array with the name of the dissertation author
+     */
+    public function getAuthorName()
+    {
+        return 'Anonymous';
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Sets the creation date
+     * @param DateTime $createdAt
+     */
+    public function setCreatedAt(DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
     }
 
     public function __toString()

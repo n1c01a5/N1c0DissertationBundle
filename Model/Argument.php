@@ -38,6 +38,20 @@ abstract class Argument implements ArgumentInterface
     protected $dissertation;
 
     /**
+     * CommitTitle
+     *
+     * @var string
+     */
+    protected $commitTitle;
+
+    /**
+     * CommitBody
+     *
+     * @var string
+     */
+    protected $commitBody;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -101,6 +115,40 @@ abstract class Argument implements ArgumentInterface
     public function __toString()
     {
         return 'Argument #'.$this->getId();
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommitBody()
+    {
+        return $this->commitBody;
+    }
+
+    /**
+     * @param  string
+     * @return null
+     */
+    public function setCommitBody($commitBody)
+    {
+        $this->commitBody = $commitBody;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommitTitle()
+    {
+        return $this->commitTitle;
+    }
+
+    /**
+     * @param  string
+     * @return null
+     */
+    public function setCommitTitle($commitTitle)
+    {
+        $this->commitTitle = $commitTitle;
     }
 
     /**

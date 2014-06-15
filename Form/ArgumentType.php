@@ -24,6 +24,8 @@ class ArgumentType extends AbstractType
         $builder
             ->add('title', 'text')
             ->add('body')
+            ->add('commitTitle')
+            ->add('commitBody')
         ;
     }
     
@@ -35,8 +37,7 @@ class ArgumentType extends AbstractType
         parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
             'data_class' => $this->argumentClass,
-            'csrf_protection' => false,
-            'method' => 'PATCH'
+            'csrf_protection' => false
         ));
     }
 

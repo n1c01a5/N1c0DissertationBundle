@@ -22,7 +22,7 @@ class DissertationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
+            ->add('title', 'text')
             ->add('body')
             ->add('commitTitle')
             ->add('commitBody')

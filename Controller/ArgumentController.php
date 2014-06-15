@@ -205,8 +205,6 @@ class ArgumentController extends FOSRestController
                 if ($form->isValid()) {
                     $argumentManager->saveArgument($argument);
                 
-                    //$dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->addAuthor($argument->getAuthor);
-
                     $routeOptions = array(
                         'id' => $id,
                         'argumentId' => $form->getData()->getId(),
@@ -286,6 +284,9 @@ class ArgumentController extends FOSRestController
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
+
+        // Add a method onCreateArgumentError(FormInterface $form)
+        return new Response(sprintf("Error of the argument id '%s'.", $form->getData()->getId()), Codes::HTTP_BAD_REQUEST);
     }
 
     /**

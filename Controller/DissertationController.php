@@ -164,7 +164,6 @@ class DissertationController extends FOSRestController
                 $form->bind($request);
 
                 if ($form->isValid()) {
-                    // Add the dissertation 
                     $dissertationManager->saveDissertation($dissertation);
                 
                     $routeOptions = array(
@@ -179,6 +178,10 @@ class DissertationController extends FOSRestController
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
         }
+
+        // Add a method onCreateDissertationError(FormInterface $form)
+        return new Response(sprintf("Error of the dissertation id '%s'.", $form->getData()->getId()), Codes::HTTP_BAD_REQUEST);
+
     }
 
     /**

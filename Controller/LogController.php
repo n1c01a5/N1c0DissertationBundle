@@ -60,6 +60,8 @@ class LogController extends FOSRestController
             $repo->revert($entity, $i);
             $logsDissertation[$i]['title'] = $entity->getTitle();
             $logsDissertation[$i]['body'] = $entity->getBody(); 
+            $logsDissertation[$i]['author'] = $entity->getAuthor(); 
+            $logsDissertation[$i]['date'] = $entity->getCreatedAt()->format('d/m/Y à H:m'); 
             $logsDissertation[$i]['commitTitle'] = $entity->getCommitTitle(); 
             $logsDissertation[$i]['commitBody'] = $entity->getCommitBody(); 
         }
