@@ -16,8 +16,20 @@ n1c0_dissertation_introduction:
     resource: N1c0\DissertationBundle\Controller\IntroductionController
     name_prefix:  api_1_ # naming collision
 
-n1c0_dissertation_logs:
+n1c0_dissertation_dissertation_logs:
     type: rest
     parent: n1c0_dissertation_dissertation
-    resource: N1c0\DissertationBundle\Controller\LogController
-    name_prefix:  api_1_ # naming collision
+    resource: N1c0\DissertationBundle\Controller\LogDissertationController
+    name_prefix:  api_1_ # naming coll
+
+n1c0_dissertation_introduction_logs:
+    type: rest
+    parent: n1c0_dissertation_introduction
+    resource: N1c0\DissertationBundle\Controller\LogIntroductionController
+    name_prefix:  api_1_ # naming collisionision
+
+n1c0_dissertation_argument_logs:
+    type: rest
+    parent: n1c0_dissertation_argument
+    resource: N1c0\DissertationBundle\Controller\LogArgumentController
+    name_prefix:  api_1_ # naming collisionision

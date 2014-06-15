@@ -155,8 +155,8 @@ class IntroductionController extends FOSRestController
         $form->setData($introduction);
     
         return array(
-            'form' => $form,
-            'id'=>$id,
+            'form'           => $form,
+            'id'             => $id,
             'introductionId' => $introduction->getId()
         );
     }
@@ -205,7 +205,6 @@ class IntroductionController extends FOSRestController
                 $form->bind($request);
 
                 if ($form->isValid()) {
-                    // Add the introduction 
                     $introductionManager->saveIntroduction($introduction);
                 
                     $routeOptions = array(

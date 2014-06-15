@@ -15,6 +15,7 @@
         <parameter key="n1c0_dissertation.manager.introduction.default.class">N1c0\DissertationBundle\Entity\IntroductionManager</parameter>
         <parameter key="n1c0_dissertation.listener.dissertation_blamer.class">N1c0\DissertationBundle\EventListener\DissertationBlamerListener</parameter>
         <parameter key="n1c0_dissertation.listener.argument_blamer.class">N1c0\DissertationBundle\EventListener\ArgumentBlamerListener</parameter>
+        <parameter key="n1c0_dissertation.listener.introduction_blamer.class">N1c0\DissertationBundle\EventListener\IntroductionBlamerListener</parameter>
         <parameter key="n1c0_dissertation.comment.dissertation_comment.class">N1c0\DissertationBundle\Comment\Thread</parameter>
         <parameter key="request_stack.class">Symfony\Component\HttpFoundation\RequestStack</parameter>
         <parameter key="n1c0_dissertation.manager.dissertation.acl.class">N1c0\DissertationBundle\Acl\AclDissertationManager</parameter>
@@ -87,6 +88,12 @@
         </service>
 
         <service id="n1c0_dissertation.listener.argument_blamer" class="%n1c0_dissertation.listener.argument_blamer.class%">
+            <argument type="service" id="security.context" on-invalid="null" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="n1c0_dissertation.listener.introduction_blamer" class="%n1c0_dissertation.listener.introduction_blamer.class%">
             <argument type="service" id="security.context" on-invalid="null" />
             <argument type="service" id="logger" on-invalid="null" />
             <tag name="kernel.event_subscriber" />

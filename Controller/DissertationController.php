@@ -303,7 +303,7 @@ class DissertationController extends FOSRestController
      *   }
      * )
      *
-     * @Annotations\View(templateVar="dissertation")
+     * @Annotations\View(templateVar="thread")
      *
      * @param int     $id      the dissertation uuid
      *
@@ -311,9 +311,7 @@ class DissertationController extends FOSRestController
      */
     public function getDissertationThreadAction($id)
     {
-        $thread = $this->container->get('n1c0_dissertation.comment.dissertation_comment.default')->getThread($id);
-
-        return $thread;
+        return $this->container->get('n1c0_dissertation.comment.dissertation_comment.default')->getThread($id);
     }
 
     /**

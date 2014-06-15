@@ -64,7 +64,7 @@ abstract class IntroductionManager implements IntroductionManagerInterface
         $introduction->setDissertation($dissertation);
 
         $event = new IntroductionEvent($introduction);
-        $this->dispatcher->dispatch(Events::ARGUMENT_CREATE, $event);
+        $this->dispatcher->dispatch(Events::INTRODUCTION_CREATE, $event);
 
         return $introduction;
     }
@@ -84,7 +84,7 @@ abstract class IntroductionManager implements IntroductionManagerInterface
         }
 
         $event = new IntroductionPersistEvent($introduction);
-        $this->dispatcher->dispatch(Events::ARGUMENT_PRE_PERSIST, $event);
+        $this->dispatcher->dispatch(Events::INTRODUCTION_PRE_PERSIST, $event);
 
         if ($event->isPersistenceAborted()) {
             return false;
@@ -93,7 +93,7 @@ abstract class IntroductionManager implements IntroductionManagerInterface
         $this->doSaveIntroduction($introduction);
 
         $event = new IntroductionEvent($introduction);
-        $this->dispatcher->dispatch(Events::ARGUMENT_POST_PERSIST, $event);
+        $this->dispatcher->dispatch(Events::INTRODUCTION_POST_PERSIST, $event);
 
         return true;
     }
