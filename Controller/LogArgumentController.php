@@ -28,7 +28,7 @@ class LogArgumentController extends FOSRestController
      *
      *
      * @Annotations\View(
-     *  template = "N1c0DissertationBundle:Log:getLogs.html.twig",
+     *  template = "N1c0DissertationBundle:Argument:getLogs.html.twig",
      *  templateVar="logs"   
      * )
      *
@@ -38,16 +38,16 @@ class LogArgumentController extends FOSRestController
      *
      * @throws NotFoundHttpException when entity not exist
      */
-    public function getLogsAction($id)
+    public function getLogsAction($id, $argumentId)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('Gedmo\Loggable\Entity\LogEntry');
 
-        if ($argument = $this->container->get('n1c0_dissertation.manager.argument')->findArgumentById($id)) {
-            $entity = $em->find('Bundle\DissertationBundle\Entity\Introduction', $introduction->getId());
+        if ($argument = $this->container->get('n1c0_dissertation.manager.argument')->findArgumentById($argumentId)) {
+            $entity = $em->find('Bundle\DissertationBundle\Entity\Argument', $argument->getId());
         }
         else {
-            throw new NotFoundHttpException(sprintf('Entity with identifier of "%s" does not exist', $id));
+            throw new NotFoundHttpException(sprintf('Entity with identifier of "%s" does not exist', $argumentId));
         }
 
         $logs = $repo->getLogEntries($entity);
@@ -62,6 +62,7 @@ class LogArgumentController extends FOSRestController
             $logsEntity[$i]['date'] = $entity->getCreatedAt()->format('d/m/Y à H:m'); 
             $logsEntity[$i]['commitTitle'] = $entity->getCommitTitle(); 
             $logsEntity[$i]['commitBody'] = $entity->getCommitBody(); 
+            $logsEntity[$i]['dissertationId'] = $entity->getDissertation()->getId(); 
         }
         
         return $logsEntity;

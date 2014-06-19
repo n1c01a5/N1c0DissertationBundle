@@ -48,4 +48,9 @@ Interface IntroductionInterface
      * @param DissertationInterface $dissertation
      */
     public function setDissertation(DissertationInterface $dissertation);
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt();
 }

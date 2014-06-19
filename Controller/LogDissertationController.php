@@ -27,7 +27,7 @@ class LogDissertationController extends FOSRestController
      * )
      *
      * @Annotations\View(
-     *  template = "N1c0DissertationBundle:Log:getLogs.html.twig",
+     *  template = "N1c0DissertationBundle:Dissertation:getLogs.html.twig",
      *  templateVar="logs"   
      * )
      *

@@ -52,6 +52,16 @@ abstract class Argument implements ArgumentInterface
     protected $commitBody;
 
     /**
+     * @var DateTime
+     */
+    protected $createdAt;
+
+    public function __construct()
+    {
+        $this->createdAt = new DateTime();
+    }
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -149,6 +159,23 @@ abstract class Argument implements ArgumentInterface
     public function setCommitTitle($commitTitle)
     {
         $this->commitTitle = $commitTitle;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Sets the creation date
+     * @param DateTime $createdAt
+     */
+    public function setCreatedAt(DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
     }
 
     /**

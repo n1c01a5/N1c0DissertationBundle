@@ -45,6 +45,11 @@ Interface ArgumentInterface
     public function getBody();
 
     /**
+     * @return \DateTime
+     */
+    public function getCreatedAt();
+
+    /**
      * @return DissertationInterface
      */
     public function getDissertation();
