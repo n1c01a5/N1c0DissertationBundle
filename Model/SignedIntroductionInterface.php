@@ -5,9 +5,9 @@ namespace N1c0\DissertationBundle\Model;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * A signed dissertation is bound to a FOS\UserBundle User model.
+ * A signed introduction is bound to a FOS\UserBundle User model.
  */
-interface SignedDissertationInterface extends DissertationInterface
+interface SignedIntroductionInterface extends IntroductionInterface
 {
     /**
      * Add user 
@@ -24,14 +24,14 @@ interface SignedDissertationInterface extends DissertationInterface
     public function removeUser(\Application\UserBundle\Entity\User $user);
 
     /**
-     * Gets the authors of the Dissertation
+     * Gets the authors of the Introduction
      *
      * @return UserInterface
      */
     public function getAuthors();
 
     /**
-     * Gets the last author of the Dissertation
+     * Gets the last author of the Introduction
      *
      * @return UserInterface
      */

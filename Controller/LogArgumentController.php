@@ -32,7 +32,8 @@ class LogArgumentController extends FOSRestController
      *  templateVar="logs"   
      * )
      *
-     * @param int                   $id                   the entity id
+     * @param int                   $id                   the dissertation id
+     * @param int                   $argumentId           the argumententity id
      *
      * @return array
      *
@@ -53,6 +54,8 @@ class LogArgumentController extends FOSRestController
         $logs = $repo->getLogEntries($entity);
         
         $c = count($logs);
+
+        // if $c == 0 $logsEntity = ???
         
         for($i = 1; $i <= $c; $i++) {
             $repo->revert($entity, $i);

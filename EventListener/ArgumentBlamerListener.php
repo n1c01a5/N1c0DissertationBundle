@@ -72,6 +72,7 @@ class ArgumentBlamerListener implements EventSubscriberInterface
 
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->securityContext->getToken()->getUser();
+            $argument->setAuthor($user);
             if (!$argument->getAuthors()->contains($user)) {
                 $argument->addAuthor($user);
             }

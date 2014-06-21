@@ -24,6 +24,8 @@ class IntroductionType extends AbstractType
         $builder
             ->add('title')
             ->add('body')
+            ->add('commitTitle')
+            ->add('commitBody')
         ;
     }
     
@@ -36,7 +38,6 @@ class IntroductionType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => $this->introductionClass,
             'csrf_protection' => false,
-            'method' => 'PATCH'
         ));
     }
 

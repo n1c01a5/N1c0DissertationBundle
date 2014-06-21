@@ -185,4 +185,12 @@ abstract class Argument implements ArgumentInterface
     {
         return 'Anonymous';
     }
+
+    /**
+     * @return array with the name of the argument author
+     */
+    public function getAuthorName()
+    {
+        return 'Anonymous';
+    }
 }

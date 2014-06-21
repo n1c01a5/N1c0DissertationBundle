@@ -182,9 +182,6 @@
         <service id="n1c0_dissertation.argument.download" class="%n1c0_dissertation.download.argument.class%">
             <argument type="service" id="n1c0_dissertation.manager.argument" on-invalid="null" />
         </service>
-
-
-
     </services>
 
 </container>

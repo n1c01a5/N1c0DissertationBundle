@@ -29,5 +29,12 @@ interface SignedArgumentInterface extends ArgumentInterface
      * @return UserInterface
      */
     public function getAuthors();
+
+    /**
+     * Gets the lasr author of the Argument
+     *
+     * @return UserInterface
+     */
+    public function getAuthor();
 }
 

@@ -173,6 +173,22 @@ abstract class Introduction implements IntroductionInterface
         $this->createdAt = $createdAt;
     }
 
+    /**
+     * @return array with the names of the introduction authors
+     */
+    public function getAuthorsName()
+    {
+        return 'Anonymous';
+    }
+
+    /**
+     * @return array with the name of the introduction author
+     */
+    public function getAuthorName()
+    {
+        return 'Anonymous';
+    }
+
     public function __toString()
     {
         return 'Introduction #'.$this->getId();

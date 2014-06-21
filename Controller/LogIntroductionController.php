@@ -32,18 +32,20 @@ class LogIntroductionController extends FOSRestController
      *  templateVar="logs"   
      * )
      *
-     * @param int                   $id                   the entity id
+     * @param int                   $id                   the dissertation id
+     * @param int                   $introductionId       the introduction id
      *
      * @return array
      *
      * @throws NotFoundHttpException when entity not exist
      */
-    public function getLogsAction($id)
+    public function getLogsAction($id, $introductionId)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('Gedmo\Loggable\Entity\LogEntry');
 
-        if ($introduction = $this->container->get('n1c0_dissertation.manager.introduction')->findIntroductionById($id)) {
+        if ($introduction = 
+            $this->container->get('n1c0_dissertation.manager.introduction')->findIntroductionById($introductionId)) {
             $entity = $em->find('Bundle\DissertationBundle\Entity\Introduction', $introduction->getId());
         } else {
             throw new NotFoundHttpException(sprintf('Entity with identifier of "%s" does not exist', $id));

@@ -72,6 +72,7 @@ class IntroductionBlamerListener implements EventSubscriberInterface
 
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->securityContext->getToken()->getUser();
+            $introduction->setAuthor($user);
             if (!$introduction->getAuthors()->contains($user)) {
                 $introduction->addAuthor($user);
             }
