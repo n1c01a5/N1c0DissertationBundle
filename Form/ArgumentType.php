@@ -22,7 +22,7 @@ class ArgumentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', 'text')
+            ->add('title')
             ->add('body')
             ->add('commitTitle')
             ->add('commitBody')
