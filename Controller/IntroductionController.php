@@ -409,7 +409,7 @@ class IntroductionController extends FOSRestController
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
-        if (!($introduction = $this->container->get('n1c0_dissertation.manager.introduction')->findIntroductionById($id))) {
+        if (!($introduction = $this->container->get('n1c0_dissertation.manager.introduction')->findIntroductionById($introductionId))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
@@ -471,10 +471,14 @@ class IntroductionController extends FOSRestController
     public function getIntroductionConvertAction($id, $introductionId, $format)
     {
         if (!($dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id))) {
+            throw new NotFoundHttpException(sprintf('The dissertation with the is \'%s\' was not found.',$id));
+        }
+
+        if (!($introduction = $this->container->get('n1c0_dissertation.manager.introduction')->findIntroductionById($introductionId))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
-        $introductionConvert = $this->container->get('n1c0_dissertation.introduction.download')->getConvert($id, $format);
+        $introductionConvert = $this->container->get('n1c0_dissertation.introduction.download')->getConvert($introductionId, $format);
 
         $response = new Response();
         $response->setContent($introductionConvert);

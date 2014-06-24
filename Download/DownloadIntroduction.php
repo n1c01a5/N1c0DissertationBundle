@@ -17,7 +17,11 @@ class DownloadIntroduction
     {
         $pandoc = new Pandoc();
 
-        $raw = $this->appIntroduction->findIntroductionById($id)->getBody();
+        $introduction = $this->appIntroduction->findIntroductionById($id);
+
+        $raw = '#'.$introduction->getTitle();
+        $raw .= "\r\n";
+        $raw .= '##'.$introduction->getBody();
 
         $options = array(
             "latex-engine" => "xelatex",
