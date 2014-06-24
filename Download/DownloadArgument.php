@@ -17,7 +17,11 @@ class DownloadArgument
     {
         $pandoc = new Pandoc();
 
-        $raw = $this->appArgument->findArgumentById($id)->getBody();
+        $argument = $this->appArgument->findArgumentById($id);
+
+        $raw = '#'.$argument->getTitle();
+        $raw .= "\r\n";
+        $raw .= '##'.$argument->getBody();
 
         $options = array(
             "latex-engine" => "xelatex",

@@ -178,11 +178,6 @@ abstract class Dissertation implements DissertationInterface
         $this->createdAt = $createdAt;
     }
 
-    public function __toString()
-    {
-        return 'Element dissertation #'.$this->getId();
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -206,5 +201,10 @@ abstract class Dissertation implements DissertationInterface
     public function getPreviousState()
     {
         return $this->previousState;
+    }
+
+    public function __toString()
+    {
+        return 'Dissertation #'.$this->getId();
     }
 }

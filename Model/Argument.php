@@ -122,11 +122,6 @@ abstract class Argument implements ArgumentInterface
         $this->dissertation = $dissertation;
     }
 
-    public function __toString()
-    {
-        return 'Argument #'.$this->getId();
-    }
-
     /**
      * @return string
      */
@@ -192,5 +187,10 @@ abstract class Argument implements ArgumentInterface
     public function getAuthorName()
     {
         return 'Anonymous';
+    }
+
+    public function __toString()
+    {
+        return 'Argument #'.$this->getId();
     }
 }
