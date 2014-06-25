@@ -471,7 +471,7 @@ class IntroductionController extends FOSRestController
     public function getIntroductionConvertAction($id, $introductionId, $format)
     {
         if (!($dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id))) {
-            throw new NotFoundHttpException(sprintf('The dissertation with the is \'%s\' was not found.',$id));
+            throw new NotFoundHttpException(sprintf('The dissertation with the id \'%s\' was not found.',$id));
         }
 
         if (!($introduction = $this->container->get('n1c0_dissertation.manager.introduction')->findIntroductionById($introductionId))) {

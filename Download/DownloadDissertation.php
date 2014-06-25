@@ -19,18 +19,38 @@ class DownloadDissertation
 
         $dissertation = $this->appDissertation->findDissertationById($id);
 
-        $raw = '#'.$dissertation->getTitle();
+        $raw = '%'.$dissertation->getTitle(); 
         $raw .= "\r\n";
-        $raw .= '##'.$dissertation->getBody();
-        
-        $lenghtElement = max(count($dissertation->getIntroductions()), count($dissertation->getArguments()));
+
+        foreach($dissertation->getAuthors() as $author) {
+            $raw .= $author.' ;';
+        }
+
+        $raw .= "\r\n";
+        $raw .= '%'.$dissertation->getCreatedAt()->format("m M Y");      
+        $raw .= "\r\n";
+        $raw .= "# Sujet de la dissertation";
+        $raw .= "\r\n";
+        $raw .= $dissertation->getBody();
+
+
+        $lenghtElement = count($dissertation->getIntroductions());
 
         for($i = 0; $i < $lenghtElement; $i++) {
             $raw .= "\r\n";
-            //if(null != $dissertation->getIntroductions()[$i]) {
-              //  $raw .= $dissertation->getIntroductions()[$i]->getBody();
-                //$raw .= "\r\n";
-            //}
+            $raw .= "\r\n";
+            $raw .= '##'.$dissertation->getIntroductions()[$i]->getTitle();
+            $raw .= "\r\n";
+            $raw .= $dissertation->getIntroductions()[$i]->getBody();
+        }
+        
+        $lenghtElement = count($dissertation->getArguments());
+
+        for($i = 0; $i < $lenghtElement; $i++) {
+            $raw .= "\r\n";
+            $raw .= "\r\n";
+            $raw .= '##'.$dissertation->getArguments()[$i]->getTitle();
+            $raw .= "\r\n";
             $raw .= $dissertation->getArguments()[$i]->getBody();
         }
 
