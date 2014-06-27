@@ -4,33 +4,33 @@ namespace N1c0\DissertationBundle\Download;
 
 use Pandoc\Pandoc;
 
-class DownloadIntroduction 
+class DownloadConclusion 
 {
-    private $appIntroduction;
+    private $appConclusion;
 
-    public function __construct($appIntroduction)
+    public function __construct($appConclusion)
     {
-        $this->appIntroduction = $appIntroduction;
+        $this->appConclusion = $appConclusion;
     }
 
     public function getConvert($id, $format)
     {
         $pandoc = new Pandoc();
 
-        $introduction = $this->appIntroduction->findIntroductionById($id);
+        $conclusion = $this->appConclusion->findConclusionById($id);
 
-        $raw = '%'.$introduction->getTitle(); 
+        $raw = '%'.$conclusion->getTitle(); 
         $raw .= "\r\n";
         $raw .= '%';
 
-        foreach($introduction->getAuthors() as $author) {
+        foreach($conclusion->getAuthors() as $author) {
             $raw .= $author.' ;';
         }
 
         $raw .= "\r\n";
-        $raw .= '%'.$introduction->getCreatedAt()->format("m M Y");      
+        $raw .= '%'.$conclusion->getCreatedAt()->format("m M Y");      
         $raw .= "\r\n";
-        $raw .= $introduction->getBody();
+        $raw .= $conclusion->getBody();
 
 
         $options = array(

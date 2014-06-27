@@ -19,9 +19,19 @@ class DownloadArgument
 
         $argument = $this->appArgument->findArgumentById($id);
 
-        $raw = '#'.$argument->getTitle();
+        $raw = '% efez'.$argument->getTitle(); 
         $raw .= "\r\n";
-        $raw .= '##'.$argument->getBody();
+        $raw .= '%'; 
+
+        foreach($argument->getAuthors() as $author) {
+            $raw .= $author.' ;';
+        }
+
+        $raw .= "\r\n";
+        $raw .= '%'.$argument->getCreatedAt()->format("m M Y");      
+        $raw .= "\r\n";
+        $raw .= $argument->getBody();
+
 
         $options = array(
             "latex-engine" => "xelatex",
