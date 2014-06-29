@@ -2,8 +2,8 @@
 
 namespace N1c0\DissertationBundle\Acl;
 
-use N1c0\IntroductionBundle\Model\IntroductionInterface;
-use N1c0\IntroductionBundle\Model\SignedIntroductionInterface;
+use N1c0\TransitionBundle\Model\TransitionInterface;
+use N1c0\TransitionBundle\Model\SignedTransitionInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 /**
  * Implements ACL checking using the Symfony2 Security component
  */
-class SecurityIntroductionAcl implements IntroductionAclInterface
+class SecurityTransitionAcl implements TransitionAclInterface
 {
     /**
      * Used to retrieve ObjectIdentity instances for objects.
@@ -41,14 +41,14 @@ class SecurityIntroductionAcl implements IntroductionAclInterface
     protected $securityContext;
 
     /**
-     * The FQCN of the Introduction object.
+     * The FQCN of the Transition object.
      *
      * @var string
      */
-    protected $introductionClass;
+    protected $transitionClass;
 
     /**
-     * The Class OID for the Introduction object.
+     * The Class OID for the Transition object.
      *
      * @var ObjectIdentity
      */
@@ -60,23 +60,23 @@ class SecurityIntroductionAcl implements IntroductionAclInterface
      * @param SecurityContextInterface                 $securityContext
      * @param ObjectIdentityRetrievalStrategyInterface $objectRetrieval
      * @param MutableAclProviderInterface              $aclProvider
-     * @param string                                   $introductionClass
+     * @param string                                   $transitionClass
      */
     public function __construct(SecurityContextInterface $securityContext,
                                 ObjectIdentityRetrievalStrategyInterface $objectRetrieval,
                                 MutableAclProviderInterface $aclProvider,
-                                $introductionClass
+                                $transitionClass
     )
     {
         $this->objectRetrieval   = $objectRetrieval;
         $this->aclProvider       = $aclProvider;
         $this->securityContext   = $securityContext;
-        $this->introductionClass      = $introductionClass;
-        $this->oid               = new ObjectIdentity('class', $this->introductionClass);
+        $this->transitionClass      = $transitionClass;
+        $this->oid               = new ObjectIdentity('class', $this->transitionClass);
     }
 
     /**
-     * Checks if the Security token is allowed to create a new Introduction.
+     * Checks if the Security token is allowed to create a new Transition.
      *
      * @return boolean
      */
@@ -86,53 +86,53 @@ class SecurityIntroductionAcl implements IntroductionAclInterface
     }
 
     /**
-     * Checks if the Security token is allowed to view the specified Introduction.
+     * Checks if the Security token is allowed to view the specified Transition.
      *
-     * @param  IntroductionInterface $introduction
+     * @param  TransitionInterface $transition
      * @return boolean
      */
-    public function canView(IntroductionInterface $introduction)
+    public function canView(TransitionInterface $transition)
     {
-        return $this->securityContext->isGranted('VIEW', $introduction);
+        return $this->securityContext->isGranted('VIEW', $transition);
     }
 
 
     /**
-     * Checks if the Security token is allowed to edit the specified Introduction.
+     * Checks if the Security token is allowed to edit the specified Transition.
      *
-     * @param  IntroductionInterface $introduction
+     * @param  TransitionInterface $transition
      * @return boolean
      */
-    public function canEdit(IntroductionInterface $introduction)
+    public function canEdit(TransitionInterface $transition)
     {
-        return $this->securityContext->isGranted('EDIT', $introduction);
+        return $this->securityContext->isGranted('EDIT', $transition);
     }
 
     /**
-     * Checks if the Security token is allowed to delete the specified Introduction.
+     * Checks if the Security token is allowed to delete the specified Transition.
      *
-     * @param  IntroductionInterface $introduction
+     * @param  TransitionInterface $transition
      * @return boolean
      */
-    public function canDelete(IntroductionInterface $introduction)
+    public function canDelete(TransitionInterface $transition)
     {
-        return $this->securityContext->isGranted('DELETE', $introduction);
+        return $this->securityContext->isGranted('DELETE', $transition);
     }
 
     /**
-     * Sets the default object Acl entry for the supplied Introduction.
+     * Sets the default object Acl entry for the supplied Transition.
      *
-     * @param  IntroductionInterface $introduction
+     * @param  TransitionInterface $transition
      * @return void
      */
-    public function setDefaultAcl(IntroductionInterface $introduction)
+    public function setDefaultAcl(TransitionInterface $transition)
     {
-        $objectIdentity = $this->objectRetrieval->getObjectIdentity($introduction);
+        $objectIdentity = $this->objectRetrieval->getObjectIdentity($transition);
         $acl = $this->aclProvider->createAcl($objectIdentity);
 
-        if ($introduction instanceof SignedIntroductionInterface &&
-            null !== $introduction->getAuthor()) {
-            $securityIdentity = UserSecurityIdentity::fromAccount($introduction->getAuthor());
+        if ($transition instanceof SignedTransitionInterface &&
+            null !== $transition->getAuthor()) {
+            $securityIdentity = UserSecurityIdentity::fromAccount($transition->getAuthor());
             $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
         }
 
@@ -140,15 +140,15 @@ class SecurityIntroductionAcl implements IntroductionAclInterface
     }
 
     /**
-     * Installs default Acl entries for the Introduction class.
+     * Installs default Acl entries for the Transition class.
      *
-     * This needs to be re-run whenever the Introduction class changes or is subclassed.
+     * This needs to be re-run whenever the Transition class changes or is subclassed.
      *
      * @return void
      */
     public function installFallbackAcl()
     {
-        $oid = new ObjectIdentity('class', $this->introductionClass);
+        $oid = new ObjectIdentity('class', $this->transitionClass);
 
         try {
             $acl = $this->aclProvider->createAcl($oid);
@@ -165,7 +165,7 @@ class SecurityIntroductionAcl implements IntroductionAclInterface
      *
      * Override this method in a subclass to change what permissions are defined.
      * Once this method has been overridden you need to run the
-     * `fos:introduction:installAces --flush` command
+     * `fos:transition:installAces --flush` command
      *
      * @param  AclInterface $acl
      * @param  MaskBuilder  $builder
@@ -187,16 +187,16 @@ class SecurityIntroductionAcl implements IntroductionAclInterface
     }
 
     /**
-     * Removes fallback Acl entries for the Introduction class.
+     * Removes fallback Acl entries for the Transition class.
      *
-     * This should be run when uninstalling the IntroductionBundle, or when
+     * This should be run when uninstalling the TransitionBundle, or when
      * the Class Acl entry end up corrupted.
      *
      * @return void
      */
     public function uninstallFallbackAcl()
     {
-        $oid = new ObjectIdentity('class', $this->introductionClass);
+        $oid = new ObjectIdentity('class', $this->transitionClass);
         $this->aclProvider->deleteAcl($oid);
     }
 }

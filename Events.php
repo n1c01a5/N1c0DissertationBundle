@@ -6,42 +6,43 @@ final class Events
 {
     /**
      * The PRE_PERSIST event occurs prior to the persistence backend
-     * persisting the Argument.
+     * persisting the Dissertation.
      *
-     * This event allows you to modify the data in the Argument prior
+     * This event allows you to modify the data in the Dissertation prior
      * to persisting occuring. The listener receives a
-     * N1c0\DissertationBundle\Event\ArgumentPersistEvent instance.
+     * N1c0\DissertationBundle\Event\DissertationPersistEvent instance.
      *
-     * Persisting of the argument can be aborted by calling
+     * Persisting of the dissertation can be aborted by calling
      * $event->abortPersist()
      *
      * @var string
      */
-    const ARGUMENT_PRE_PERSIST = 'n1c0_dissertation.argument.pre_persist';
+    const DISSERTATION_PRE_PERSIST = 'n1c0_dissertation.dissertation.pre_persist';
 
     /**
      * The POST_PERSIST event occurs after the persistence backend
-     * persisted the Argument.
+     * persisted the Dissertation.
      *
      * This event allows you to notify users or perform other actions
-     * that might require the Argument to be persisted before performing
+     * that might require the Dissertation to be persisted before performing
      * those actions. The listener receives a
-     * N1c0\DissertationBundle\Event\ArgumentEvent instance.
+     * N1c0\DissertationBundle\Event\DissertationEvent instance.
      *
      * @var string
      */
-    const ARGUMENT_POST_PERSIST = 'n1c0_dissertation.argument.post_persist';
+    const DISSERTATION_POST_PERSIST = 'n1c0_dissertation.dissertation.post_persist';
 
     /**
      * The CREATE event occurs when the manager is asked to create
-     * a new instance of a Argument.
+     * a new instance of a Dissertation.
      *
-     * The listener receives a N1c0\DissertationBundle\Event\ArgumentEvent
+     * The listener receives a N1c0\DissertationBundle\Event\DissertationEvent
      * instance.
      *
      * @var string
      */
-    const ARGUMENT_CREATE = 'n1c0_dissertation.argument.create';
+    const DISSERTATION_CREATE = 'n1c0_dissertation.dissertation.create';
+
 
     /**
      * The PRE_PERSIST event occurs prior to the persistence backend
@@ -82,42 +83,121 @@ final class Events
      */
     const INTRODUCTION_CREATE = 'n1c0_dissertation.introduction.create';
 
+    
     /**
      * The PRE_PERSIST event occurs prior to the persistence backend
-     * persisting the Dissertation.
+     * persisting the Transition.
      *
-     * This event allows you to modify the data in the Dissertation prior
+     * This event allows you to modify the data in the Transition prior
      * to persisting occuring. The listener receives a
-     * N1c0\DissertationBundle\Event\DissertationPersistEvent instance.
+     * N1c0\DissertationBundle\Event\TransitionPersistEvent instance.
      *
-     * Persisting of the dissertation can be aborted by calling
+     * Persisting of the transition can be aborted by calling
      * $event->abortPersist()
      *
      * @var string
      */
-    const DISSERTATION_PRE_PERSIST = 'n1c0_dissertation.dissertation.pre_persist';
+    const TRANSITION_PRE_PERSIST = 'n1c0_dissertation.transition.pre_persist';
 
     /**
      * The POST_PERSIST event occurs after the persistence backend
-     * persisted the Dissertation.
+     * persisted the Transition.
      *
      * This event allows you to notify users or perform other actions
-     * that might require the Dissertation to be persisted before performing
+     * that might require the Argument to be persisted before performing
      * those actions. The listener receives a
-     * N1c0\DissertationBundle\Event\DissertationEvent instance.
+     * N1c0\DissertationBundle\Event\TransitionEvent instance.
      *
      * @var string
      */
-    const DISSERTATION_POST_PERSIST = 'n1c0_dissertation.dissertation.post_persist';
+    const TRANSITION_POST_PERSIST = 'n1c0_dissertation.transition.post_persist';
 
     /**
      * The CREATE event occurs when the manager is asked to create
-     * a new instance of a Dissertation.
+     * a new instance of a Transition.
      *
-     * The listener receives a N1c0\DissertationBundle\Event\DissertationEvent
+     * The listener receives a N1c0\DissertationBundle\Event\TransitionEvent
      * instance.
      *
      * @var string
      */
-    const DISSERTATION_CREATE = 'n1c0_dissertation.dissertation.create';
+    const TRANSITION_CREATE = 'n1c0_dissertation.transition.create';
+
+    /**
+     * The PRE_PERSIST event occurs prior to the persistence backend
+     * persisting the Argument.
+     *
+     * This event allows you to modify the data in the Argument prior
+     * to persisting occuring. The listener receives a
+     * N1c0\DissertationBundle\Event\ArgumentPersistEvent instance.
+     *
+     * Persisting of the argument can be aborted by calling
+     * $event->abortPersist()
+     *
+     * @var string
+     */
+    const ARGUMENT_PRE_PERSIST = 'n1c0_dissertation.argument.pre_persist';
+
+    /**
+     * The POST_PERSIST event occurs after the persistence backend
+     * persisted the Argument.
+     *
+     * This event allows you to notify users or perform other actions
+     * that might require the Argument to be persisted before performing
+     * those actions. The listener receives a
+     * N1c0\DissertationBundle\Event\ArgumentEvent instance.
+     *
+     * @var string
+     */
+    const ARGUMENT_POST_PERSIST = 'n1c0_dissertation.argument.post_persist';
+
+    /**
+     * The CREATE event occurs when the manager is asked to create
+     * a new instance of a Argument.
+     *
+     * The listener receives a N1c0\DissertationBundle\Event\ArgumentEvent
+     * instance.
+     *
+     * @var string
+     */
+    const ARGUMENT_CREATE = 'n1c0_dissertation.argument.create';
+
+    /**
+     * The PRE_PERSIST event occurs prior to the persistence backend
+     * persisting the Conclusion.
+     *
+     * This event allows you to modify the data in the Conclusion prior
+     * to persisting occuring. The listener receives a
+     * N1c0\DissertationBundle\Event\ConclusionPersistEvent instance.
+     *
+     * Persisting of the conclusion can be aborted by calling
+     * $event->abortPersist()
+     *
+     * @var string
+     */
+    const CONCLUSION_PRE_PERSIST = 'n1c0_dissertation.conclusion.pre_persist';
+
+    /**
+     * The POST_PERSIST event occurs after the persistence backend
+     * persisted the Conclusion.
+     *
+     * This event allows you to notify users or perform other actions
+     * that might require the Conclusion to be persisted before performing
+     * those actions. The listener receives a
+     * N1c0\DissertationBundle\Event\ConclusionEvent instance.
+     *
+     * @var string
+     */
+    const CONCLUSION_POST_PERSIST = 'n1c0_dissertation.conclusion.post_persist';
+
+    /**
+     * The CREATE event occurs when the manager is asked to create
+     * a new instance of a Conclusion.
+     *
+     * The listener receives a N1c0\DissertationBundle\Event\ConclusionEvent
+     * instance.
+     *
+     * @var string
+     */
+    const CONCLUSION_CREATE = 'n1c0_dissertation.conclusion.create';
 }

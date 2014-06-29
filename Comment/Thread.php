@@ -26,7 +26,6 @@ class Thread {
             $thread->setId($id);
             $thread->setPermalink($request->getUri());
 
-            // Add the thread
             $this->appThread->saveThread($thread);
         }
 

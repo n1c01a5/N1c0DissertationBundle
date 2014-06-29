@@ -4,33 +4,33 @@ namespace N1c0\DissertationBundle\Download;
 
 use Pandoc\Pandoc;
 
-class DownloadTrasition 
+class DownloadTransition 
 {
-    private $appTrasition;
+    private $appTransition;
 
-    public function __construct($appTrasition)
+    public function __construct($appTransition)
     {
-        $this->appTrasition = $appTrasition;
+        $this->appTransition = $appTransition;
     }
 
     public function getConvert($id, $format)
     {
         $pandoc = new Pandoc();
 
-        $trasition = $this->appTrasition->findTrasitionById($id);
+        $transition = $this->appTransition->findTransitionById($id);
 
-        $raw = '%'.$trasition->getTitle(); 
+        $raw = '% efez'.$transition->getTitle(); 
         $raw .= "\r\n";
-        $raw .= '%';
+        $raw .= '%'; 
 
-        foreach($trasition->getAuthors() as $author) {
+        foreach($transition->getAuthors() as $author) {
             $raw .= $author.' ;';
         }
 
         $raw .= "\r\n";
-        $raw .= '%'.$trasition->getCreatedAt()->format("m M Y");      
+        $raw .= '%'.$transition->getCreatedAt()->format("m M Y");      
         $raw .= "\r\n";
-        $raw .= $trasition->getBody();
+        $raw .= $transition->getBody();
 
 
         $options = array(

@@ -2,13 +2,13 @@
 
 namespace N1c0\DissertationBundle\Acl;
 
-use N1c0\IntroductionBundle\Model\IntroductionInterface;
+use N1c0\ConclusionBundle\Model\ConclusionInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * Implements Role checking using the Symfony2 Security component
  */
-class RoleIntroductionAcl implements IntroductionAclInterface
+class RoleConclusionAcl implements ConclusionAclInterface
 {
     /**
      * The current Security Context.
@@ -18,35 +18,35 @@ class RoleIntroductionAcl implements IntroductionAclInterface
     private $securityContext;
 
     /**
-     * The FQCN of the Introduction object.
+     * The FQCN of the Conclusion object.
      *
      * @var string
      */
-    private $introductionClass;
+    private $conclusionClass;
 
     /**
-     * The role that will grant create permission for a introduction.
+     * The role that will grant create permission for a conclusion.
      *
      * @var string
      */
     private $createRole;
 
     /**
-     * The role that will grant view permission for a introduction.
+     * The role that will grant view permission for a conclusion.
      *
      * @var string
      */
     private $viewRole;
 
     /**
-     * The role that will grant edit permission for a introduction.
+     * The role that will grant edit permission for a conclusion.
      *
      * @var string
      */
     private $editRole;
 
     /**
-     * The role that will grant delete permission for a introduction.
+     * The role that will grant delete permission for a conclusion.
      *
      * @var string
      */
@@ -60,14 +60,14 @@ class RoleIntroductionAcl implements IntroductionAclInterface
      * @param string                   $viewRole
      * @param string                   $editRole
      * @param string                   $deleteRole
-     * @param string                   $introductionClass
+     * @param string                   $conclusionClass
      */
     public function __construct(SecurityContextInterface $securityContext,
                                 $createRole,
                                 $viewRole,
                                 $editRole,
                                 $deleteRole,
-                                $introductionClass
+                                $conclusionClass
     )
     {
         $this->securityContext   = $securityContext;
@@ -75,11 +75,11 @@ class RoleIntroductionAcl implements IntroductionAclInterface
         $this->viewRole          = $viewRole;
         $this->editRole          = $editRole;
         $this->deleteRole        = $deleteRole;
-        $this->introductionClass      = $introductionClass;
+        $this->conclusionClass      = $conclusionClass;
     }
 
     /**
-     * Checks if the Security token has an appropriate role to create a new Introduction.
+     * Checks if the Security token has an appropriate role to create a new Conclusion.
      *
      * @return boolean
      */
@@ -89,23 +89,23 @@ class RoleIntroductionAcl implements IntroductionAclInterface
     }
 
     /**
-     * Checks if the Security token is allowed to view the specified Introduction.
+     * Checks if the Security token is allowed to view the specified Conclusion.
      *
-     * @param  IntroductionInterface $introduction
+     * @param  ConclusionInterface $conclusion
      * @return boolean
      */
-    public function canView(IntroductionInterface $introduction)
+    public function canView(ConclusionInterface $conclusion)
     {
         return $this->securityContext->isGranted($this->viewRole);
     }
 
     /**
-     * Checks if the Security token is allowed to reply to a parent introduction.
+     * Checks if the Security token is allowed to reply to a parent conclusion.
      *
-     * @param  IntroductionInterface|null $parent
+     * @param  ConclusionInterface|null $parent
      * @return boolean
      */
-    public function canReply(IntroductionInterface $parent = null)
+    public function canReply(ConclusionInterface $parent = null)
     {
         if (null !== $parent) {
             return $this->canCreate() && $this->canView($parent);
@@ -115,23 +115,23 @@ class RoleIntroductionAcl implements IntroductionAclInterface
     }
 
     /**
-     * Checks if the Security token has an appropriate role to edit the supplied Introduction.
+     * Checks if the Security token has an appropriate role to edit the supplied Conclusion.
      *
-     * @param  IntroductionInterface $introduction
+     * @param  ConclusionInterface $conclusion
      * @return boolean
      */
-    public function canEdit(IntroductionInterface $introduction)
+    public function canEdit(ConclusionInterface $conclusion)
     {
         return $this->securityContext->isGranted($this->editRole);
     }
 
     /**
-     * Checks if the Security token is allowed to delete a specific Introduction.
+     * Checks if the Security token is allowed to delete a specific Conclusion.
      *
-     * @param  IntroductionInterface $introduction
+     * @param  ConclusionInterface $conclusion
      * @return boolean
      */
-    public function canDelete(IntroductionInterface $introduction)
+    public function canDelete(ConclusionInterface $conclusion)
     {
         return $this->securityContext->isGranted($this->deleteRole);
     }
@@ -139,10 +139,10 @@ class RoleIntroductionAcl implements IntroductionAclInterface
     /**
      * Role based Acl does not require setup.
      *
-     * @param  IntroductionInterface $introduction
+     * @param  ConclusionInterface $conclusion
      * @return void
      */
-    public function setDefaultAcl(IntroductionInterface $introduction)
+    public function setDefaultAcl(ConclusionInterface $conclusion)
     {
 
     }

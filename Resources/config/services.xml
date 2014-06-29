@@ -7,23 +7,33 @@
 
     <parameters>
         <parameter key="n1c0_dissertation.model.dissertation.class">N1c0\DissertationBundle\Entity\Dissertation</parameter>
-        <parameter key="n1c0_dissertation.model.argument.class">N1c0\DissertationBundle\Entity\Argument</parameter>
         <parameter key="n1c0_dissertation.model.introduction.class">N1c0\DissertationBundle\Entity\Introduction</parameter>
+        <parameter key="n1c0_dissertation.model.transition.class">N1c0\DissertationBundle\Entity\Transition</parameter>
+        <parameter key="n1c0_dissertation.model.argument.class">N1c0\DissertationBundle\Entity\Argument</parameter>
+        <parameter key="n1c0_dissertation.model.conclusion.class">N1c0\DissertationBundle\Entity\Conclusion</parameter>
         
         <parameter key="n1c0_dissertation.manager.dissertation.default.class">N1c0\DissertationBundle\Entity\DissertationManager</parameter>
-        <parameter key="n1c0_dissertation.manager.argument.default.class">N1c0\DissertationBundle\Entity\ArgumentManager</parameter>
         <parameter key="n1c0_dissertation.manager.introduction.default.class">N1c0\DissertationBundle\Entity\IntroductionManager</parameter>
+        <parameter key="n1c0_dissertation.manager.transition.default.class">N1c0\DissertationBundle\Entity\TransitionManager</parameter>
+        <parameter key="n1c0_dissertation.manager.argument.default.class">N1c0\DissertationBundle\Entity\ArgumentManager</parameter>
+        <parameter key="n1c0_dissertation.manager.conclusion.default.class">N1c0\DissertationBundle\Entity\ConclusionManager</parameter>
         <parameter key="n1c0_dissertation.listener.dissertation_blamer.class">N1c0\DissertationBundle\EventListener\DissertationBlamerListener</parameter>
-        <parameter key="n1c0_dissertation.listener.argument_blamer.class">N1c0\DissertationBundle\EventListener\ArgumentBlamerListener</parameter>
         <parameter key="n1c0_dissertation.listener.introduction_blamer.class">N1c0\DissertationBundle\EventListener\IntroductionBlamerListener</parameter>
+        <parameter key="n1c0_dissertation.listener.transition_blamer.class">N1c0\DissertationBundle\EventListener\TransitionBlamerListener</parameter>
+        <parameter key="n1c0_dissertation.listener.argument_blamer.class">N1c0\DissertationBundle\EventListener\ArgumentBlamerListener</parameter>
+        <parameter key="n1c0_dissertation.listener.conclusion_blamer.class">N1c0\DissertationBundle\EventListener\ConclusionBlamerListener</parameter>
         <parameter key="n1c0_dissertation.comment.dissertation_comment.class">N1c0\DissertationBundle\Comment\Thread</parameter>
         <parameter key="request_stack.class">Symfony\Component\HttpFoundation\RequestStack</parameter>
         <parameter key="n1c0_dissertation.manager.dissertation.acl.class">N1c0\DissertationBundle\Acl\AclDissertationManager</parameter>
-        <parameter key="n1c0_dissertation.manager.argument.acl.class">N1c0\DissertationBundle\Acl\AclArgumentManager</parameter>
         <parameter key="n1c0_dissertation.manager.introduction.acl.class">N1c0\DissertationBundle\Acl\AclIntroductionManager</parameter>
+        <parameter key="n1c0_dissertation.manager.transition.acl.class">N1c0\DissertationBundle\Acl\AclTransitionManager</parameter>
+        <parameter key="n1c0_dissertation.manager.argument.acl.class">N1c0\DissertationBundle\Acl\AclArgumentManager</parameter>
+        <parameter key="n1c0_dissertation.manager.conclusion.acl.class">N1c0\DissertationBundle\Acl\AclConclusionManager</parameter>
         <parameter key="n1c0_dissertation.download.dissertation.class">N1c0\DissertationBundle\Download\DownloadDissertation</parameter>
         <parameter key="n1c0_dissertation.download.introduction.class">N1c0\DissertationBundle\Download\DownloadIntroduction</parameter>
+        <parameter key="n1c0_dissertation.download.transition.class">N1c0\DissertationBundle\Download\DownloadTransition</parameter>
         <parameter key="n1c0_dissertation.download.argument.class">N1c0\DissertationBundle\Download\DownloadArgument</parameter>
+        <parameter key="n1c0_dissertation.download.conclusion.class">N1c0\DissertationBundle\Download\DownloadConclusion</parameter>
     </parameters>
 
     <services>
@@ -36,21 +46,46 @@
             <argument type="service" id="n1c0_dissertation.entity_manager" />
             <argument>%n1c0_dissertation.model.dissertation.class%</argument>
         </service>
-        <service id="n1c0_dissertation.manager.argument.default" class="%n1c0_dissertation.manager.argument.default.class%">
-            <argument type="service" id="event_dispatcher" />
-            <argument type="service" id="n1c0_dissertation.entity_manager" />
-            <argument>%n1c0_dissertation.model.argument.class%</argument>
-        </service>
         <service id="n1c0_dissertation.manager.introduction.default" class="%n1c0_dissertation.manager.introduction.default.class%">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="n1c0_dissertation.entity_manager" />
             <argument>%n1c0_dissertation.model.introduction.class%</argument>
         </service>
-
+        <service id="n1c0_dissertation.manager.transition.default" class="%n1c0_dissertation.manager.transition.default.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="n1c0_dissertation.entity_manager" />
+            <argument>%n1c0_dissertation.model.transition.class%</argument>
+        </service>
+        <service id="n1c0_dissertation.manager.argument.default" class="%n1c0_dissertation.manager.argument.default.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="n1c0_dissertation.entity_manager" />
+            <argument>%n1c0_dissertation.model.argument.class%</argument>
+        </service>
+        <service id="n1c0_dissertation.manager.conclusion.default" class="%n1c0_dissertation.manager.conclusion.default.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="n1c0_dissertation.entity_manager" />
+            <argument>%n1c0_dissertation.model.conclusion.class%</argument>
+        </service>
 
         <service id="n1c0_dissertation.form_type.dissertation.default" class="N1c0\DissertationBundle\Form\DissertationType">
             <argument>%n1c0_dissertation.model.dissertation.class%</argument>
             <tag name="form.type" alias="n1c0_dissertation_dissertation" />
+        </service>
+        <service id="n1c0_dissertation.form_type.introduction.default" class="N1c0\DissertationBundle\Form\IntroductionType">
+            <argument>%n1c0_dissertation.model.introduction.class%</argument>
+            <tag name="form.type" alias="n1c0_dissertation_introduction" />
+        </service>
+        <service id="n1c0_dissertation.form_type.transition.default" class="N1c0\DissertationBundle\Form\TransitionType">
+            <argument>%n1c0_dissertation.model.transition.class%</argument>
+            <tag name="form.type" alias="n1c0_dissertation_transition" />
+        </service>
+        <service id="n1c0_dissertation.form_type.argument.default" class="N1c0\DissertationBundle\Form\ArgumentType">
+            <argument>%n1c0_dissertation.model.argument.class%</argument>
+            <tag name="form.type" alias="n1c0_dissertation_argument" />
+        </service>
+        <service id="n1c0_dissertation.form_type.conclusion.default" class="N1c0\DissertationBundle\Form\ConclusionType">
+            <argument>%n1c0_dissertation.model.conclusion.class%</argument>
+            <tag name="form.type" alias="n1c0_dissertation_conclusion" />
         </service>
 
         <service id="n1c0_dissertation.form_factory.dissertation.default" class="N1c0\DissertationBundle\FormFactory\DissertationFormFactory" public="false">
@@ -58,27 +93,25 @@
             <argument>%n1c0_dissertation.form.dissertation.type%</argument>
             <argument>%n1c0_dissertation.form.dissertation.name%</argument>
         </service>
-        
-        <service id="n1c0_dissertation.form_type.argument.default" class="N1c0\DissertationBundle\Form\ArgumentType">
-            <argument>%n1c0_dissertation.model.argument.class%</argument>
-            <tag name="form.type" alias="n1c0_dissertation_argument" />
+        <service id="n1c0_dissertation.form_factory.introduction.default" class="N1c0\DissertationBundle\FormFactory\IntroductionFormFactory" public="false">
+            <argument type="service" id="form.factory" />
+            <argument>%n1c0_dissertation.form.introduction.type%</argument>
+            <argument>%n1c0_dissertation.form.introduction.name%</argument>
         </service>
-
-        <service id="n1c0_dissertation.form_type.introduction.default" class="N1c0\DissertationBundle\Form\IntroductionType">
-            <argument>%n1c0_dissertation.model.introduction.class%</argument>
-            <tag name="form.type" alias="n1c0_dissertation_introduction" />
+        <service id="n1c0_dissertation.form_factory.transition.default" class="N1c0\DissertationBundle\FormFactory\TransitionFormFactory" public="false">
+            <argument type="service" id="form.factory" />
+            <argument>%n1c0_dissertation.form.transition.type%</argument>
+            <argument>%n1c0_dissertation.form.transition.name%</argument>
         </service>
-
         <service id="n1c0_dissertation.form_factory.argument.default" class="N1c0\DissertationBundle\FormFactory\ArgumentFormFactory" public="false">
             <argument type="service" id="form.factory" />
             <argument>%n1c0_dissertation.form.argument.type%</argument>
             <argument>%n1c0_dissertation.form.argument.name%</argument>
         </service>
-
-        <service id="n1c0_dissertation.form_factory.introduction.default" class="N1c0\DissertationBundle\FormFactory\IntroductionFormFactory" public="false">
+        <service id="n1c0_dissertation.form_factory.conclusion.default" class="N1c0\DissertationBundle\FormFactory\ConclusionFormFactory" public="false">
             <argument type="service" id="form.factory" />
-            <argument>%n1c0_dissertation.form.introduction.type%</argument>
-            <argument>%n1c0_dissertation.form.introduction.name%</argument>
+            <argument>%n1c0_dissertation.form.conclusion.type%</argument>
+            <argument>%n1c0_dissertation.form.conclusion.name%</argument>
         </service>
 
         <service id="n1c0_dissertation.listener.dissertation_blamer" class="%n1c0_dissertation.listener.dissertation_blamer.class%">
@@ -86,14 +119,22 @@
             <argument type="service" id="logger" on-invalid="null" />
             <tag name="kernel.event_subscriber" />
         </service>
-
+        <service id="n1c0_dissertation.listener.introduction_blamer" class="%n1c0_dissertation.listener.introduction_blamer.class%">
+            <argument type="service" id="security.context" on-invalid="null" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+        <service id="n1c0_dissertation.listener.transition_blamer" class="%n1c0_dissertation.listener.transition_blamer.class%">
+            <argument type="service" id="security.context" on-invalid="null" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="kernel.event_subscriber" />
+        </service>
         <service id="n1c0_dissertation.listener.argument_blamer" class="%n1c0_dissertation.listener.argument_blamer.class%">
             <argument type="service" id="security.context" on-invalid="null" />
             <argument type="service" id="logger" on-invalid="null" />
             <tag name="kernel.event_subscriber" />
         </service>
-
-        <service id="n1c0_dissertation.listener.introduction_blamer" class="%n1c0_dissertation.listener.introduction_blamer.class%">
+        <service id="n1c0_dissertation.listener.conclusion_blamer" class="%n1c0_dissertation.listener.conclusion_blamer.class%">
             <argument type="service" id="security.context" on-invalid="null" />
             <argument type="service" id="logger" on-invalid="null" />
             <tag name="kernel.event_subscriber" />
@@ -126,27 +167,6 @@
             <argument type="service" id="n1c0_dissertation.acl.dissertation" />
         </service>
 
-        <service id="n1c0_dissertation.acl.argument.security" class="N1c0\DissertationBundle\Acl\SecurityArgumentAcl">
-            <argument type="service" id="security.context" />
-            <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
-            <argument type="service" id="security.acl.provider" />
-            <argument>%n1c0_dissertation.model.argument.class%</argument>
-        </service>
-
-        <service id="n1c0_dissertation.acl.argument.roles" class="N1c0\DissertationBundle\Acl\RoleArgumentAcl">
-            <argument type="service" id="security.context" />
-            <argument /> <!-- Create role -->
-            <argument /> <!-- View role -->
-            <argument /> <!-- Edit role -->
-            <argument /> <!-- Delete role -->
-            <argument>%n1c0_dissertation.model.argument.class%</argument>
-        </service>
-
-        <service id="n1c0_dissertation.manager.argument.acl" class="%n1c0_dissertation.manager.argument.acl.class%" public="false">
-            <argument type="service" id="n1c0_dissertation.manager.argument.default" />
-            <argument type="service" id="n1c0_dissertation.acl.argument" />
-        </service>
-
         <service id="n1c0_dissertation.acl.introduction.security" class="N1c0\DissertationBundle\Acl\SecurityIntroductionAcl">
             <argument type="service" id="security.context" />
             <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
@@ -168,6 +188,69 @@
             <argument type="service" id="n1c0_dissertation.acl.introduction" />
         </service>
 
+        <service id="n1c0_dissertation.acl.transition.security" class="N1c0\DissertationBundle\Acl\SecurityTransitionAcl">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
+            <argument type="service" id="security.acl.provider" />
+            <argument>%n1c0_dissertation.model.transition.class%</argument>
+        </service>
+
+        <service id="n1c0_dissertation.acl.transition.roles" class="N1c0\DissertationBundle\Acl\RoleTransitionAcl">
+            <argument type="service" id="security.context" />
+            <argument /> <!-- Create role -->
+            <argument /> <!-- View role -->
+            <argument /> <!-- Edit role -->
+            <argument /> <!-- Delete role -->
+            <argument>%n1c0_dissertation.model.transition.class%</argument>
+        </service>
+
+        <service id="n1c0_dissertation.manager.transition.acl" class="%n1c0_dissertation.manager.transition.acl.class%" public="false">
+            <argument type="service" id="n1c0_dissertation.manager.transition.default" />
+            <argument type="service" id="n1c0_dissertation.acl.transition" />
+        </service>
+
+        <service id="n1c0_dissertation.acl.argument.security" class="N1c0\DissertationBundle\Acl\SecurityArgumentAcl">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
+            <argument type="service" id="security.acl.provider" />
+            <argument>%n1c0_dissertation.model.argument.class%</argument>
+        </service>
+
+        <service id="n1c0_dissertation.acl.argument.roles" class="N1c0\DissertationBundle\Acl\RoleArgumentAcl">
+            <argument type="service" id="security.context" />
+            <argument /> <!-- Create role -->
+            <argument /> <!-- View role -->
+            <argument /> <!-- Edit role -->
+            <argument /> <!-- Delete role -->
+            <argument>%n1c0_dissertation.model.argument.class%</argument>
+        </service>
+
+        <service id="n1c0_dissertation.manager.argument.acl" class="%n1c0_dissertation.manager.argument.acl.class%" public="false">
+            <argument type="service" id="n1c0_dissertation.manager.argument.default" />
+            <argument type="service" id="n1c0_dissertation.acl.argument" />
+        </service>
+
+        <service id="n1c0_dissertation.acl.conclusion.security" class="N1c0\DissertationBundle\Acl\SecurityConclusionAcl">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.acl.object_identity_retrieval_strategy" />
+            <argument type="service" id="security.acl.provider" />
+            <argument>%n1c0_dissertation.model.conclusion.class%</argument>
+        </service>
+
+        <service id="n1c0_dissertation.acl.conclusion.roles" class="N1c0\DissertationBundle\Acl\RoleConclusionAcl">
+            <argument type="service" id="security.context" />
+            <argument /> <!-- Create role -->
+            <argument /> <!-- View role -->
+            <argument /> <!-- Edit role -->
+            <argument /> <!-- Delete role -->
+            <argument>%n1c0_dissertation.model.conclusion.class%</argument>
+        </service>
+
+        <service id="n1c0_dissertation.manager.conclusion.acl" class="%n1c0_dissertation.manager.conclusion.acl.class%" public="false">
+            <argument type="service" id="n1c0_dissertation.manager.conclusion.default" />
+            <argument type="service" id="n1c0_dissertation.acl.conclusion" />
+        </service>
+
         <service id="n1c0_dissertation.listener.dissertation_markup" class="N1c0\DissertationBundle\EventListener\DissertationMarkupListener"><!-- If markup load -->
             <tag name="kernel.event_subscriber" />
             <argument type="service" id="n1c0_dissertation.markup" />
@@ -179,8 +262,14 @@
         <service id="n1c0_dissertation.introduction.download" class="%n1c0_dissertation.download.introduction.class%">
             <argument type="service" id="n1c0_dissertation.manager.introduction" on-invalid="null" />
         </service>
+        <service id="n1c0_dissertation.transition.download" class="%n1c0_dissertation.download.transition.class%">
+            <argument type="service" id="n1c0_dissertation.manager.transition" on-invalid="null" />
+        </service>
         <service id="n1c0_dissertation.argument.download" class="%n1c0_dissertation.download.argument.class%">
             <argument type="service" id="n1c0_dissertation.manager.argument" on-invalid="null" />
+        </service>
+        <service id="n1c0_dissertation.conclusion.download" class="%n1c0_dissertation.download.conclusion.class%">
+            <argument type="service" id="n1c0_dissertation.manager.conclusion" on-invalid="null" />
         </service>
     </services>
 

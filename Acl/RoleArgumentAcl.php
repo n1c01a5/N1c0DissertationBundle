@@ -1,6 +1,6 @@
 <?php
 
-namespace N1c0\ArgumentBundle\Acl;
+namespace N1c0\DissertationBundle\Acl;
 
 use N1c0\ArgumentBundle\Model\ArgumentInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
