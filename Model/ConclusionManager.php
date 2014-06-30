@@ -64,7 +64,7 @@ abstract class ConclusionManager implements ConclusionManagerInterface
         $conclusion->setDissertation($dissertation);
 
         $event = new ConclusionEvent($conclusion);
-        $this->dispatcher->dispatch(Events::ARGUMENT_CREATE, $event);
+        $this->dispatcher->dispatch(Events::CONCLUSION_CREATE, $event);
 
         return $conclusion;
     }
@@ -84,7 +84,7 @@ abstract class ConclusionManager implements ConclusionManagerInterface
         }
 
         $event = new ConclusionPersistEvent($conclusion);
-        $this->dispatcher->dispatch(Events::ARGUMENT_PRE_PERSIST, $event);
+        $this->dispatcher->dispatch(Events::CONCLUSION_PRE_PERSIST, $event);
 
         if ($event->isPersistenceAborted()) {
             return false;
@@ -93,7 +93,7 @@ abstract class ConclusionManager implements ConclusionManagerInterface
         $this->doSaveConclusion($conclusion);
 
         $event = new ConclusionEvent($conclusion);
-        $this->dispatcher->dispatch(Events::ARGUMENT_POST_PERSIST, $event);
+        $this->dispatcher->dispatch(Events::CONCLUSION_POST_PERSIST, $event);
 
         return true;
     }

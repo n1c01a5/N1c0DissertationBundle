@@ -6,7 +6,7 @@
                         http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
                         xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
 
-    <mapped-superclass name="N1c0\DissertationBundle\Entity\Transition">
+    <mapped-superclass name="N1c0\DissertationBundle\Entity\Part">
 
        <field name="title" column="title" type="text">
             <gedmo:versioned/>

@@ -86,42 +86,42 @@ final class Events
     
     /**
      * The PRE_PERSIST event occurs prior to the persistence backend
-     * persisting the Transition.
+     * persisting the Part.
      *
-     * This event allows you to modify the data in the Transition prior
+     * This event allows you to modify the data in the Part prior
      * to persisting occuring. The listener receives a
-     * N1c0\DissertationBundle\Event\TransitionPersistEvent instance.
+     * N1c0\DissertationBundle\Event\PartPersistEvent instance.
      *
-     * Persisting of the transition can be aborted by calling
+     * Persisting of the part can be aborted by calling
      * $event->abortPersist()
      *
      * @var string
      */
-    const TRANSITION_PRE_PERSIST = 'n1c0_dissertation.transition.pre_persist';
+    const PART_PRE_PERSIST = 'n1c0_dissertation.part.pre_persist';
 
     /**
      * The POST_PERSIST event occurs after the persistence backend
-     * persisted the Transition.
+     * persisted the Part.
      *
      * This event allows you to notify users or perform other actions
      * that might require the Argument to be persisted before performing
      * those actions. The listener receives a
-     * N1c0\DissertationBundle\Event\TransitionEvent instance.
+     * N1c0\DissertationBundle\Event\PartEvent instance.
      *
      * @var string
      */
-    const TRANSITION_POST_PERSIST = 'n1c0_dissertation.transition.post_persist';
+    const PART_POST_PERSIST = 'n1c0_dissertation.part.post_persist';
 
     /**
      * The CREATE event occurs when the manager is asked to create
-     * a new instance of a Transition.
+     * a new instance of a Part.
      *
-     * The listener receives a N1c0\DissertationBundle\Event\TransitionEvent
+     * The listener receives a N1c0\DissertationBundle\Event\PartEvent
      * instance.
      *
      * @var string
      */
-    const TRANSITION_CREATE = 'n1c0_dissertation.transition.create';
+    const PART_CREATE = 'n1c0_dissertation.part.create';
 
     /**
      * The PRE_PERSIST event occurs prior to the persistence backend

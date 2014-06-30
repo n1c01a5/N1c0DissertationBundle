@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the N1c0TransitionBundle package.
+ * This file is part of the N1c0PartBundle package.
  *
  * (c) 
  *
@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace N1c0\TransitionBundle\Model;
+namespace N1c0\PartBundle\Model;
 
 /**
  * A comment that holds a raw version of the comment allowing
@@ -17,7 +17,7 @@ namespace N1c0\TransitionBundle\Model;
  *
  * @author Wagner Nicolas <contact@wagner-nicolas.com>
  */
-interface RawTransitionInterface extends TransitionInterface
+interface RawPartInterface extends PartInterface
 {
     /**
      * Gets the raw processed html.

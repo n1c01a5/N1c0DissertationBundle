@@ -3,16 +3,16 @@
 namespace N1c0\DissertationBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
-use N1c0\DissertationBundle\Model\TransitionManager as BaseTransitionManager;
+use N1c0\DissertationBundle\Model\PartManager as BasePartManager;
 use N1c0\DissertationBundle\Model\DissertationInterface;
-use N1c0\DissertationBundle\Model\TransitionInterface;
+use N1c0\DissertationBundle\Model\PartInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Default ORM TransitionManager.
+ * Default ORM PartManager.
  *
  */
-class TransitionManager extends BaseTransitionManager
+class PartManager extends BasePartManager
 {
     /**
      * @var EntityManager
@@ -48,12 +48,12 @@ class TransitionManager extends BaseTransitionManager
     }
 
     /**
-     * Returns a flat array of transitions of a specific dissertation.
+     * Returns a flat array of parts of a specific dissertation.
      *
      * @param  DissertationInterface $dissertation
      * @return array           of DissertationInterface
      */
-    public function findTransitionsByDissertation(DissertationInterface $dissertation)
+    public function findPartsByDissertation(DissertationInterface $dissertation)
     {
         $qb = $this->repository
                 ->createQueryBuilder('a')
@@ -61,18 +61,18 @@ class TransitionManager extends BaseTransitionManager
                 ->where('d.id = :dissertation')
                 ->setParameter('dissertation', $dissertation->getId());
 
-        $transitions = $qb
+        $parts = $qb
             ->getQuery()
             ->execute();
 
-        return $transitions;
+        return $parts;
     }
 
     /**
-     * Find one transition by its ID
+     * Find one part by its ID
      *
      * @param  array           $criteria
-     * @return TransitionInterface
+     * @return PartInterface
      */
     public function findDissertationById($id)
     {
@@ -80,29 +80,29 @@ class TransitionManager extends BaseTransitionManager
     }
 
     /**
-     * Finds all Transitions.
+     * Finds all Parts.
      *
-     * @return array of TransitionInterface
+     * @return array of PartInterface
      */
-    public function findAllTransitions()
+    public function findAllParts()
     {
         return $this->repository->findAll();
     }
 
     /**
-     * Performs persisting of the transition. 
+     * Performs persisting of the part. 
      *
      * @param DissertationInterface $dissertation
      */
-    protected function doSaveTransition(TransitionInterface $transition)
+    protected function doSavePart(PartInterface $part)
     {
-        $this->em->persist($transition->getDissertation());
-        $this->em->persist($transition);
+        $this->em->persist($part->getDissertation());
+        $this->em->persist($part);
         $this->em->flush();
     }
 
     /**
-     * Returns the fully qualified transition dissertation class name
+     * Returns the fully qualified part dissertation class name
      *
      * @return string
      **/

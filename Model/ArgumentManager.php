@@ -56,12 +56,12 @@ abstract class ArgumentManager implements ArgumentManagerInterface
      *
      * @return Argument
      */
-    public function createArgument(DissertationInterface $dissertation)
+    public function createArgument(PartInterface $part)
     {
         $class = $this->getClass();
         $argument = new $class;
 
-        $argument->setDissertation($dissertation);
+        $argument->setPart($part);
 
         $event = new ArgumentEvent($argument);
         $this->dispatcher->dispatch(Events::ARGUMENT_CREATE, $event);
@@ -75,12 +75,12 @@ abstract class ArgumentManager implements ArgumentManagerInterface
      * perform the saving of the argument to the backend.
      *
      * @param  ArgumentInterface         $argument
-     * @throws InvalidArgumentException when the argument does not have a dissertation.
+     * @throws InvalidArgumentException when the argument does not have a part of the dissertation.
      */
     public function saveArgument(ArgumentInterface $argument)
     {
-        if (null === $argument->getDissertation()) {
-            throw new InvalidArgumentException('The argument must have a dissertation');
+        if (null === $argument->getPart()) {
+            throw new InvalidArgumentException('The argument must have a part');
         }
 
         $event = new ArgumentPersistEvent($argument);

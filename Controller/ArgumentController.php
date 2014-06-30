@@ -40,13 +40,14 @@ class ArgumentController extends FOSRestController
      * @Annotations\View(templateVar="argument")
      *
      * @param int                   $id                   the dissertation id
+     * @param int                   $partId               the part id
      * @param int                   $argumentId           the argument id
      *
      * @return array
      *
      * @throws NotFoundHttpException when argument not exist
      */
-    public function getArgumentAction($id, $argumentId)
+    public function getArgumentAction($id, $partId, $argumentId)
     {
         $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
         if (!$dissertation) {
@@ -74,17 +75,23 @@ class ArgumentController extends FOSRestController
      * )
      *
      * @param int                   $id           the dissertation id
+     * @param int                   $partId       the part id
      *
      * @return array
      */
-    public function getArgumentsAction($id)
+    public function getArgumentsAction($id, $partId)
     {
         $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
         if (!$dissertation) {
             throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
         }
 
-        return $this->container->get('n1c0_dissertation.manager.argument')->findArgumentsByDissertation($dissertation);
+        $part = $this->container->get('n1c0_dissertation.manager.part')->findPartById($partId);
+        if (!$part) {
+            throw new NotFoundHttpException(sprintf('Part of the Dissertation with identifier of "%s" does not exist', $partId));
+        }
+
+        return $this->container->get('n1c0_dissertation.manager.argument')->findArgumentsByPart($part);
     }
 
     /**
@@ -102,24 +109,30 @@ class ArgumentController extends FOSRestController
      * )
      *
      * @param int                   $id           the dissertation id
+     * @param int                   $partId       the part id
      *
      * @return FormTypeInterface
      */
-    public function newArgumentAction($id)
+    public function newArgumentAction($id, $partId)
     {
         $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
         if (!$dissertation) {
             throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
         }
 
-        $argument = $this->container->get('n1c0_dissertation.manager.argument')->createArgument($dissertation);
+        $part = $this->container->get('n1c0_dissertation.manager.part')->findPartById($partId);
+        if (!$part) {
+            throw new NotFoundHttpException(sprintf('Part of the Dissertation with identifier of "%s" does not exist', $partId));
+        }
+
+        $argument = $this->container->get('n1c0_dissertation.manager.argument')->createArgument($part);
 
         $form = $this->container->get('n1c0_dissertation.form_factory.argument')->createForm();
         $form->setData($argument);
 
         return array(
             'form' => $form, 
-            'id' => $id
+            'id'   => $id
         );
     }
 
@@ -138,24 +151,32 @@ class ArgumentController extends FOSRestController
      *  templateVar = "form"
      * )
      *
-     * @param int     $id      the dissertation id
+     * @param int     $id                   the dissertation id
+     * @param int     $partId               the partId id
      * @param int     $argumentId           the argument id
      *
      * @return FormTypeInterface
      */
-    public function editArgumentAction($id, $argumentId)
+    public function editArgumentAction($id, $partId, $argumentId)
     {
         $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
         if (!$dissertation) {
             throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
         }
+
+        $part = $this->container->get('n1c0_dissertation.manager.part')->findPartById($partId);
+        if (!$part) {
+            throw new NotFoundHttpException(sprintf('Part of the Dissertation with identifier of "%s" does not exist', $partId));
+        }
+
         $argument = $this->getOr404($argumentId);
         $form = $this->container->get('n1c0_dissertation.form_factory.argument')->createForm();
         $form->setData($argument);
     
         return array(
-            'form' => $form,
-            'id'=>$id,
+            'form'       => $form,
+            'id'         => $id,
+            'partId'     => $partId,
             'argumentId' => $argument->getId()
         );
     }
@@ -180,12 +201,13 @@ class ArgumentController extends FOSRestController
      *  templateVar = "form"
      * )
      *
-     * @param Request $request the request object
-     * @param string  $id      The id of the dissertation 
+     * @param Request $request      the request object
+     * @param string  $id           The id of the dissertation 
+     * @param string  $partId       The partId of the dissertation 
      *
      * @return FormTypeInterface|View
      */
-    public function postArgumentAction(Request $request, $id)
+    public function postArgumentAction(Request $request, $id, $partId)
     {
         try {
             $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
@@ -193,8 +215,13 @@ class ArgumentController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
             }
 
+            $part = $this->container->get('n1c0_dissertation.manager.part')->findPartById($partId);
+            if (!$part) {
+                throw new NotFoundHttpException(sprintf('Part of the Dissertation with identifier of "%s" does not exist', $partId));
+            }
+
             $argumentManager = $this->container->get('n1c0_dissertation.manager.argument');
-            $argument = $argumentManager->createArgument($dissertation);
+            $argument = $argumentManager->createArgument($part);
 
             $form = $this->container->get('n1c0_dissertation.form_factory.argument')->createForm();
             $form->setData($argument);
@@ -206,9 +233,10 @@ class ArgumentController extends FOSRestController
                     $argumentManager->saveArgument($argument);
                 
                     $routeOptions = array(
-                        'id' => $id,
-                        'argumentId' => $form->getData()->getId(),
-                        '_format' => $request->get('_format')
+                        'id'          => $id,
+                        'partId'      => $partId,
+                        'argumentId'  => $form->getData()->getId(),
+                        '_format'     => $request->get('_format')
                     );
 
                     $response['success'] = true;
@@ -218,7 +246,7 @@ class ArgumentController extends FOSRestController
 
                     if($isAjax == false) { 
                         // Add a method onCreateArgumentSuccess(FormInterface $form)
-                        return $this->routeRedirectView('api_1_get_dissertation_argument', $routeOptions, Codes::HTTP_CREATED);
+                        return $this->routeRedirectView('api_1_get_dissertation_part_argument', $routeOptions, Codes::HTTP_CREATED);
                     }
                 } else {
                     $response['success'] = false;
@@ -250,18 +278,24 @@ class ArgumentController extends FOSRestController
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the dissertation 
+     * @param string  $partId          the id of the part 
      * @param int     $argumentId      the argument id
      *
      * @return FormTypeInterface|View
      *
      * @throws NotFoundHttpException when argument not exist
      */
-    public function putArgumentAction(Request $request, $id, $argumentId)
+    public function putArgumentAction(Request $request, $id, $partId, $argumentId)
     {
         try {
             $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
             if (!$dissertation) {
                 throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
+            }
+    
+            $part = $this->container->get('n1c0_dissertation.manager.part')->findPartById($partId);
+            if (!$part) {
+                throw new NotFoundHttpException(sprintf('Part of the Dissertation with identifier of "%s" does not exist', $partId));
             }
 
             $argument = $this->getOr404($argumentId);
@@ -274,11 +308,12 @@ class ArgumentController extends FOSRestController
                 $argumentManager = $this->container->get('n1c0_dissertation.manager.argument');
                 if ($argumentManager->saveArgument($argument) !== false) {
                     $routeOptions = array(
-                        'id' => $dissertation->getId(),                  
+                        'id'      => $dissertation->getId(),                  
+                        'partId'  => $part->getId(),                  
                         '_format' => $request->get('_format')
                     );
 
-                    return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_OK);
+                    return $this->routeRedirectView('api_1_get_dissertation_part', $routeOptions, Codes::HTTP_OK);
                 }
             }
         } catch (InvalidFormException $exception) {
@@ -308,18 +343,24 @@ class ArgumentController extends FOSRestController
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the dissertation 
+     * @param string  $partId          the id of the part of the dissertation 
      * @param int     $argumentId      the argument id
 
      * @return FormTypeInterface|View
      *
      * @throws NotFoundHttpException when argument not exist
      */
-    public function patchArgumentAction(Request $request, $id, $argumentId)
+    public function patchArgumentAction(Request $request, $id, $partId, $argumentId)
     {
         try {
             $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
             if (!$dissertation) {
                 throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
+            }
+
+            $part = $this->container->get('n1c0_dissertation.manager.part')->findPartById($partId);
+            if (!$part) {
+                throw new NotFoundHttpException(sprintf('Part of the Dissertation with identifier of "%s" does not exist', $partId));
             }
 
             $argument = $this->getOr404($argumentId);
@@ -332,11 +373,12 @@ class ArgumentController extends FOSRestController
                 $argumentManager = $this->container->get('n1c0_dissertation.manager.argument');
                 if ($argumentManager->saveArgument($argument) !== false) {
                     $routeOptions = array(
-                        'id' => $dissertation->getId(),                  
+                        'id'      => $dissertation->getId(),                  
+                        'partId'  => $part->getId(),                  
                         '_format' => $request->get('_format')
                     );
 
-                    return $this->routeRedirectView('api_1_get_dissertation', $routeOptions, Codes::HTTP_CREATED);
+                    return $this->routeRedirectView('api_1_get_dissertation_part', $routeOptions, Codes::HTTP_CREATED);
                 }
             }
         } catch (InvalidFormException $exception) {
@@ -358,11 +400,13 @@ class ArgumentController extends FOSRestController
      * @Annotations\View(templateVar="thread")
      *
      * @param int     $id               the dissertation id
+     * @param int     $id               the dissertation id
+     * @param int     $partId           the part id of the dissertation
      * @param int     $argumentId       the argument id
      *
      * @return array
      */
-    public function getArgumentThreadAction($id, $argumentId)
+    public function getArgumentThreadAction($id, $partId, $argumentId)
     {
         return $this->container->get('n1c0_dissertation.comment.dissertation_comment.default')->getThread($argumentId);
     }
@@ -370,7 +414,7 @@ class ArgumentController extends FOSRestController
     /**
      * Fetch a Argument or throw an 404 Exception.
      *
-     * @param mixed $id
+     * @param mixed $id       the argument id
      *
      * @return ArgumentInterface
      *
@@ -399,16 +443,22 @@ class ArgumentController extends FOSRestController
      * @Annotations\View(templateVar="argument")
      *
      * @param int     $id              the dissertation uuid
+     * @param int     $partId          the part uuid of the dissertation
      * @param int     $argumentId      the argument uuid
      *
      * @return array
      * @throws NotFoundHttpException when dissertation not exist
      * @throws NotFoundHttpException when argument not exist
      */
-    public function getArgumentDownloadAction($id, $argumentId)
+    public function getArgumentDownloadAction($id, $partId,  $argumentId)
     {
         if (!($dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id))) {
             throw new NotFoundHttpException(sprintf('The resource dissertation \'%s\' was not found.',$id));
+        }
+
+        $part = $this->container->get('n1c0_dissertation.manager.part')->findPartById($partId);
+        if (!$part) {
+           throw new NotFoundHttpException(sprintf('Part of the Dissertation with identifier of "%s" does not exist', $partId));
         }
 
         if (!($argument = $this->container->get('n1c0_dissertation.manager.argument')->findArgumentById($argumentId))) {
@@ -462,6 +512,7 @@ class ArgumentController extends FOSRestController
      * )
      *
      * @param int     $id              the dissertation uuid
+     * @param int     $partId          the part uuid of the dissertation     
      * @param int     $argumentId      the argument uuid
      * @param string  $format          the format to convert dissertation 
      *
@@ -469,10 +520,15 @@ class ArgumentController extends FOSRestController
      * @throws NotFoundHttpException when dissertation not exist
      * @throws NotFoundHttpException when argument not exist
      */
-    public function getArgumentConvertAction($id, $argumentId, $format)
+    public function getArgumentConvertAction($id, $partId, $argumentId, $format)
     {
         if (!($dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id))) {
             throw new NotFoundHttpException(sprintf('The resource dissertation \'%s\' was not found.',$id));
+        }
+
+         $part = $this->container->get('n1c0_dissertation.manager.part')->findPartById($partId);
+        if (!$part) {
+           throw new NotFoundHttpException(sprintf('Part of the Dissertation with identifier of "%s" does not exist', $partId));
         }
 
         if (!($argument = $this->container->get('n1c0_dissertation.manager.argument')->findArgumentById($argumentId))) {

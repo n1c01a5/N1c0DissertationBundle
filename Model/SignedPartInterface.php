@@ -5,9 +5,9 @@ namespace N1c0\DissertationBundle\Model;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * A signed transition is bound to a FOS\UserBundle User model.
+ * A signed part is bound to a FOS\UserBundle User model.
  */
-interface SignedTransitionInterface extends TransitionInterface
+interface SignedPartInterface extends PartInterface
 {
     /**
      * Add user 
@@ -24,14 +24,14 @@ interface SignedTransitionInterface extends TransitionInterface
     public function removeUser(\Application\UserBundle\Entity\User $user);
 
     /**
-     * Gets the authors of the Transition
+     * Gets the authors of the Part
      *
      * @return UserInterface
      */
     public function getAuthors();
 
     /**
-     * Gets the lasr author of the Transition
+     * Gets the lasr author of the Part
      *
      * @return UserInterface
      */

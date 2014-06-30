@@ -11,7 +11,7 @@ use FOS\RestBundle\Controller\Annotations;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-class LogTransitionController extends FOSRestController
+class LogPartController extends FOSRestController
 {
     /**
      * Gets logs.
@@ -28,27 +28,27 @@ class LogTransitionController extends FOSRestController
      *
      *
      * @Annotations\View(
-     *  template = "N1c0DissertationBundle:Transition:getLogs.html.twig",
+     *  template = "N1c0DissertationBundle:Part:getLogs.html.twig",
      *  templateVar="logs"   
      * )
      *
      * @param int                   $id                   the dissertation id
-     * @param int                   $transitionId           the transitionentity id
+     * @param int                   $partId           the partentity id
      *
      * @return array
      *
      * @throws NotFoundHttpException when entity not exist
      */
-    public function getLogsAction($id, $transitionId)
+    public function getLogsAction($id, $partId)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('Gedmo\Loggable\Entity\LogEntry');
 
-        if ($transition = $this->container->get('n1c0_dissertation.manager.transition')->findTransitionById($transitionId)) {
-            $entity = $em->find('Bundle\DissertationBundle\Entity\Transition', $transition->getId());
+        if ($part = $this->container->get('n1c0_dissertation.manager.part')->findPartById($partId)) {
+            $entity = $em->find('Bundle\DissertationBundle\Entity\Part', $part->getId());
         }
         else {
-            throw new NotFoundHttpException(sprintf('Entity with identifier of "%s" does not exist', $transitionId));
+            throw new NotFoundHttpException(sprintf('Entity with identifier of "%s" does not exist', $partId));
         }
 
         $logs = $repo->getLogEntries($entity);

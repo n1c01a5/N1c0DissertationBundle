@@ -4,7 +4,7 @@ namespace N1c0\DissertationBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
 use N1c0\DissertationBundle\Model\ArgumentManager as BaseArgumentManager;
-use N1c0\DissertationBundle\Model\DissertationInterface;
+use N1c0\DissertationBundle\Model\PartInterface;
 use N1c0\DissertationBundle\Model\ArgumentInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -48,18 +48,18 @@ class ArgumentManager extends BaseArgumentManager
     }
 
     /**
-     * Returns a flat array of arguments of a specific dissertation.
+     * Returns a flat array of arguments of a specific part of the dissertation.
      *
-     * @param  DissertationInterface $dissertation
-     * @return array           of DissertationInterface
+     * @param  PartInterface $part
+     * @return array           
      */
-    public function findArgumentsByDissertation(DissertationInterface $dissertation)
+    public function findArgumentsByPart(PartInterface $part)
     {
         $qb = $this->repository
                 ->createQueryBuilder('a')
-                ->join('a.dissertation', 'd')
-                ->where('d.id = :dissertation')
-                ->setParameter('dissertation', $dissertation->getId());
+                ->join('a.part', 'p')
+                ->where('p.id = :part')
+                ->setParameter('part', $part->getId());
 
         $arguments = $qb
             ->getQuery()
@@ -74,7 +74,7 @@ class ArgumentManager extends BaseArgumentManager
      * @param  array           $criteria
      * @return ArgumentInterface
      */
-    public function findDissertationById($id)
+    public function findPartById($id)
     {
         return $this->repository->find($id);
     }
@@ -92,11 +92,11 @@ class ArgumentManager extends BaseArgumentManager
     /**
      * Performs persisting of the argument. 
      *
-     * @param DissertationInterface $dissertation
+     * @param ArgumentInterface $argument
      */
     protected function doSaveArgument(ArgumentInterface $argument)
     {
-        $this->em->persist($argument->getDissertation());
+        $this->em->persist($argument->getPart());
         $this->em->persist($argument);
         $this->em->flush();
     }

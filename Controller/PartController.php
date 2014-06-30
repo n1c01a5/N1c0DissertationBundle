@@ -18,46 +18,46 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use N1c0\DissertationBundle\Exception\InvalidFormException;
 use N1c0\DissertationBundle\Form\DissertationType;
 use N1c0\DissertationBundle\Model\DissertationInterface;
-use N1c0\DissertationBundle\Form\TransitionType;
-use N1c0\DissertationBundle\Model\TransitionInterface;
+use N1c0\DissertationBundle\Form\PartType;
+use N1c0\DissertationBundle\Model\PartInterface;
 
-class TransitionController extends FOSRestController
+class PartController extends FOSRestController
 {
     /**
-     * Get single Transition.
+     * Get single Part.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Gets a Transition for a given id",
-     *   output = "N1c0\DissertationBundle\Entity\Transition",
+     *   description = "Gets a Part for a given id",
+     *   output = "N1c0\DissertationBundle\Entity\Part",
      *   statusCodes = {
      *     200 = "Returned when successful",
-     *     404 = "Returned when the transition or the dissertation is not found"
+     *     404 = "Returned when the part or the dissertation is not found"
      *   }
      * )
      *
      *
-     * @Annotations\View(templateVar="transition")
+     * @Annotations\View(templateVar="part")
      *
      * @param int                   $id                   the dissertation id
-     * @param int                   $transitionId           the transition id
+     * @param int                   $partId           the part id
      *
      * @return array
      *
-     * @throws NotFoundHttpException when transition not exist
+     * @throws NotFoundHttpException when part not exist
      */
-    public function getTransitionAction($id, $transitionId)
+    public function getPartAction($id, $partId)
     {
         $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
         if (!$dissertation) {
             throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
         }
         
-        return $this->getOr404($transitionId);
+        return $this->getOr404($partId);
     }
 
     /**
-     * Get the transitions of a dissertation.
+     * Get the parts of a dissertation.
      *
      * @ApiDoc(
      *   resource = true,
@@ -66,29 +66,29 @@ class TransitionController extends FOSRestController
      *   }
      * )
      *
-     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing transitions.")
-     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many transitions to return.")
+     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing parts.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many parts to return.")
      *
      * @Annotations\View(
-     *  templateVar="transitions"
+     *  templateVar="parts"
      * )
      *
      * @param int                   $id           the dissertation id
      *
      * @return array
      */
-    public function getTransitionsAction($id)
+    public function getPartsAction($id)
     {
         $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
         if (!$dissertation) {
             throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
         }
 
-        return $this->container->get('n1c0_dissertation.manager.transition')->findTransitionsByDissertation($dissertation);
+        return $this->container->get('n1c0_dissertation.manager.part')->findPartsByDissertation($dissertation);
     }
 
     /**
-     * Presents the form to use to create a new transition.
+     * Presents the form to use to create a new part.
      *
      * @ApiDoc(
      *   resource = true,
@@ -105,17 +105,17 @@ class TransitionController extends FOSRestController
      *
      * @return FormTypeInterface
      */
-    public function newTransitionAction($id)
+    public function newPartAction($id)
     {
         $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
         if (!$dissertation) {
             throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
         }
 
-        $transition = $this->container->get('n1c0_dissertation.manager.transition')->createTransition($dissertation);
+        $part = $this->container->get('n1c0_dissertation.manager.part')->createPart($dissertation);
 
-        $form = $this->container->get('n1c0_dissertation.form_factory.transition')->createForm();
-        $form->setData($transition);
+        $form = $this->container->get('n1c0_dissertation.form_factory.part')->createForm();
+        $form->setData($part);
 
         return array(
             'form' => $form, 
@@ -124,7 +124,7 @@ class TransitionController extends FOSRestController
     }
 
     /**
-     * Edits an transition.
+     * Edits an part.
      *
      * @ApiDoc(
      *   resource = true,
@@ -134,39 +134,39 @@ class TransitionController extends FOSRestController
      * )
      * 
      * @Annotations\View(
-     *  template = "N1c0DissertationBundle:Transition:editTransition.html.twig",
+     *  template = "N1c0DissertationBundle:Part:editPart.html.twig",
      *  templateVar = "form"
      * )
      *
      * @param int     $id      the dissertation id
-     * @param int     $transitionId           the transition id
+     * @param int     $partId           the part id
      *
      * @return FormTypeInterface
      */
-    public function editTransitionAction($id, $transitionId)
+    public function editPartAction($id, $partId)
     {
         $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
         if (!$dissertation) {
             throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
         }
-        $transition = $this->getOr404($transitionId);
-        $form = $this->container->get('n1c0_dissertation.form_factory.transition')->createForm();
-        $form->setData($transition);
+        $part = $this->getOr404($partId);
+        $form = $this->container->get('n1c0_dissertation.form_factory.part')->createForm();
+        $form->setData($part);
     
         return array(
             'form' => $form,
             'id'=>$id,
-            'transitionId' => $transition->getId()
+            'partId' => $part->getId()
         );
     }
 
     /**
-     * Creates a new Transition for the Dissertation from the submitted data.
+     * Creates a new Part for the Dissertation from the submitted data.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Creates a new transition for the dissertation from the submitted data.",
-     *   input = "N1c0\DissertationBundle\Form\TransitionType",
+     *   description = "Creates a new part for the dissertation from the submitted data.",
+     *   input = "N1c0\DissertationBundle\Form\PartType",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *     400 = "Returned when the form has errors"
@@ -175,7 +175,7 @@ class TransitionController extends FOSRestController
      *
      *
      * @Annotations\View(
-     *  template = "N1c0DissertationBundle:Transition:newTransition.html.twig",
+     *  template = "N1c0DissertationBundle:Part:newPart.html.twig",
      *  statusCode = Codes::HTTP_BAD_REQUEST,
      *  templateVar = "form"
      * )
@@ -185,7 +185,7 @@ class TransitionController extends FOSRestController
      *
      * @return FormTypeInterface|View
      */
-    public function postTransitionAction(Request $request, $id)
+    public function postPartAction(Request $request, $id)
     {
         try {
             $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
@@ -193,21 +193,21 @@ class TransitionController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
             }
 
-            $transitionManager = $this->container->get('n1c0_dissertation.manager.transition');
-            $transition = $transitionManager->createTransition($dissertation);
+            $partManager = $this->container->get('n1c0_dissertation.manager.part');
+            $part = $partManager->createPart($dissertation);
 
-            $form = $this->container->get('n1c0_dissertation.form_factory.transition')->createForm();
-            $form->setData($transition);
+            $form = $this->container->get('n1c0_dissertation.form_factory.part')->createForm();
+            $form->setData($part);
 
             if ('POST' === $request->getMethod()) {
                 $form->bind($request);
 
                 if ($form->isValid()) {
-                    $transitionManager->saveTransition($transition);
+                    $partManager->savePart($part);
                 
                     $routeOptions = array(
                         'id' => $id,
-                        'transitionId' => $form->getData()->getId(),
+                        'partId' => $form->getData()->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -217,8 +217,8 @@ class TransitionController extends FOSRestController
                     $isAjax = $request->isXmlHttpRequest();
 
                     if($isAjax == false) { 
-                        // Add a method onCreateTransitionSuccess(FormInterface $form)
-                        return $this->routeRedirectView('api_1_get_dissertation_transition', $routeOptions, Codes::HTTP_CREATED);
+                        // Add a method onCreatePartSuccess(FormInterface $form)
+                        return $this->routeRedirectView('api_1_get_dissertation_part', $routeOptions, Codes::HTTP_CREATED);
                     }
                 } else {
                     $response['success'] = false;
@@ -231,32 +231,32 @@ class TransitionController extends FOSRestController
     }
 
     /**
-     * Update existing transition from the submitted data or create a new transition at a specific location.
+     * Update existing part from the submitted data or create a new part at a specific location.
      *
      * @ApiDoc(
      *   resource = true,
-     *   input = "N1c0\DemoBundle\Form\TransitionType",
+     *   input = "N1c0\DemoBundle\Form\PartType",
      *   statusCodes = {
-     *     201 = "Returned when the Transition is created",
+     *     201 = "Returned when the Part is created",
      *     204 = "Returned when successful",
      *     400 = "Returned when the form has errors"
      *   }
      * )
      *
      * @Annotations\View(
-     *  template = "N1c0DissertationBundle:Transition:editTransition.html.twig",
+     *  template = "N1c0DissertationBundle:Part:editPart.html.twig",
      *  templateVar = "form"
      * )
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the dissertation 
-     * @param int     $transitionId      the transition id
+     * @param int     $partId      the part id
      *
      * @return FormTypeInterface|View
      *
-     * @throws NotFoundHttpException when transition not exist
+     * @throws NotFoundHttpException when part not exist
      */
-    public function putTransitionAction(Request $request, $id, $transitionId)
+    public function putPartAction(Request $request, $id, $partId)
     {
         try {
             $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
@@ -264,15 +264,15 @@ class TransitionController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
             }
 
-            $transition = $this->getOr404($transitionId);
+            $part = $this->getOr404($partId);
 
-            $form = $this->container->get('n1c0_dissertation.form_factory.transition')->createForm();
-            $form->setData($transition);
+            $form = $this->container->get('n1c0_dissertation.form_factory.part')->createForm();
+            $form->setData($part);
             $form->bind($request);
 
             if ($form->isValid()) {
-                $transitionManager = $this->container->get('n1c0_dissertation.manager.transition');
-                if ($transitionManager->saveTransition($transition) !== false) {
+                $partManager = $this->container->get('n1c0_dissertation.manager.part');
+                if ($partManager->savePart($part) !== false) {
                     $routeOptions = array(
                         'id' => $dissertation->getId(),                  
                         '_format' => $request->get('_format')
@@ -285,16 +285,16 @@ class TransitionController extends FOSRestController
             return $exception->getForm();
         }
 
-        // Add a method onCreateTransitionError(FormInterface $form)
-        return new Response(sprintf("Error of the transition id '%s'.", $form->getData()->getId()), Codes::HTTP_BAD_REQUEST);
+        // Add a method onCreatePartError(FormInterface $form)
+        return new Response(sprintf("Error of the part id '%s'.", $form->getData()->getId()), Codes::HTTP_BAD_REQUEST);
     }
 
     /**
-     * Update existing transition for a dissertation from the submitted data or create a new transition at a specific location.
+     * Update existing part for a dissertation from the submitted data or create a new part at a specific location.
      *
      * @ApiDoc(
      *   resource = true,
-     *   input = "N1c0\DemoBundle\Form\TransitionType",
+     *   input = "N1c0\DemoBundle\Form\PartType",
      *   statusCodes = {
      *     204 = "Returned when successful",
      *     400 = "Returned when the form has errors"
@@ -302,19 +302,19 @@ class TransitionController extends FOSRestController
      * )
      *
      * @Annotations\View(
-     *  template = "N1c0DissertationBundle:Transition:editDissertationTransition.html.twig",
+     *  template = "N1c0DissertationBundle:Part:editDissertationPart.html.twig",
      *  templateVar = "form"
      * )
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the dissertation 
-     * @param int     $transitionId      the transition id
+     * @param int     $partId      the part id
 
      * @return FormTypeInterface|View
      *
-     * @throws NotFoundHttpException when transition not exist
+     * @throws NotFoundHttpException when part not exist
      */
-    public function patchTransitionAction(Request $request, $id, $transitionId)
+    public function patchPartAction(Request $request, $id, $partId)
     {
         try {
             $dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id);
@@ -322,15 +322,15 @@ class TransitionController extends FOSRestController
                 throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
             }
 
-            $transition = $this->getOr404($transitionId);
+            $part = $this->getOr404($partId);
 
-            $form = $this->container->get('n1c0_dissertation.form_factory.transition')->createForm();
-            $form->setData($transition);
+            $form = $this->container->get('n1c0_dissertation.form_factory.part')->createForm();
+            $form->setData($part);
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $transitionManager = $this->container->get('n1c0_dissertation.manager.transition');
-                if ($transitionManager->saveTransition($transition) !== false) {
+                $partManager = $this->container->get('n1c0_dissertation.manager.part');
+                if ($partManager->savePart($part) !== false) {
                     $routeOptions = array(
                         'id' => $dissertation->getId(),                  
                         '_format' => $request->get('_format')
@@ -345,11 +345,11 @@ class TransitionController extends FOSRestController
     }
 
     /**
-     * Get thread for an transition.
+     * Get thread for an part.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Gets a transition thread",
+     *   description = "Gets a part thread",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *   }
@@ -358,61 +358,61 @@ class TransitionController extends FOSRestController
      * @Annotations\View(templateVar="thread")
      *
      * @param int     $id               the dissertation id
-     * @param int     $transitionId       the transition id
+     * @param int     $partId       the part id
      *
      * @return array
      */
-    public function getTransitionThreadAction($id, $transitionId)
+    public function getPartThreadAction($id, $partId)
     {
-        return $this->container->get('n1c0_dissertation.comment.dissertation_comment.default')->getThread($transitionId);
+        return $this->container->get('n1c0_dissertation.comment.dissertation_comment.default')->getThread($partId);
     }
 
     /**
-     * Fetch a Transition or throw an 404 Exception.
+     * Fetch a Part or throw an 404 Exception.
      *
      * @param mixed $id
      *
-     * @return TransitionInterface
+     * @return PartInterface
      *
      * @throws NotFoundHttpException
      */
     protected function getOr404($id)
     {
-        if (!($transition = $this->container->get('n1c0_dissertation.manager.transition')->findTransitionById($id))) {
+        if (!($part = $this->container->get('n1c0_dissertation.manager.part')->findPartById($id))) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.',$id));
         }
 
-        return $transition;
+        return $part;
     }
 
     /**
-     * Get download for the transition of the dissertation.
+     * Get download for the part of the dissertation.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Gets a download transition",
+     *   description = "Gets a download part",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *   }
      * )
      *
-     * @Annotations\View(templateVar="transition")
+     * @Annotations\View(templateVar="part")
      *
      * @param int     $id              the dissertation uuid
-     * @param int     $transitionId      the transition uuid
+     * @param int     $partId      the part uuid
      *
      * @return array
      * @throws NotFoundHttpException when dissertation not exist
-     * @throws NotFoundHttpException when transition not exist
+     * @throws NotFoundHttpException when part not exist
      */
-    public function getTransitionDownloadAction($id, $transitionId)
+    public function getPartDownloadAction($id, $partId)
     {
         if (!($dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id))) {
             throw new NotFoundHttpException(sprintf('The resource dissertation \'%s\' was not found.',$id));
         }
 
-        if (!($transition = $this->container->get('n1c0_dissertation.manager.transition')->findTransitionById($transitionId))) {
-            throw new NotFoundHttpException(sprintf('The resource transition \'%s\' was not found.', $transitionId));
+        if (!($part = $this->container->get('n1c0_dissertation.manager.part')->findPartById($partId))) {
+            throw new NotFoundHttpException(sprintf('The resource part \'%s\' was not found.', $partId));
         }
 
         $formats = array(
@@ -446,43 +446,43 @@ class TransitionController extends FOSRestController
 
         return array(
             'formats'    => $formats, 
-            'transition'   => $transition
+            'part'   => $part
         );
     }
 
     /**
-     * Convert the transition in pdf format.
+     * Convert the part in pdf format.
      *
      * @ApiDoc(
      *   resource = true,
-     *   description = "Convert the transition",
+     *   description = "Convert the part",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *   }
      * )
      *
      * @param int     $id              the dissertation uuid
-     * @param int     $transitionId      the transition uuid
+     * @param int     $partId      the part uuid
      * @param string  $format          the format to convert dissertation 
      *
      * @return Response
      * @throws NotFoundHttpException when dissertation not exist
-     * @throws NotFoundHttpException when transition not exist
+     * @throws NotFoundHttpException when part not exist
      */
-    public function getTransitionConvertAction($id, $transitionId, $format)
+    public function getPartConvertAction($id, $partId, $format)
     {
         if (!($dissertation = $this->container->get('n1c0_dissertation.manager.dissertation')->findDissertationById($id))) {
             throw new NotFoundHttpException(sprintf('The resource dissertation \'%s\' was not found.',$id));
         }
 
-        if (!($transition = $this->container->get('n1c0_dissertation.manager.transition')->findTransitionById($transitionId))) {
-            throw new NotFoundHttpException(sprintf('The resource transition \'%s\' was not found.',$transitionId));
+        if (!($part = $this->container->get('n1c0_dissertation.manager.part')->findPartById($partId))) {
+            throw new NotFoundHttpException(sprintf('The resource part \'%s\' was not found.',$partId));
         }
 
-        $transitionConvert = $this->container->get('n1c0_dissertation.transition.download')->getConvert($transitionId, $format);
+        $partConvert = $this->container->get('n1c0_dissertation.part.download')->getConvert($partId, $format);
 
         $response = new Response();
-        $response->setContent($transitionConvert);
+        $response->setContent($partConvert);
         $response->headers->set('Content-Type', 'application/force-download');
         switch ($format) {
             case "native":
@@ -531,7 +531,7 @@ class TransitionController extends FOSRestController
                 $ext = $format;       
         }
         
-        $response->headers->set('Content-disposition', 'filename='.$transition->getTitle().'.'.$ext);
+        $response->headers->set('Content-disposition', 'filename='.$part->getTitle().'.'.$ext);
          
         return $response;
     }

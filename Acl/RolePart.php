@@ -2,13 +2,13 @@
 
 namespace N1c0\DissertationBundle\Acl;
 
-use N1c0\TransitionBundle\Model\TransitionInterface;
+use N1c0\PartBundle\Model\PartInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
  * Implements Role checking using the Symfony2 Security component
  */
-class RoleTransitionAcl implements TransitionAclInterface
+class RolePartAcl implements PartAclInterface
 {
     /**
      * The current Security Context.
@@ -18,35 +18,35 @@ class RoleTransitionAcl implements TransitionAclInterface
     private $securityContext;
 
     /**
-     * The FQCN of the Transition object.
+     * The FQCN of the Part object.
      *
      * @var string
      */
-    private $transitionClass;
+    private $partClass;
 
     /**
-     * The role that will grant create permission for a transition.
+     * The role that will grant create permission for a part.
      *
      * @var string
      */
     private $createRole;
 
     /**
-     * The role that will grant view permission for a transition.
+     * The role that will grant view permission for a part.
      *
      * @var string
      */
     private $viewRole;
 
     /**
-     * The role that will grant edit permission for a transition.
+     * The role that will grant edit permission for a part.
      *
      * @var string
      */
     private $editRole;
 
     /**
-     * The role that will grant delete permission for a transition.
+     * The role that will grant delete permission for a part.
      *
      * @var string
      */
@@ -60,14 +60,14 @@ class RoleTransitionAcl implements TransitionAclInterface
      * @param string                   $viewRole
      * @param string                   $editRole
      * @param string                   $deleteRole
-     * @param string                   $transitionClass
+     * @param string                   $partClass
      */
     public function __construct(SecurityContextInterface $securityContext,
                                 $createRole,
                                 $viewRole,
                                 $editRole,
                                 $deleteRole,
-                                $transitionClass
+                                $partClass
     )
     {
         $this->securityContext   = $securityContext;
@@ -75,11 +75,11 @@ class RoleTransitionAcl implements TransitionAclInterface
         $this->viewRole          = $viewRole;
         $this->editRole          = $editRole;
         $this->deleteRole        = $deleteRole;
-        $this->transitionClass      = $transitionClass;
+        $this->partClass      = $partClass;
     }
 
     /**
-     * Checks if the Security token has an appropriate role to create a new Transition.
+     * Checks if the Security token has an appropriate role to create a new Part.
      *
      * @return boolean
      */
@@ -89,23 +89,23 @@ class RoleTransitionAcl implements TransitionAclInterface
     }
 
     /**
-     * Checks if the Security token is allowed to view the specified Transition.
+     * Checks if the Security token is allowed to view the specified Part.
      *
-     * @param  TransitionInterface $transition
+     * @param  PartInterface $part
      * @return boolean
      */
-    public function canView(TransitionInterface $transition)
+    public function canView(PartInterface $part)
     {
         return $this->securityContext->isGranted($this->viewRole);
     }
 
     /**
-     * Checks if the Security token is allowed to reply to a parent transition.
+     * Checks if the Security token is allowed to reply to a parent part.
      *
-     * @param  TransitionInterface|null $parent
+     * @param  PartInterface|null $parent
      * @return boolean
      */
-    public function canReply(TransitionInterface $parent = null)
+    public function canReply(PartInterface $parent = null)
     {
         if (null !== $parent) {
             return $this->canCreate() && $this->canView($parent);
@@ -115,23 +115,23 @@ class RoleTransitionAcl implements TransitionAclInterface
     }
 
     /**
-     * Checks if the Security token has an appropriate role to edit the supplied Transition.
+     * Checks if the Security token has an appropriate role to edit the supplied Part.
      *
-     * @param  TransitionInterface $transition
+     * @param  PartInterface $part
      * @return boolean
      */
-    public function canEdit(TransitionInterface $transition)
+    public function canEdit(PartInterface $part)
     {
         return $this->securityContext->isGranted($this->editRole);
     }
 
     /**
-     * Checks if the Security token is allowed to delete a specific Transition.
+     * Checks if the Security token is allowed to delete a specific Part.
      *
-     * @param  TransitionInterface $transition
+     * @param  PartInterface $part
      * @return boolean
      */
-    public function canDelete(TransitionInterface $transition)
+    public function canDelete(PartInterface $part)
     {
         return $this->securityContext->isGranted($this->deleteRole);
     }
@@ -139,10 +139,10 @@ class RoleTransitionAcl implements TransitionAclInterface
     /**
      * Role based Acl does not require setup.
      *
-     * @param  TransitionInterface $transition
+     * @param  PartInterface $part
      * @return void
      */
-    public function setDefaultAcl(TransitionInterface $transition)
+    public function setDefaultAcl(PartInterface $part)
     {
 
     }

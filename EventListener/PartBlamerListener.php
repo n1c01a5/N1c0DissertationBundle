@@ -3,16 +3,16 @@
 namespace N1c0\DissertationBundle\EventListener;
 
 use N1c0\DissertationBundle\Events;
-use N1c0\DissertationBundle\Event\TransitionEvent;
-use N1c0\DissertationBundle\Model\SignedTransitionInterface;
+use N1c0\DissertationBundle\Event\PartEvent;
+use N1c0\DissertationBundle\Model\SignedPartInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
- * Blames a transition using Symfony2 security component
+ * Blames a part using Symfony2 security component
  */
-class TransitionBlamerListener implements EventSubscriberInterface
+class PartBlamerListener implements EventSubscriberInterface
 {
     /**
      * @var SecurityContext
@@ -37,26 +37,26 @@ class TransitionBlamerListener implements EventSubscriberInterface
     }
 
     /**
-     * Assigns the currently logged in user to a Transition.
+     * Assigns the currently logged in user to a Part.
      *
-     * @param  \N1c0\DissertationBundle\Event\TransitionEvent $event
+     * @param  \N1c0\DissertationBundle\Event\PartEvent $event
      * @return void
      */
-    public function blame(TransitionEvent $event)
+    public function blame(PartEvent $event)
     {
-        $transition = $event->getTransition();
+        $part = $event->getPart();
 
         if (null === $this->securityContext) {
             if ($this->logger) {
-                $this->logger->debug("Transition Blamer did not receive the security.context service.");
+                $this->logger->debug("Part Blamer did not receive the security.context service.");
             }
 
             return;
         }
 
-        if (!$transition instanceof SignedTransitionInterface) {
+        if (!$part instanceof SignedPartInterface) {
             if ($this->logger) {
-                $this->logger->debug("Transition does not implement SignedTransitionInterface, skipping");
+                $this->logger->debug("Part does not implement SignedPartInterface, skipping");
             }
 
             return;
@@ -72,18 +72,18 @@ class TransitionBlamerListener implements EventSubscriberInterface
 
         if ($this->securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->securityContext->getToken()->getUser();
-            $transition->setAuthor($user);
-            if (!$transition->getAuthors()->contains($user)) {
-                $transition->addAuthor($user);
+            $part->setAuthor($user);
+            if (!$part->getAuthors()->contains($user)) {
+                $part->addAuthor($user);
             }
-            if (!$transition->getDissertation()->getAuthors()->contains($user)) {
-                $transition->getDissertation()->addAuthor($user);
+            if (!$part->getDissertation()->getAuthors()->contains($user)) {
+                $part->getDissertation()->addAuthor($user);
             }
         }
     }
 
     public static function getSubscribedEvents()
     {
-        return array(Events::TRANSITION_PRE_PERSIST => 'blame');
+        return array(Events::PART_PRE_PERSIST => 'blame');
     }
 }

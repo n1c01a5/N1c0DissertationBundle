@@ -29,17 +29,17 @@ interface ArgumentManagerInterface
     /**
      * Returns a flat array of arguments with the specified dissertation.
      *
-     * @param  DissertationInterface $dissertation
+     * @param  PartInterface $part
      * @return array           of ArgumentInterface
      */
-    public function findArgumentsByDissertation(DissertationInterface $dissertation);
+    public function findArgumentsByPart(PartInterface $part);
 
     /**
      * Returns an empty argument instance
      *
      * @return Argument
      */
-    public function createArgument(DissertationInterface $dissertation);
+    public function createArgument(PartInterface $part);
 
     /**
      * Saves a argument

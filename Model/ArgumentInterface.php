@@ -50,12 +50,12 @@ Interface ArgumentInterface
     public function getCreatedAt();
 
     /**
-     * @return DissertationInterface
+     * @return PartInterface
      */
-    public function getDissertation();
+    public function getPart();
 
     /**
-     * @param DissertationInterface $dissertation
+     * @param PartInterface $part
      */
-    public function setDissertation(DissertationInterface $dissertation);
+    public function setPart(PartInterface $part);
 }

@@ -5,12 +5,12 @@ namespace N1c0\DissertationBundle\Model;
 use DateTime;
 
 /**
- * Storage agnostic transition dissertation object
+ * Storage agnostic part dissertation object
  */
-abstract class Transition implements TransitionInterface
+abstract class Part implements PartInterface
 {
     /**
-     *Transition id 
+     *Part id 
      *
      * @var mixed
      */
@@ -174,7 +174,7 @@ abstract class Transition implements TransitionInterface
     }
 
     /**
-     * @return array with the names of the transition authors
+     * @return array with the names of the part authors
      */
     public function getAuthorsName()
     {
@@ -182,7 +182,7 @@ abstract class Transition implements TransitionInterface
     }
 
     /**
-     * @return array with the name of the transition author
+     * @return array with the name of the part author
      */
     public function getAuthorName()
     {
@@ -191,6 +191,6 @@ abstract class Transition implements TransitionInterface
 
     public function __toString()
     {
-        return 'Transition #'.$this->getId();
+        return 'Part #'.$this->getId();
     }
 }

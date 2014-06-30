@@ -6,9 +6,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 
 /**
- * TransitionForm factory class.
+ * PartForm factory class.
  */
-class TransitionFormFactory implements TransitionFormFactoryInterface
+class PartFormFactory implements PartFormFactoryInterface
 {
     /**
      * @var FormFactoryInterface

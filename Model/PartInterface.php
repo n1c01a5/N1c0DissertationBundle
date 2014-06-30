@@ -2,10 +2,10 @@
 
 namespace N1c0\DissertationBundle\Model;
 
-Interface TransitionInterface
+Interface PartInterface
 {
     /**
-     * @return mixed unique ID for this transition
+     * @return mixed unique ID for this part
      */
     public function getId();
 
@@ -18,7 +18,7 @@ Interface TransitionInterface
      * Set title
      *
      * @param string $title
-     * @return TransitionInterface
+     * @return PartInterface
      */
     public function setTitle($title);
 
@@ -33,7 +33,7 @@ Interface TransitionInterface
      * Set body
      *
      * @param string $body
-     * @return TransitionInterface
+     * @return PartInterface
      */
     public function setBody($body);
 

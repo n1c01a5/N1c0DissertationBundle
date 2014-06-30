@@ -6,13 +6,13 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class TransitionType extends AbstractType
+class PartType extends AbstractType
 {
-    private $transitionClass;
+    private $partClass;
 
-    public function __construct($transitionClass)
+    public function __construct($partClass)
     {
-        $this->transitionClass = $transitionClass;
+        $this->partClass = $partClass;
     }
 
     /**
@@ -36,7 +36,7 @@ class TransitionType extends AbstractType
     {
         parent::setDefaultOptions($resolver);
         $resolver->setDefaults(array(
-            'data_class' => $this->transitionClass,
+            'data_class' => $this->partClass,
             'csrf_protection' => false
         ));
     }
@@ -46,6 +46,6 @@ class TransitionType extends AbstractType
      */
     public function getName()
     {
-        return 'n1c0_dissertation_transition';
+        return 'n1c0_dissertation_part';
     }
 }

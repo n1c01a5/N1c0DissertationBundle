@@ -1,0 +1,11 @@
+<h1 class="title">Parties d'une dissertation</h1>
+<ul id="part-list">
+{% for part in parts %}
+    <li>
+        <a href="{{ path('api_1_get_dissertation_part', {'id': part.dissertation.id, 'partId': part.id}) }}">{{ part.title }}</a>
+        {#[<a href="{{ path('api_1_edit_parts', {'id': part.id}) }}">{{ 'part.edit.link'|trans({}, 'n1c0DissertationBundle') }}</a>]#}
+        {#[<a href="{{ path('api_1_remove_parts', {'id': part.id}) }}">{{ 'part.remove.link'|trans({}, 'n1c0DissertationBundle') }}</a>]#}
+    </li>
+    <li>{{ 'part.list.empty'|trans({}, 'n1c0DissertationBundle') }}</li>
+{% endfor %}
+</ul>

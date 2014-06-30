@@ -5,12 +5,12 @@ namespace N1c0\DissertationBundle\FormFactory;
 use Symfony\Component\Form\FormInterface;
 
 /**
- * Transition form creator
+ * Part form creator
  */
-interface TransitionFormFactoryInterface
+interface PartFormFactoryInterface
 {
     /**
-     * Creates a transition form
+     * Creates a part form
      *
      * @return FormInterface
      */

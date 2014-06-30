@@ -2,8 +2,8 @@
 
 namespace N1c0\DissertationBundle\Acl;
 
-use N1c0\TransitionBundle\Model\TransitionInterface;
-use N1c0\TransitionBundle\Model\SignedTransitionInterface;
+use N1c0\PartBundle\Model\PartInterface;
+use N1c0\PartBundle\Model\SignedPartInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 /**
  * Implements ACL checking using the Symfony2 Security component
  */
-class SecurityTransitionAcl implements TransitionAclInterface
+class SecurityPartAcl implements PartAclInterface
 {
     /**
      * Used to retrieve ObjectIdentity instances for objects.
@@ -41,14 +41,14 @@ class SecurityTransitionAcl implements TransitionAclInterface
     protected $securityContext;
 
     /**
-     * The FQCN of the Transition object.
+     * The FQCN of the Part object.
      *
      * @var string
      */
-    protected $transitionClass;
+    protected $partClass;
 
     /**
-     * The Class OID for the Transition object.
+     * The Class OID for the Part object.
      *
      * @var ObjectIdentity
      */
@@ -60,23 +60,23 @@ class SecurityTransitionAcl implements TransitionAclInterface
      * @param SecurityContextInterface                 $securityContext
      * @param ObjectIdentityRetrievalStrategyInterface $objectRetrieval
      * @param MutableAclProviderInterface              $aclProvider
-     * @param string                                   $transitionClass
+     * @param string                                   $partClass
      */
     public function __construct(SecurityContextInterface $securityContext,
                                 ObjectIdentityRetrievalStrategyInterface $objectRetrieval,
                                 MutableAclProviderInterface $aclProvider,
-                                $transitionClass
+                                $partClass
     )
     {
         $this->objectRetrieval   = $objectRetrieval;
         $this->aclProvider       = $aclProvider;
         $this->securityContext   = $securityContext;
-        $this->transitionClass      = $transitionClass;
-        $this->oid               = new ObjectIdentity('class', $this->transitionClass);
+        $this->partClass      = $partClass;
+        $this->oid               = new ObjectIdentity('class', $this->partClass);
     }
 
     /**
-     * Checks if the Security token is allowed to create a new Transition.
+     * Checks if the Security token is allowed to create a new Part.
      *
      * @return boolean
      */
@@ -86,53 +86,53 @@ class SecurityTransitionAcl implements TransitionAclInterface
     }
 
     /**
-     * Checks if the Security token is allowed to view the specified Transition.
+     * Checks if the Security token is allowed to view the specified Part.
      *
-     * @param  TransitionInterface $transition
+     * @param  PartInterface $part
      * @return boolean
      */
-    public function canView(TransitionInterface $transition)
+    public function canView(PartInterface $part)
     {
-        return $this->securityContext->isGranted('VIEW', $transition);
+        return $this->securityContext->isGranted('VIEW', $part);
     }
 
 
     /**
-     * Checks if the Security token is allowed to edit the specified Transition.
+     * Checks if the Security token is allowed to edit the specified Part.
      *
-     * @param  TransitionInterface $transition
+     * @param  PartInterface $part
      * @return boolean
      */
-    public function canEdit(TransitionInterface $transition)
+    public function canEdit(PartInterface $part)
     {
-        return $this->securityContext->isGranted('EDIT', $transition);
+        return $this->securityContext->isGranted('EDIT', $part);
     }
 
     /**
-     * Checks if the Security token is allowed to delete the specified Transition.
+     * Checks if the Security token is allowed to delete the specified Part.
      *
-     * @param  TransitionInterface $transition
+     * @param  PartInterface $part
      * @return boolean
      */
-    public function canDelete(TransitionInterface $transition)
+    public function canDelete(PartInterface $part)
     {
-        return $this->securityContext->isGranted('DELETE', $transition);
+        return $this->securityContext->isGranted('DELETE', $part);
     }
 
     /**
-     * Sets the default object Acl entry for the supplied Transition.
+     * Sets the default object Acl entry for the supplied Part.
      *
-     * @param  TransitionInterface $transition
+     * @param  PartInterface $part
      * @return void
      */
-    public function setDefaultAcl(TransitionInterface $transition)
+    public function setDefaultAcl(PartInterface $part)
     {
-        $objectIdentity = $this->objectRetrieval->getObjectIdentity($transition);
+        $objectIdentity = $this->objectRetrieval->getObjectIdentity($part);
         $acl = $this->aclProvider->createAcl($objectIdentity);
 
-        if ($transition instanceof SignedTransitionInterface &&
-            null !== $transition->getAuthor()) {
-            $securityIdentity = UserSecurityIdentity::fromAccount($transition->getAuthor());
+        if ($part instanceof SignedPartInterface &&
+            null !== $part->getAuthor()) {
+            $securityIdentity = UserSecurityIdentity::fromAccount($part->getAuthor());
             $acl->insertObjectAce($securityIdentity, MaskBuilder::MASK_OWNER);
         }
 
@@ -140,15 +140,15 @@ class SecurityTransitionAcl implements TransitionAclInterface
     }
 
     /**
-     * Installs default Acl entries for the Transition class.
+     * Installs default Acl entries for the Part class.
      *
-     * This needs to be re-run whenever the Transition class changes or is subclassed.
+     * This needs to be re-run whenever the Part class changes or is subclassed.
      *
      * @return void
      */
     public function installFallbackAcl()
     {
-        $oid = new ObjectIdentity('class', $this->transitionClass);
+        $oid = new ObjectIdentity('class', $this->partClass);
 
         try {
             $acl = $this->aclProvider->createAcl($oid);
@@ -165,7 +165,7 @@ class SecurityTransitionAcl implements TransitionAclInterface
      *
      * Override this method in a subclass to change what permissions are defined.
      * Once this method has been overridden you need to run the
-     * `fos:transition:installAces --flush` command
+     * `fos:part:installAces --flush` command
      *
      * @param  AclInterface $acl
      * @param  MaskBuilder  $builder
@@ -187,16 +187,16 @@ class SecurityTransitionAcl implements TransitionAclInterface
     }
 
     /**
-     * Removes fallback Acl entries for the Transition class.
+     * Removes fallback Acl entries for the Part class.
      *
-     * This should be run when uninstalling the TransitionBundle, or when
+     * This should be run when uninstalling the PartBundle, or when
      * the Class Acl entry end up corrupted.
      *
      * @return void
      */
     public function uninstallFallbackAcl()
     {
-        $oid = new ObjectIdentity('class', $this->transitionClass);
+        $oid = new ObjectIdentity('class', $this->partClass);
         $this->aclProvider->deleteAcl($oid);
     }
 }
