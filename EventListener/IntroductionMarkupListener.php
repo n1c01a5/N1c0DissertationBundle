@@ -2,10 +2,10 @@
 
 namespace N1c0\DissertationBundle\EventListener;
 
-use N1c0\IntroductionBundle\Events;
-use N1c0\IntroductionBundle\Event\IntroductionEvent;
-use N1c0\IntroductionBundle\Markup\ParserInterface;
-use N1c0\IntroductionBundle\Model\RawIntroductionInterface;
+use N1c0\DissertationBundle\Events;
+use N1c0\DissertationBundle\Event\IntroductionEvent;
+use N1c0\DissertationBundle\Markup\ParserInterface;
+use N1c0\DissertationBundle\Model\RawIntroductionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -24,7 +24,7 @@ class IntroductionMarkupListener implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param \N1c0\IntroductionBundle\Markup\ParserInterface $parser
+     * @param \N1c0\DissertationBundle\Markup\ParserInterface $parser
      */
     public function __construct(ParserInterface $parser)
     {
@@ -35,7 +35,7 @@ class IntroductionMarkupListener implements EventSubscriberInterface
      * Parses raw introduction data and assigns it to the rawBody
      * property.
      *
-     * @param \N1c0\IntroductionBundle\Event\IntroductionEvent $event
+     * @param \N1c0\DissertationBundle\Event\IntroductionEvent $event
      */
     public function markup(IntroductionEvent $event)
     {

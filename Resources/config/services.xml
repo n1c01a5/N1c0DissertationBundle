@@ -255,6 +255,22 @@
             <tag name="kernel.event_subscriber" />
             <argument type="service" id="n1c0_dissertation.markup" />
         </service>
+        <service id="n1c0_dissertation.listener.introduction_markup" class="N1c0\DissertationBundle\EventListener\IntroductionMarkupListener"><!-- If markup load -->
+            <tag name="kernel.event_subscriber" />
+            <argument type="service" id="n1c0_dissertation.markup" />
+        </service>
+<service id="n1c0_dissertation.listener.part_markup" class="N1c0\DissertationBundle\EventListener\PartMarkupListener"><!-- If markup load -->
+            <tag name="kernel.event_subscriber" />
+            <argument type="service" id="n1c0_dissertation.markup" />
+        </service>
+        <service id="n1c0_dissertation.listener.argument_markup" class="N1c0\DissertationBundle\EventListener\ArgumentMarkupListener"><!-- If markup load -->
+            <tag name="kernel.event_subscriber" />
+            <argument type="service" id="n1c0_dissertation.markup" />
+        </service>
+        <service id="n1c0_dissertation.listener.conclusion_markup" class="N1c0\DissertationBundle\EventListener\ConclusionMarkupListener"><!-- If markup load -->
+            <tag name="kernel.event_subscriber" />
+            <argument type="service" id="n1c0_dissertation.markup" />
+        </service>
 
         <service id="n1c0_dissertation.dissertation.download" class="%n1c0_dissertation.download.dissertation.class%">
             <argument type="service" id="n1c0_dissertation.manager.dissertation" on-invalid="null" />

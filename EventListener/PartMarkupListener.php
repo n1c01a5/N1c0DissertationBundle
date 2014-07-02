@@ -2,10 +2,10 @@
 
 namespace N1c0\DissertationBundle\EventListener;
 
-use N1c0\PartBundle\Events;
-use N1c0\PartBundle\Event\PartEvent;
-use N1c0\PartBundle\Markup\ParserInterface;
-use N1c0\PartBundle\Model\RawPartInterface;
+use N1c0\DissertationBundle\Events;
+use N1c0\DissertationBundle\Event\PartEvent;
+use N1c0\DissertationBundle\Markup\ParserInterface;
+use N1c0\DissertationBundle\Model\RawPartInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -24,7 +24,7 @@ class PartMarkupListener implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param \N1c0\PartBundle\Markup\ParserInterface $parser
+     * @param \N1c0\DissertationBundle\Markup\ParserInterface $parser
      */
     public function __construct(ParserInterface $parser)
     {
@@ -35,7 +35,7 @@ class PartMarkupListener implements EventSubscriberInterface
      * Parses raw part data and assigns it to the rawBody
      * property.
      *
-     * @param \N1c0\PartBundle\Event\PartEvent $event
+     * @param \N1c0\DissertationBundle\Event\PartEvent $event
      */
     public function markup(PartEvent $event)
     {

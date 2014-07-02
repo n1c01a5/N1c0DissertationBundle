@@ -20,7 +20,7 @@
             <gedmo:versioned/>
         </field>
 
-        <field name="commitBody" column="commitbody" type="text">
+        <field name="commitBody" column="commitbody" type="text" nullable="true">
             <gedmo:versioned/>
         </field>
 

@@ -2,10 +2,10 @@
 
 namespace N1c0\DissertationBundle\EventListener;
 
-use N1c0\ArgumentBundle\Events;
-use N1c0\ArgumentBundle\Event\ArgumentEvent;
-use N1c0\ArgumentBundle\Markup\ParserInterface;
-use N1c0\ArgumentBundle\Model\RawArgumentInterface;
+use N1c0\DissertationBundle\Events;
+use N1c0\DissertationBundle\Event\ArgumentEvent;
+use N1c0\DissertationBundle\Markup\ParserInterface;
+use N1c0\DissertationBundle\Model\RawArgumentInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -24,7 +24,7 @@ class ArgumentMarkupListener implements EventSubscriberInterface
     /**
      * Constructor.
      *
-     * @param \N1c0\ArgumentBundle\Markup\ParserInterface $parser
+     * @param \N1c0\DissertationBundle\Markup\ParserInterface $parser
      */
     public function __construct(ParserInterface $parser)
     {
@@ -35,7 +35,7 @@ class ArgumentMarkupListener implements EventSubscriberInterface
      * Parses raw argument data and assigns it to the rawBody
      * property.
      *
-     * @param \N1c0\ArgumentBundle\Event\ArgumentEvent $event
+     * @param \N1c0\DissertationBundle\Event\ArgumentEvent $event
      */
     public function markup(ArgumentEvent $event)
     {

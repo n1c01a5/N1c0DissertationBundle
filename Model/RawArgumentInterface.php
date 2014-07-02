@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace N1c0\ArgumentBundle\Model;
+namespace N1c0\DissertationBundle\Model;
 
 /**
  * A comment that holds a raw version of the comment allowing
