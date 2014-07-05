@@ -27,8 +27,6 @@ class DownloadDissertation
         }
 
         $raw .= "\r\n";
-        $raw .= '%'.$dissertation->getCreatedAt()->format("m M Y");      
-        $raw .= "\r\n";
         $raw .= "# Sujet de la dissertation";
         $raw .= "\r\n";
         $raw .= $dissertation->getBody();
@@ -44,14 +42,19 @@ class DownloadDissertation
             $raw .= $dissertation->getIntroductions()[$i]->getBody();
         }
         
-        $lenghtElement = count($dissertation->getArguments());
+        $parts = $dissertation->getParts();
+        $lenghtPart = count($parts);
 
-        for($i = 0; $i < $lenghtElement; $i++) {
-            $raw .= "\r\n";
-            $raw .= "\r\n";
-            $raw .= '##'.$dissertation->getArguments()[$i]->getTitle();
-            $raw .= "\r\n";
-            $raw .= $dissertation->getArguments()[$i]->getBody();
+        for($i = 0; $i < $lenghtPart; $i++) {
+            $arguments = $parts[$i]->getArguments();
+            $lenghtArgument = count($arguments);
+            for($j = 0; $j < $lenghtArgument; $j++) {
+                $raw .= "\r\n";
+                $raw .= "\r\n";
+                $raw .= '##'.$arguments[$j]->getTitle();
+                $raw .= "\r\n";
+                $raw .= $arguments[$j]->getBody();
+            }
         }
 
         $options = array(
