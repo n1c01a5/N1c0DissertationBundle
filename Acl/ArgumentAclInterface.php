@@ -26,15 +26,6 @@ interface ArgumentAclInterface
     public function canView(ArgumentInterface $argument);
 
     /**
-     * Checks if the user can reply to the supplied 'parent' argument
-     * or if not supplied, just the ability to reply.
-     *
-     * @param  ArgumentInterface $argument
-     * @return boolean
-     */
-    public function canReply(ArgumentInterface $parent = null);
-
-    /**
      * Checks if the user should be able to edit a argument.
      *
      * @param  ArgumentInterface $argument

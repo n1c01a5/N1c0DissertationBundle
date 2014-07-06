@@ -250,11 +250,11 @@ class PartController extends FOSRestController
      *
      * @param Request $request         the request object
      * @param string  $id              the id of the dissertation 
-     * @param int     $partId      the part id
+     * @param int     $partId          the part id
      *
      * @return FormTypeInterface|View
      *
-     * @throws NotFoundHttpException when part not exist
+     * @throws NotFoundHttpException when an entity not exist
      */
     public function putPartAction(Request $request, $id, $partId)
     {

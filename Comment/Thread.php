@@ -6,8 +6,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class Thread {
     protected $requestStack;
-    private $appThread;
-    private $appComment;
+    private   $appThread;
+    private   $appComment;
 
     public function __construct(RequestStack $requestStack, $appThread, $appComment)
     {
@@ -33,7 +33,7 @@ class Thread {
 
         return array(
             'comments' => $comments,
-            'thread' => $thread,
+            'thread'   => $thread
         );
     }
 }

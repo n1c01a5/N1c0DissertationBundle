@@ -56,9 +56,10 @@ class PartManager extends BasePartManager
     public function findPartsByDissertation(DissertationInterface $dissertation)
     {
         $qb = $this->repository
-                ->createQueryBuilder('a')
-                ->join('a.dissertation', 'd')
+                ->createQueryBuilder('p')
+                ->join('p.dissertation', 'd')
                 ->where('d.id = :dissertation')
+                ->add('orderBy', 'p.createdAt DESC')
                 ->setParameter('dissertation', $dissertation->getId());
 
         $parts = $qb

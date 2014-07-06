@@ -19,7 +19,7 @@ class DownloadArgument
 
         $argument = $this->appArgument->findArgumentById($id);
 
-        $raw = '% efez'.$argument->getTitle(); 
+        $raw = '%'.$argument->getTitle(); 
         $raw .= "\r\n";
         $raw .= '%'; 
 

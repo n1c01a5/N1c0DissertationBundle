@@ -76,8 +76,11 @@ class ArgumentBlamerListener implements EventSubscriberInterface
             if (!$argument->getAuthors()->contains($user)) {
                 $argument->addAuthor($user);
             }
-            if (!$argument->getDissertation()->getAuthors()->contains($user)) {
-                $argument->getDissertation()->addAuthor($user);
+            if (!$argument->getPart()->getAuthors()->contains($user)) {
+                $argument->getPart()->addAuthor($user);
+            }
+            if (!$argument->getPart()->getDissertation()->getAuthors()->contains($user)) {
+                $argument->getPart()->getDissertation()->addAuthor($user);
             }
         }
     }

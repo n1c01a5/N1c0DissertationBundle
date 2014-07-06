@@ -26,15 +26,6 @@ interface PartAclInterface
     public function canView(PartInterface $part);
 
     /**
-     * Checks if the user can reply to the supplied 'parent' part
-     * or if not supplied, just the ability to reply.
-     *
-     * @param  PartInterface $part
-     * @return boolean
-     */
-    public function canReply(PartInterface $parent = null);
-
-    /**
      * Checks if the user should be able to edit a part.
      *
      * @param  PartInterface $part

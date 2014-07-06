@@ -34,7 +34,7 @@ class AclIntroductionManager implements IntroductionManagerInterface
      */
     public function __construct(IntroductionManagerInterface $introductionManager, IntroductionAclInterface $introductionAcl)
     {
-        $this->realManager = $introductionManager;
+        $this->realManager      = $introductionManager;
         $this->introductionAcl  = $introductionAcl;
     }
 

@@ -56,9 +56,10 @@ class IntroductionManager extends BaseIntroductionManager
     public function findIntroductionsByDissertation(DissertationInterface $dissertation)
     {
         $qb = $this->repository
-                ->createQueryBuilder('a')
-                ->join('a.dissertation', 'd')
+                ->createQueryBuilder('i')
+                ->join('i.dissertation', 'd')
                 ->where('d.id = :dissertation')
+                ->add('orderBy', 'p.createdAt DESC')
                 ->setParameter('dissertation', $dissertation->getId());
 
         $introductions = $qb

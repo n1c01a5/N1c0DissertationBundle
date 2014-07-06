@@ -39,7 +39,7 @@ abstract class ConclusionManager implements ConclusionManagerInterface
      */
     public function all($limit = 5, $offset = 0)
     {
-        return $this->repository->findBy(array(), null, $limit, $offset);
+        return $this->repository->findBy(array(), array('createdAt' => 'ASC'), $limit, $offset);
     }
 
     /**

@@ -26,15 +26,6 @@ interface IntroductionAclInterface
     public function canView(IntroductionInterface $introduction);
 
     /**
-     * Checks if the user can reply to the supplied 'parent' introduction
-     * or if not supplied, just the ability to reply.
-     *
-     * @param  IntroductionInterface $introduction
-     * @return boolean
-     */
-    public function canReply(IntroductionInterface $parent = null);
-
-    /**
      * Checks if the user should be able to edit a introduction.
      *
      * @param  IntroductionInterface $introduction

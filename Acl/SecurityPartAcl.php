@@ -2,8 +2,8 @@
 
 namespace N1c0\DissertationBundle\Acl;
 
-use N1c0\PartBundle\Model\PartInterface;
-use N1c0\PartBundle\Model\SignedPartInterface;
+use N1c0\DissertationBundle\Model\PartInterface;
+use N1c0\DissertationBundle\Model\SignedPartInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;

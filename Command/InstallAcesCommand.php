@@ -45,16 +45,26 @@ EOT
         }
 
         $dissertationAcl = $this->getContainer()->get('n1c0_dissertation.acl.dissertation');
+        $introductionAcl = $this->getContainer()->get('n1c0_dissertation.acl.introduction');
+        $partAcl         = $this->getContainer()->get('n1c0_dissertation.acl.part');
+        $argumentAcl     = $this->getContainer()->get('n1c0_dissertation.acl.argument');
+        $conclusionAcl   = $this->getContainer()->get('n1c0_dissertation.acl.conclusion');
 
         if ($input->getOption('flush')) {
             $output->writeln('Flushing Global ACEs');
 
-            $threadAcl->uninstallFallbackAcl();
-            $commentAcl->uninstallFallbackAcl();
-            $voteAcl->uninstallFallbackAcl();
+            $dissertationAcl->uninstallFallbackAcl();
+            $introductionAcl->uninstallFallbackAcl();
+            $partAcl->uninstallFallbackAcl();
+            $conclusionAcl->uninstallFallbackAcl();
+            $conclusionAcl->uninstallFallbackAcl();
         }
 
         $dissertationAcl->installFallbackAcl();
+        $introductionAcl->installFallbackAcl();
+        $partAcl->installFallbackAcl();
+        $argumentAcl->installFallbackAcl();
+        $conclusionAcl->installFallbackAcl();
 
         $output->writeln('Global ACEs have been installed.');
     }

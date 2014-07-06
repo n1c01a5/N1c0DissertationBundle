@@ -53,7 +53,12 @@ class ArgumentController extends FOSRestController
         if (!$dissertation) {
             throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
         }
-        
+
+        $part = $this->container->get('n1c0_dissertation.manager.part')->findPartById($partId);
+        if (!$part) {
+            throw new NotFoundHttpException(sprintf('Part of dissertation with identifier of "%s" does not exist', $partId));
+        }
+
         return $this->getOr404($argumentId);
     }
 
@@ -283,7 +288,7 @@ class ArgumentController extends FOSRestController
      *
      * @return FormTypeInterface|View
      *
-     * @throws NotFoundHttpException when argument not exist
+     * @throws NotFoundHttpException when an entity not exist
      */
     public function putArgumentAction(Request $request, $id, $partId, $argumentId)
     {

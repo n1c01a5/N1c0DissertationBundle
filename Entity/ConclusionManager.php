@@ -56,9 +56,10 @@ class ConclusionManager extends BaseConclusionManager
     public function findConclusionsByDissertation(DissertationInterface $dissertation)
     {
         $qb = $this->repository
-                ->createQueryBuilder('a')
-                ->join('a.dissertation', 'd')
+                ->createQueryBuilder('c')
+                ->join('c.dissertation', 'd')
                 ->where('d.id = :dissertation')
+                ->add('orderBy', 'c.createdAt DESC')
                 ->setParameter('dissertation', $dissertation->getId());
 
         $conclusions = $qb

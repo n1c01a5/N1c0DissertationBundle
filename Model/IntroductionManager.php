@@ -39,7 +39,7 @@ abstract class IntroductionManager implements IntroductionManagerInterface
      */
     public function all($limit = 5, $offset = 0)
     {
-        return $this->repository->findBy(array(), null, $limit, $offset);
+        return $this->repository->findBy(array(), array('createdAt' => 'DESC'), $limit, $offset);
     }
 
     /**

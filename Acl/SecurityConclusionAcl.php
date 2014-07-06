@@ -2,8 +2,8 @@
 
 namespace N1c0\DissertationBundle\Acl;
 
-use N1c0\ConclusionBundle\Model\ConclusionInterface;
-use N1c0\ConclusionBundle\Model\SignedConclusionInterface;
+use N1c0\DissertationBundle\Model\ConclusionInterface;
+use N1c0\DissertationBundle\Model\SignedConclusionInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;

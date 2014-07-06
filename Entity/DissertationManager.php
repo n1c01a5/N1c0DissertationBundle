@@ -72,7 +72,7 @@ class DissertationManager extends BaseDissertationManager
      */
     public function findAllDissertations()
     {
-        return $this->repository->findAll();
+        return $this->findBy(array(), array('createdAt' => 'DESC'));
     }
 
     /**

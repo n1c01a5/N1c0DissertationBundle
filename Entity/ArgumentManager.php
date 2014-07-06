@@ -59,6 +59,7 @@ class ArgumentManager extends BaseArgumentManager
                 ->createQueryBuilder('a')
                 ->join('a.part', 'p')
                 ->where('p.id = :part')
+                ->add('orderBy', 'a.createdAt DESC')
                 ->setParameter('part', $part->getId());
 
         $arguments = $qb

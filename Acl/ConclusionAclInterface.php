@@ -26,15 +26,6 @@ interface ConclusionAclInterface
     public function canView(ConclusionInterface $conclusion);
 
     /**
-     * Checks if the user can reply to the supplied 'parent' conclusion
-     * or if not supplied, just the ability to reply.
-     *
-     * @param  ConclusionInterface $conclusion
-     * @return boolean
-     */
-    public function canReply(ConclusionInterface $parent = null);
-
-    /**
      * Checks if the user should be able to edit a conclusion.
      *
      * @param  ConclusionInterface $conclusion

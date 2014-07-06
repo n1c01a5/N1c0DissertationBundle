@@ -2,8 +2,8 @@
 
 namespace N1c0\DissertationBundle\Acl;
 
-use N1c0\IntroductionBundle\Model\IntroductionInterface;
-use N1c0\IntroductionBundle\Model\SignedIntroductionInterface;
+use N1c0\DissertationBundle\Model\IntroductionInterface;
+use N1c0\DissertationBundle\Model\SignedIntroductionInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
@@ -71,7 +71,7 @@ class SecurityIntroductionAcl implements IntroductionAclInterface
         $this->objectRetrieval   = $objectRetrieval;
         $this->aclProvider       = $aclProvider;
         $this->securityContext   = $securityContext;
-        $this->introductionClass      = $introductionClass;
+        $this->introductionClass = $introductionClass;
         $this->oid               = new ObjectIdentity('class', $this->introductionClass);
     }
 
@@ -95,7 +95,6 @@ class SecurityIntroductionAcl implements IntroductionAclInterface
     {
         return $this->securityContext->isGranted('VIEW', $introduction);
     }
-
 
     /**
      * Checks if the Security token is allowed to edit the specified Introduction.
