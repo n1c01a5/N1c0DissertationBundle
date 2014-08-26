@@ -37,9 +37,10 @@ class DownloadDissertation
         for($i = 0; $i < $lenghtElement; $i++) {
             $raw .= "\r\n";
             $raw .= "\r\n";
-            $raw .= '##'.$dissertation->getIntroductions()[$i]->getTitle();
+            $introduction = $dissertation->getIntroductions()[$i];
+            $raw .= '##'.$introduction->getTitle();
             $raw .= "\r\n";
-            $raw .= $dissertation->getIntroductions()[$i]->getBody();
+            $raw .= $introduction->getBody();
         }
         
         $parts = $dissertation->getParts();
