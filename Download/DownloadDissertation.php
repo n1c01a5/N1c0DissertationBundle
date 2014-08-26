@@ -15,7 +15,7 @@ class DownloadDissertation
 
     public function getConvert($id, $format)
     {
-        $pandoc = new Pandoc();
+        $pandoc = new Pandoc('/usr/bin/pandoc');
 
         $dissertation = $this->appDissertation->findDissertationById($id);
 
