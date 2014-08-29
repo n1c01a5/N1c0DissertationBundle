@@ -58,14 +58,8 @@ class DownloadDissertation
             }
         }
 
-        if('pdf' == $format) {
-            $latexEngine = 'pdflatex';
-        } else {
-            $latexEngine = 'xelatex';
-        }
-
         $options = array(
-            "latex-engine" => $latexEngine,
+            "latex-engine" => "xelatex",
             "from"         => "markdown",
             "to"           => $format,
             "toc"          => null
