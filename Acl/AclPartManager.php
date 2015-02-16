@@ -41,9 +41,9 @@ class AclPartManager implements PartManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function all($limit = 5, $offset = 0)
+    public function all($limit, $offset)
     {
-        $parts = $this->realManager->all();
+        $parts = $this->realManager->all($limit, $offset);
 
         if (!$this->authorizeViewPart($parts)) {
             throw new AccessDeniedException();

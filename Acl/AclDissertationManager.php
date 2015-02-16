@@ -41,9 +41,9 @@ class AclDissertationManager implements DissertationManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function all($limit = 5, $offset = 0)
+    public function all($limit, $offset)
     {
-        $dissertations = $this->realManager->all();
+        $dissertations = $this->realManager->all($limit, $offset);
 
         if (!$this->authorizeViewDissertation($dissertations)) {
             throw new AccessDeniedException();

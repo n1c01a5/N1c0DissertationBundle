@@ -41,9 +41,9 @@ class AclArgumentManager implements ArgumentManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function all($limit = 5, $offset = 0)
+    public function all($limit, $offset)
     {
-        $arguments = $this->realManager->all();
+        $arguments = $this->realManager->all($limit, $offset);
 
         if (!$this->authorizeViewArgument($arguments)) {
             throw new AccessDeniedException();

@@ -18,7 +18,7 @@ interface ConclusionManagerInterface
      *
      * @return array
      */
-    public function all($limit = 5, $offset = 0);
+    public function all($limit, $offset);
 
     /**
      * @param  string          $id

@@ -41,9 +41,9 @@ class AclIntroductionManager implements IntroductionManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function all($limit = 5, $offset = 0)
+    public function all($limit, $offset)
     {
-        $introductions = $this->realManager->all();
+        $introductions = $this->realManager->all($limit, $offset);
 
         if (!$this->authorizeViewIntroduction($introductions)) {
             throw new AccessDeniedException();

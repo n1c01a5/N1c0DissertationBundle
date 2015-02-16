@@ -36,7 +36,7 @@ abstract class DissertationManager implements DissertationManagerInterface
      *
      * @return array
      */
-    public function all($limit = 5, $offset = 0)
+    public function all($limit, $offset)
     {
         return $this->repository->findBy(array(), array('createdAt' => 'DESC'), $limit, $offset);
     }

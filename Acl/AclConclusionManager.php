@@ -41,9 +41,9 @@ class AclConclusionManager implements ConclusionManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function all($limit = 5, $offset = 0)
+    public function all($limit, $offset)
     {
-        $conclusions = $this->realManager->all();
+        $conclusions = $this->realManager->all($limit, $offset);
 
         if (!$this->authorizeViewConclusion($conclusions)) {
             throw new AccessDeniedException();
