@@ -10,7 +10,7 @@ use DateTime;
 abstract class Introduction implements IntroductionInterface
 {
     /**
-     * Introduction id 
+     * Introduction id
      *
      * @var mixed
      */
@@ -29,7 +29,7 @@ abstract class Introduction implements IntroductionInterface
      * @var string
      */
     protected $body;
-    
+
     /**
      * Should be mapped by the end developer.
      *
@@ -56,6 +56,20 @@ abstract class Introduction implements IntroductionInterface
      */
     protected $createdAt;
 
+    /**
+     * Current state of the introduction.
+     *
+     * @var integer
+     */
+    protected $state = 0;
+
+    /**
+     * The previous state of the introduction.
+     *
+     * @var integer
+     */
+    protected $previousState = 0;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -68,7 +82,7 @@ abstract class Introduction implements IntroductionInterface
     {
         return $this->id;
     }
-    
+
     /**
      * @return string
      */
@@ -187,6 +201,30 @@ abstract class Introduction implements IntroductionInterface
     public function getAuthorName()
     {
         return 'Anonymous';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setState($state)
+    {
+        $this->previousState = $this->state;
+        $this->state = $state;
+    }
+    /**
+     * {@inheritDoc}
+     */
+    public function getPreviousState()
+    {
+        return $this->previousState;
     }
 
     public function __toString()

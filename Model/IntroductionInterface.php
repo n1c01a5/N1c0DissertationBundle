@@ -4,11 +4,19 @@ namespace N1c0\DissertationBundle\Model;
 
 Interface IntroductionInterface
 {
+    const STATE_VISIBLE = 0;
+
+    const STATE_DELETED = 1;
+
+    const STATE_SPAM = 2;
+
+    const STATE_PENDING = 3;
+
     /**
      * @return mixed unique ID for this introduction
      */
     public function getId();
-    
+
     /**
      * Set title
      *
@@ -35,7 +43,7 @@ Interface IntroductionInterface
     /**
      * Get body
      *
-     * @return string 
+     * @return string
      */
     public function getBody();
 
@@ -53,4 +61,21 @@ Interface IntroductionInterface
      * @return \DateTime
      */
     public function getCreatedAt();
+
+    /**
+     * @return integer The current state of the introduction
+     */
+    public function getState();
+
+    /**
+     * @param integer state
+     */
+    public function setState($state);
+
+    /**
+     * Gets the previous state.
+     *
+     * @return integer
+     */
+    public function getPreviousState();
 }

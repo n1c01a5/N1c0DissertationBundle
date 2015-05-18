@@ -188,7 +188,7 @@ class SecurityIntroductionAcl implements IntroductionAclInterface
     /**
      * Removes fallback Acl entries for the Introduction class.
      *
-     * This should be run when uninstalling the IntroductionBundle, or when
+     * This should be run when uninstalling the DissertationBundle, or when
      * the Class Acl entry end up corrupted.
      *
      * @return void

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This file is part of the N1c0IntroductionBundle package.
+ * This file is part of the N1c0DissertationBundle package.
  *
- * (c) 
+ * (c)
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.

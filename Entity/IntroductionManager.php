@@ -32,7 +32,7 @@ class IntroductionManager extends BaseIntroductionManager
     /**
      * Constructor.
      *
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher 
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
      * @param \Doctrine\ORM\EntityManager                                 $em
      * @param string                                                      $class
      */
@@ -91,13 +91,20 @@ class IntroductionManager extends BaseIntroductionManager
     }
 
     /**
-     * Performs persisting of the introduction. 
+     * {@inheritDoc}
+     */
+    public function isNewIntroduction(IntroductionInterface $introduction)
+    {
+        return !$this->em->getUnitOfWork()->isInIdentityMap($introduction);
+    }
+
+    /**
+     * Saves a introduction
      *
-     * @param DissertationInterface $dissertation
+     * @param IntroductionInterface $introduction
      */
     protected function doSaveIntroduction(IntroductionInterface $introduction)
     {
-        $this->em->persist($introduction->getDissertation());
         $this->em->persist($introduction);
         $this->em->flush();
     }

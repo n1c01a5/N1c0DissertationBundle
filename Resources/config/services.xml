@@ -11,24 +11,28 @@
         <parameter key="n1c0_dissertation.model.part.class">N1c0\DissertationBundle\Entity\Part</parameter>
         <parameter key="n1c0_dissertation.model.argument.class">N1c0\DissertationBundle\Entity\Argument</parameter>
         <parameter key="n1c0_dissertation.model.conclusion.class">N1c0\DissertationBundle\Entity\Conclusion</parameter>
-        
+
         <parameter key="n1c0_dissertation.manager.dissertation.default.class">N1c0\DissertationBundle\Entity\DissertationManager</parameter>
         <parameter key="n1c0_dissertation.manager.introduction.default.class">N1c0\DissertationBundle\Entity\IntroductionManager</parameter>
         <parameter key="n1c0_dissertation.manager.part.default.class">N1c0\DissertationBundle\Entity\PartManager</parameter>
         <parameter key="n1c0_dissertation.manager.argument.default.class">N1c0\DissertationBundle\Entity\ArgumentManager</parameter>
         <parameter key="n1c0_dissertation.manager.conclusion.default.class">N1c0\DissertationBundle\Entity\ConclusionManager</parameter>
+
         <parameter key="n1c0_dissertation.listener.dissertation_blamer.class">N1c0\DissertationBundle\EventListener\DissertationBlamerListener</parameter>
         <parameter key="n1c0_dissertation.listener.introduction_blamer.class">N1c0\DissertationBundle\EventListener\IntroductionBlamerListener</parameter>
         <parameter key="n1c0_dissertation.listener.part_blamer.class">N1c0\DissertationBundle\EventListener\PartBlamerListener</parameter>
         <parameter key="n1c0_dissertation.listener.argument_blamer.class">N1c0\DissertationBundle\EventListener\ArgumentBlamerListener</parameter>
         <parameter key="n1c0_dissertation.listener.conclusion_blamer.class">N1c0\DissertationBundle\EventListener\ConclusionBlamerListener</parameter>
+
         <parameter key="n1c0_dissertation.comment.dissertation_comment.class">N1c0\DissertationBundle\Comment\Thread</parameter>
         <parameter key="request_stack.class">Symfony\Component\HttpFoundation\RequestStack</parameter>
+
         <parameter key="n1c0_dissertation.manager.dissertation.acl.class">N1c0\DissertationBundle\Acl\AclDissertationManager</parameter>
         <parameter key="n1c0_dissertation.manager.introduction.acl.class">N1c0\DissertationBundle\Acl\AclIntroductionManager</parameter>
         <parameter key="n1c0_dissertation.manager.part.acl.class">N1c0\DissertationBundle\Acl\AclPartManager</parameter>
         <parameter key="n1c0_dissertation.manager.argument.acl.class">N1c0\DissertationBundle\Acl\AclArgumentManager</parameter>
         <parameter key="n1c0_dissertation.manager.conclusion.acl.class">N1c0\DissertationBundle\Acl\AclConclusionManager</parameter>
+
         <parameter key="n1c0_dissertation.download.dissertation.class">N1c0\DissertationBundle\Download\DownloadDissertation</parameter>
         <parameter key="n1c0_dissertation.download.introduction.class">N1c0\DissertationBundle\Download\DownloadIntroduction</parameter>
         <parameter key="n1c0_dissertation.download.part.class">N1c0\DissertationBundle\Download\DownloadPart</parameter>
@@ -40,7 +44,7 @@
         <service id="n1c0_dissertation.entity_manager" factory-service="doctrine" factory-method="getManager" class="Doctrine\ORM\EntityManager" public="false">
             <argument>%n1c0_dissertation.model_manager_name%</argument>
         </service>
-    
+
         <service id="n1c0_dissertation.manager.dissertation.default" class="%n1c0_dissertation.manager.dissertation.default.class%">
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="n1c0_dissertation.entity_manager" />

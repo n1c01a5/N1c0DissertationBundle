@@ -2,6 +2,7 @@
 
 namespace N1c0\DissertationBundle\Acl;
 
+use N1c0\DissertationBundle\Model\DissertationInterface;
 use N1c0\DissertationBundle\Model\IntroductionInterface;
 use N1c0\DissertationBundle\Model\IntroductionManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -68,7 +69,7 @@ class AclIntroductionManager implements IntroductionManagerInterface
      * {@inheritDoc}
      */
     public function findAllIntroductions(){
-    }                 
+    }
 
 
     /**
@@ -116,9 +117,9 @@ class AclIntroductionManager implements IntroductionManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function createIntroduction($id = null)
+    public function createIntroduction(DissertationInterface $dissertation)
     {
-        return $this->realManager->createIntroduction($id);
+        return $this->realManager->createIntroduction($dissertation);
     }
 
     /**

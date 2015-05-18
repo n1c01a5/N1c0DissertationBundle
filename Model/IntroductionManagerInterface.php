@@ -27,14 +27,6 @@ interface IntroductionManagerInterface
     public function findIntroductionById($id);
 
     /**
-     * Returns a flat array of introductions with the specified dissertation.
-     *
-     * @param  DissertationInterface $dissertation
-     * @return array           of IntroductionInterface
-     */
-    public function findIntroductionsByDissertation(DissertationInterface $dissertation);
-
-    /**
      * Returns an empty introduction instance
      *
      * @return Introduction
@@ -47,4 +39,13 @@ interface IntroductionManagerInterface
      * @param  IntroductionInterface         $introduction
      */
     public function saveIntroduction(IntroductionInterface $introduction);
+
+    /**
+     * Checks if the introduction was already persisted before, or if it's a new one.
+     *
+     * @param IntroductionInterface $introduction
+     *
+     * @return boolean True, if it's a new introduction
+     */
+    public function isNewIntroduction(IntroductionInterface $introduction);
 }
