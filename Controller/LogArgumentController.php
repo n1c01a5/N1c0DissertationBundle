@@ -19,7 +19,7 @@ class LogArgumentController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Gets logs for a given id",
-     *   output = "Gedmo\Loggable\Entity\LogEntry", 
+     *   output = "Gedmo\Loggable\Entity\LogEntry",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *     404 = "Returned when the entity is not found"
@@ -29,17 +29,18 @@ class LogArgumentController extends FOSRestController
      *
      * @Annotations\View(
      *  template = "N1c0DissertationBundle:Argument:getLogs.html.twig",
-     *  templateVar="logs"   
+     *  templateVar="logs"
      * )
      *
      * @param int                   $id                   the dissertation id
-     * @param int                   $argumentId           the argumententity id
+     * @param int                   $partId               the part dissertation id
+     * @param int                   $argumentId           the argument id
      *
      * @return array
      *
      * @throws NotFoundHttpException when entity not exist
      */
-    public function getLogsAction($id, $argumentId)
+    public function getLogsAction($id, $partId, $argumentId)
     {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('Gedmo\Loggable\Entity\LogEntry');
@@ -52,22 +53,23 @@ class LogArgumentController extends FOSRestController
         }
 
         $logs = $repo->getLogEntries($entity);
-        
+
         $c = count($logs);
 
         // if $c == 0 $logsEntity = ???
-        
+
         for($i = 1; $i <= $c; $i++) {
             $repo->revert($entity, $i);
-            $logsEntity[$i]['title'] = $entity->getTitle();
-            $logsEntity[$i]['body'] = $entity->getBody(); 
-            $logsEntity[$i]['author'] = $entity->getAuthor(); 
-            $logsEntity[$i]['date'] = $entity->getCreatedAt()->format('d/m/Y à H:m'); 
-            $logsEntity[$i]['commitTitle'] = $entity->getCommitTitle(); 
-            $logsEntity[$i]['commitBody'] = $entity->getCommitBody(); 
-            $logsEntity[$i]['dissertationId'] = $entity->getDissertation()->getId(); 
+            $logsEntity[$i]['title']            = $entity->getTitle();
+            $logsEntity[$i]['body']             = $entity->getBody();
+            $logsEntity[$i]['author']           = $entity->getAuthor();
+            $logsEntity[$i]['date']             = $entity->getCreatedAt()->format('d/m/Y à H:m');
+            $logsEntity[$i]['commitTitle']      = $entity->getCommitTitle();
+            $logsEntity[$i]['commitBody']       = $entity->getCommitBody();
+            $logsEntity[$i]['partId']           = $entity->getPart()->getId();
+            $logsEntity[$i]['dissertationId']   = $entity->getPart()->getDissertation()->getId();
         }
-        
+
         return $logsEntity;
     }
 }

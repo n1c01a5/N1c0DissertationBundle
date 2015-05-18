@@ -19,7 +19,7 @@ class LogPartController extends FOSRestController
      * @ApiDoc(
      *   resource = true,
      *   description = "Gets logs for a given id",
-     *   output = "Gedmo\Loggable\Entity\LogEntry", 
+     *   output = "Gedmo\Loggable\Entity\LogEntry",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *     404 = "Returned when the entity is not found"
@@ -29,11 +29,11 @@ class LogPartController extends FOSRestController
      *
      * @Annotations\View(
      *  template = "N1c0DissertationBundle:Part:getLogs.html.twig",
-     *  templateVar="logs"   
+     *  templateVar="logs"
      * )
      *
      * @param int                   $id                   the dissertation id
-     * @param int                   $partId           the partentity id
+     * @param int                   $partId               the partentity id
      *
      * @return array
      *
@@ -52,22 +52,22 @@ class LogPartController extends FOSRestController
         }
 
         $logs = $repo->getLogEntries($entity);
-        
+
         $c = count($logs);
 
         // if $c == 0 $logsEntity = ???
-        
+
         for($i = 1; $i <= $c; $i++) {
             $repo->revert($entity, $i);
             $logsEntity[$i]['title'] = $entity->getTitle();
-            $logsEntity[$i]['body'] = $entity->getBody(); 
-            $logsEntity[$i]['author'] = $entity->getAuthor(); 
-            $logsEntity[$i]['date'] = $entity->getCreatedAt()->format('d/m/Y à H:m'); 
-            $logsEntity[$i]['commitTitle'] = $entity->getCommitTitle(); 
-            $logsEntity[$i]['commitBody'] = $entity->getCommitBody(); 
-            $logsEntity[$i]['dissertationId'] = $entity->getDissertation()->getId(); 
+            $logsEntity[$i]['body'] = $entity->getBody();
+            $logsEntity[$i]['author'] = $entity->getAuthor();
+            $logsEntity[$i]['date'] = $entity->getCreatedAt()->format('d/m/Y à H:m');
+            $logsEntity[$i]['commitTitle'] = $entity->getCommitTitle();
+            $logsEntity[$i]['commitBody'] = $entity->getCommitBody();
+            $logsEntity[$i]['dissertationId'] = $entity->getDissertation()->getId();
         }
-        
+
         return $logsEntity;
     }
 }
