@@ -32,7 +32,7 @@ interface ArgumentManagerInterface
      * @param  PartInterface $part
      * @return array           of ArgumentInterface
      */
-    public function findArgumentsByPart(PartInterface $part);
+    //public function findArgumentsByPart(PartInterface $part);
 
     /**
      * Returns an empty argument instance
@@ -47,4 +47,13 @@ interface ArgumentManagerInterface
      * @param  ArgumentInterface         $argument
      */
     public function saveArgument(ArgumentInterface $argument);
+
+    /**
+     * Checks if the argument was already persisted before, or if it's a new one.
+     *
+     * @param ArgumentInterface $argument
+     *
+     * @return boolean True, if it's a new argument
+     */
+    public function isNewArgument(ArgumentInterface $argument);
 }

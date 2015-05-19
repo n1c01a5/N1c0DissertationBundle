@@ -32,7 +32,7 @@ class ConclusionManager extends BaseConclusionManager
     /**
      * Constructor.
      *
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher 
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
      * @param \Doctrine\ORM\EntityManager                                 $em
      * @param string                                                      $class
      */
@@ -91,7 +91,15 @@ class ConclusionManager extends BaseConclusionManager
     }
 
     /**
-     * Performs persisting of the conclusion. 
+     * {@inheritDoc}
+     */
+    public function isNewConclusion(ConclusionInterface $conclusion)
+    {
+        return !$this->em->getUnitOfWork()->isInIdentityMap($conclusion);
+    }
+
+    /**
+     * Performs persisting of the conclusion.
      *
      * @param DissertationInterface $dissertation
      */

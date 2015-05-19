@@ -2,6 +2,7 @@
 
 namespace N1c0\DissertationBundle\Acl;
 
+use N1c0\DissertationBundle\Model\PartInterface;
 use N1c0\DissertationBundle\Model\ArgumentInterface;
 use N1c0\DissertationBundle\Model\ArgumentManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -68,7 +69,7 @@ class AclArgumentManager implements ArgumentManagerInterface
      * {@inheritDoc}
      */
     public function findAllArguments(){
-    }                 
+    }
 
 
     /**
@@ -116,9 +117,9 @@ class AclArgumentManager implements ArgumentManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function createArgument($id = null)
+    public function createArgument(PartInterface $part)
     {
-        return $this->realManager->createArgument($id);
+        return $this->realManager->createArgument($part);
     }
 
     /**

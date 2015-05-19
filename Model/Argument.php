@@ -10,7 +10,7 @@ use DateTime;
 abstract class Argument implements ArgumentInterface
 {
     /**
-     *Argument id 
+     *Argument id
      *
      * @var mixed
      */
@@ -29,7 +29,7 @@ abstract class Argument implements ArgumentInterface
      * @var string
      */
     protected $body;
-    
+
     /**
      * Should be mapped by the end developer.
      *
@@ -56,6 +56,20 @@ abstract class Argument implements ArgumentInterface
      */
     protected $createdAt;
 
+    /**
+     * Current state of the argument.
+     *
+     * @var integer
+     */
+    protected $state = 0;
+
+    /**
+     * The previous state of the argument.
+     *
+     * @var integer
+     */
+    protected $previousState = 0;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -68,7 +82,7 @@ abstract class Argument implements ArgumentInterface
     {
         return $this->id;
     }
-    
+
     /**
      * @return string
      */
@@ -187,6 +201,31 @@ abstract class Argument implements ArgumentInterface
     public function getAuthorName()
     {
         return 'Anonymous';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setState($state)
+    {
+        $this->previousState = $this->state;
+        $this->state = $state;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPreviousState()
+    {
+        return $this->previousState;
     }
 
     public function __toString()

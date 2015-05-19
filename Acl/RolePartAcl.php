@@ -2,7 +2,7 @@
 
 namespace N1c0\DissertationBundle\Acl;
 
-use N1c0\PartBundle\Model\PartInterface;
+use N1c0\DissertationBundle\Model\PartInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**

@@ -32,7 +32,7 @@ class PartManager extends BasePartManager
     /**
      * Constructor.
      *
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher 
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
      * @param \Doctrine\ORM\EntityManager                                 $em
      * @param string                                                      $class
      */
@@ -91,7 +91,15 @@ class PartManager extends BasePartManager
     }
 
     /**
-     * Performs persisting of the part. 
+     * {@inheritDoc}
+     */
+    public function isNewPart(PartInterface $part)
+    {
+        return !$this->em->getUnitOfWork()->isInIdentityMap($part);
+    }
+
+    /**
+     * Performs persisting of the part.
      *
      * @param DissertationInterface $dissertation
      */

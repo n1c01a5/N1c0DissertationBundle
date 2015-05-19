@@ -32,7 +32,7 @@ interface PartManagerInterface
      * @param  DissertationInterface $dissertation
      * @return array           of PartInterface
      */
-    public function findPartsByDissertation(DissertationInterface $dissertation);
+    //public function findPartsByDissertation(DissertationInterface $dissertation);
 
     /**
      * Returns an empty part instance
@@ -47,4 +47,13 @@ interface PartManagerInterface
      * @param  PartInterface         $part
      */
     public function savePart(PartInterface $part);
+
+    /**
+     * Checks if the part was already persisted before, or if it's a new one.
+     *
+     * @param PartInterface $part
+     *
+     * @return boolean True, if it's a new part
+     */
+    public function isNewPart(PartInterface $part);
 }

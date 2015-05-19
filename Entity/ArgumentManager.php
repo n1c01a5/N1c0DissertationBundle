@@ -32,7 +32,7 @@ class ArgumentManager extends BaseArgumentManager
     /**
      * Constructor.
      *
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher 
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
      * @param \Doctrine\ORM\EntityManager                                 $em
      * @param string                                                      $class
      */
@@ -51,7 +51,7 @@ class ArgumentManager extends BaseArgumentManager
      * Returns a flat array of arguments of a specific part of the dissertation.
      *
      * @param  PartInterface $part
-     * @return array           
+     * @return array
      */
     public function findArgumentsByPart(PartInterface $part)
     {
@@ -91,7 +91,15 @@ class ArgumentManager extends BaseArgumentManager
     }
 
     /**
-     * Performs persisting of the argument. 
+     * {@inheritDoc}
+     */
+    public function isNewArgument(ArgumentInterface $argument)
+    {
+        return !$this->em->getUnitOfWork()->isInIdentityMap($argument);
+    }
+
+    /**
+     * Performs persisting of the argument.
      *
      * @param ArgumentInterface $argument
      */

@@ -2,6 +2,7 @@
 
 namespace N1c0\DissertationBundle\Acl;
 
+use N1c0\DissertationBundle\Model\DissertationInterface;
 use N1c0\DissertationBundle\Model\ConclusionInterface;
 use N1c0\DissertationBundle\Model\ConclusionManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -68,7 +69,7 @@ class AclConclusionManager implements ConclusionManagerInterface
      * {@inheritDoc}
      */
     public function findAllConclusions(){
-    }                 
+    }
 
 
     /**
@@ -116,9 +117,9 @@ class AclConclusionManager implements ConclusionManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function createConclusion($id = null)
+    public function createConclusion(DissertationInterface $dissertation)
     {
-        return $this->realManager->createConclusion($id);
+        return $this->realManager->createConclusion($dissertation);
     }
 
     /**

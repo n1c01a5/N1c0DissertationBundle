@@ -219,6 +219,7 @@ abstract class Introduction implements IntroductionInterface
         $this->previousState = $this->state;
         $this->state = $state;
     }
+
     /**
      * {@inheritDoc}
      */

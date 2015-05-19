@@ -32,7 +32,7 @@ interface ConclusionManagerInterface
      * @param  DissertationInterface $dissertation
      * @return array           of ConclusionInterface
      */
-    public function findConclusionsByDissertation(DissertationInterface $dissertation);
+    //public function findConclusionsByDissertation(DissertationInterface $dissertation);
 
     /**
      * Returns an empty conclusion instance
@@ -47,4 +47,13 @@ interface ConclusionManagerInterface
      * @param  ConclusionInterface         $conclusion
      */
     public function saveConclusion(ConclusionInterface $conclusion);
+
+    /**
+     * Checks if the conclusion was already persisted before, or if it's a new one.
+     *
+     * @param ConclusionInterface $conclusion
+     *
+     * @return boolean True, if it's a new conclusion
+     */
+    public function isNewConclusion(ConclusionInterface $conclusion);
 }

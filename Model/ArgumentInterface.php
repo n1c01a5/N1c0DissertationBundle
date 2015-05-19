@@ -4,6 +4,14 @@ namespace N1c0\DissertationBundle\Model;
 
 Interface ArgumentInterface
 {
+    const STATE_VISIBLE = 0;
+
+    const STATE_DELETED = 1;
+
+    const STATE_SPAM = 2;
+
+    const STATE_PENDING = 3;
+
     /**
      * @return mixed unique ID for this argument
      */
@@ -13,7 +21,7 @@ Interface ArgumentInterface
      * @return array with authors of the dissertation
      */
     public function getAuthorsName();
-    
+
     /**
      * Set title
      *
@@ -40,7 +48,7 @@ Interface ArgumentInterface
     /**
      * Get body
      *
-     * @return string 
+     * @return string
      */
     public function getBody();
 

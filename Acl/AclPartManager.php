@@ -2,6 +2,7 @@
 
 namespace N1c0\DissertationBundle\Acl;
 
+use N1c0\DissertationBundle\Model\DissertationInterface;
 use N1c0\DissertationBundle\Model\PartInterface;
 use N1c0\DissertationBundle\Model\PartManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -68,7 +69,7 @@ class AclPartManager implements PartManagerInterface
      * {@inheritDoc}
      */
     public function findAllParts(){
-    }                 
+    }
 
 
     /**
@@ -116,9 +117,9 @@ class AclPartManager implements PartManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function createPart($id = null)
+    public function createPart(DissertationInterface $dissertation)
     {
-        return $this->realManager->createPart($id);
+        return $this->realManager->createPart($dissertation);
     }
 
     /**
