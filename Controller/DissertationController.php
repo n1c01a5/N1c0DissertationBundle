@@ -110,7 +110,7 @@ class DissertationController extends FOSRestController
      *     200 = "Returned when successful"
      *   }
      * )
-     * 
+     *
      * @Annotations\View(
      *  template = "N1c0DissertationBundle:Dissertation:editDissertation.html.twig",
      *  templateVar = "form"
@@ -124,7 +124,7 @@ class DissertationController extends FOSRestController
         $dissertation = $this->getOr404($id);
         $form = $this->container->get('n1c0_dissertation.form_factory.dissertation')->createForm();
         $form->setData($dissertation);
-    
+
         return array('form' => $form, 'id'=>$id);
     }
 
@@ -165,7 +165,7 @@ class DissertationController extends FOSRestController
 
                 if ($form->isValid()) {
                     $dissertationManager->saveDissertation($dissertation);
-                
+
                     $routeOptions = array(
                         'id' => $form->getData()->getId(),
                         '_format' => $request->get('_format')
@@ -403,7 +403,7 @@ class DissertationController extends FOSRestController
      * )
      *
      * @param int     $id      the dissertation uuid
-     * @param string  $format  the format to convert dissertation 
+     * @param string  $format  the format to convert dissertation
      *
      * @return Response
      * @throws NotFoundHttpException when dissertation not exist
@@ -422,54 +422,70 @@ class DissertationController extends FOSRestController
         switch ($format) {
             case "native":
                 $ext = "";
+                $type = "text/plain";
             break;
             case "s5":
                 $ext = "html";
+                $type = "text/html";
             break;
             case "slidy":
                 $ext = "html";
+                $type = "text/html";
             break;
             case "slideous":
                 $ext = "html";
+                $type = "text/html";
             break;
             case "dzslides":
                 $ext = "html";
+                $type = "text/html";
             break;
             case "latex":
                 $ext = "tex";
+                $type = "application/x-latex";
             break;
             case "context":
                 $ext = "tex";
+                $type = "application/x-latex";
             break;
             case "beamer":
                 $ext = "pdf";
             break;
             case "rst":
                 $ext = "text";
+                $type = "text/plain";
             break;
             case "docbook":
                 $ext = "db";
+                $type = "text/rtf";
             break;
             case "man":
                 $ext = "";
+                $type = "text/plain";
             break;
             case "asciidoc":
                 $ext = "txt";
+                $type = "text/plain";
             break;
             case "markdown":
                 $ext = "md";
+                $type = "text/markdown";
             break;
             case "epub3":
                 $ext = "epub";
+                $type = "application/epub+zip";
             break;
             default:
-                $ext = $format;       
-        }        
+                $ext = $format;
+        }
+        if(isset($type)) {
+            $response->headers->set('Content-Type:', $type);
+        }
         $response->headers->set('Content-disposition', 'filename='.$dissertation->getTitle().'.'.$ext);
-         
+
         return $response;
     }
-    
+
     /**
      * Get logs of a single Dissertation.
      *
@@ -497,7 +513,7 @@ class DissertationController extends FOSRestController
         $repo = $em->getRepository('Gedmo\Loggable\Entity\LogEntry'); // we use default log entry class
         $entity = $em->find('Entity\Dissertation', $dissertation->getId());
         $logs = $repo->getLogEntries($entity);
-        
+
         return $logs;
     }
 }
