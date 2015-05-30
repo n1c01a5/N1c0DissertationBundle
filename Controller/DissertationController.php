@@ -479,8 +479,9 @@ class DissertationController extends FOSRestController
                 $ext = $format;
         }
         if(isset($type)) {
-            $response->headers->set('Content-Type:', $type.'; charset=UTF-8');
+            $response->headers->set('Content-Type:', $type);
         }
+        $response->setCharset('ISO-8859-1');
         $response->headers->set('Content-disposition', 'filename='.$dissertation->getTitle().'.'.$ext);
 
         return $response;
