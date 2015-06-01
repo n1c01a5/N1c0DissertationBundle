@@ -405,7 +405,7 @@ class DissertationController extends FOSRestController
      * @param int     $id      the dissertation uuid
      * @param string  $format  the format to convert dissertation
      *
-     * @return Response
+     * @return null
      * @throws NotFoundHttpException when dissertation not exist
      */
     public function getDissertationConvertAction($id, $format)
@@ -416,9 +416,6 @@ class DissertationController extends FOSRestController
 
         $dissertationConvert = $this->container->get('n1c0_dissertation.dissertation.download')->getConvert($id, $format);
 
-        $response = new Response();
-        $response->setContent($dissertationConvert);
-        $response->headers->set('Content-Type', 'application/force-download');
         switch ($format) {
             case "native":
                 $ext = "";
@@ -478,12 +475,13 @@ class DissertationController extends FOSRestController
             default:
                 $ext = $format;
         }
-        if(isset($type)) {
-            $response->headers->set('Content-Type:', $type);
-        }
-        $response->headers->set('Content-disposition', 'filename="'.$dissertation->getTitle().'.'.$ext.'"');
-
-        return $response;
+        if ($ext == "") {$ext = "txt";}
+        $filename = $dissertation->getTitle().'.'.$ext;
+        $fh = fopen('./uploads/'.$filename, "w+");
+        if($fh==false)
+            die("Oops! Unable to create file");
+        fputs($fh, $dissertationConvert);
+        return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);
     }
 
     /**
