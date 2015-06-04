@@ -4,7 +4,7 @@ namespace N1c0\DissertationBundle\Download;
 
 use Pandoc\Pandoc;
 
-class DownloadPart 
+class DownloadPart
 {
     private $appPart;
 
@@ -19,16 +19,16 @@ class DownloadPart
 
         $part = $this->appPart->findPartById($id);
 
-        $raw = '% efez'.$part->getTitle(); 
+        $raw = '%'.$part->getTitle();
         $raw .= "\r\n";
-        $raw .= '%'; 
+        $raw .= '%';
 
         foreach($part->getAuthors() as $author) {
             $raw .= $author.' ;';
         }
 
         $raw .= "\r\n";
-        $raw .= '%'.$part->getCreatedAt()->format("m M Y");      
+        $raw .= '%'.$part->getCreatedAt()->format("m M Y");
         $raw .= "\r\n";
         $raw .= $part->getBody();
 

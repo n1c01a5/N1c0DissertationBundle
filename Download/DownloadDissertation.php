@@ -4,7 +4,7 @@ namespace N1c0\DissertationBundle\Download;
 
 use Pandoc\Pandoc;
 
-class DownloadDissertation 
+class DownloadDissertation
 {
     private $appDissertation;
 
@@ -19,7 +19,7 @@ class DownloadDissertation
 
         $dissertation = $this->appDissertation->findDissertationById($id);
 
-        $raw = '%'.$dissertation->getTitle(); 
+        $raw = '%'.$dissertation->getTitle();
         $raw .= "\r\n";
 
         foreach($dissertation->getAuthors() as $author) {
@@ -42,7 +42,7 @@ class DownloadDissertation
             $raw .= "\r\n";
             $raw .= $introductions[$i]->getBody();
         }
-        
+
         $parts = $dissertation->getParts();
         $lenghtPart = count($parts);
 
