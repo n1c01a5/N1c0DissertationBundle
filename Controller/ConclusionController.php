@@ -53,7 +53,7 @@ class ConclusionController extends FOSRestController
         if (!$dissertation) {
             throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
         }
-        
+
         return $this->getOr404($conclusionId);
     }
 
@@ -119,7 +119,7 @@ class ConclusionController extends FOSRestController
         $form->setData($conclusion);
 
         return array(
-            'form' => $form, 
+            'form' => $form,
             'id' => $id
         );
     }
@@ -133,7 +133,7 @@ class ConclusionController extends FOSRestController
      *     200 = "Returned when successful"
      *   }
      * )
-     * 
+     *
      * @Annotations\View(
      *  template = "N1c0DissertationBundle:Conclusion:editConclusion.html.twig",
      *  templateVar = "form"
@@ -153,7 +153,7 @@ class ConclusionController extends FOSRestController
         $conclusion = $this->getOr404($conclusionId);
         $form = $this->container->get('n1c0_dissertation.form_factory.conclusion')->createForm();
         $form->setData($conclusion);
-    
+
         return array(
             'form' => $form,
             'id'=>$id,
@@ -182,7 +182,7 @@ class ConclusionController extends FOSRestController
      * )
      *
      * @param Request $request the request object
-     * @param string  $id      The id of the dissertation 
+     * @param string  $id      The id of the dissertation
      *
      * @return FormTypeInterface|View
      */
@@ -205,7 +205,7 @@ class ConclusionController extends FOSRestController
 
                 if ($form->isValid()) {
                     $conclusionManager->saveConclusion($conclusion);
-                
+
                     $routeOptions = array(
                         'id' => $id,
                         'conclusionId' => $form->getData()->getId(),
@@ -213,11 +213,11 @@ class ConclusionController extends FOSRestController
                     );
 
                     $response['success'] = true;
-                    
+
                     $request = $this->container->get('request');
                     $isAjax = $request->isXmlHttpRequest();
 
-                    if($isAjax == false) { 
+                    if($isAjax == false) {
                         // Add a method onCreateConclusionSuccess(FormInterface $form)
                         return $this->routeRedirectView('api_1_get_dissertation_conclusion', $routeOptions, Codes::HTTP_CREATED);
                     }
@@ -250,7 +250,7 @@ class ConclusionController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the dissertation 
+     * @param string  $id              the id of the dissertation
      * @param int     $conclusionId      the conclusion id
      *
      * @return FormTypeInterface|View
@@ -275,7 +275,7 @@ class ConclusionController extends FOSRestController
                 $conclusionManager = $this->container->get('n1c0_dissertation.manager.conclusion');
                 if ($conclusionManager->saveConclusion($conclusion) !== false) {
                     $routeOptions = array(
-                        'id' => $dissertation->getId(),                  
+                        'id' => $dissertation->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -308,7 +308,7 @@ class ConclusionController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the dissertation 
+     * @param string  $id              the id of the dissertation
      * @param int     $conclusionId      the conclusion id
 
      * @return FormTypeInterface|View
@@ -333,7 +333,7 @@ class ConclusionController extends FOSRestController
                 $conclusionManager = $this->container->get('n1c0_dissertation.manager.conclusion');
                 if ($conclusionManager->saveConclusion($conclusion) !== false) {
                     $routeOptions = array(
-                        'id' => $dissertation->getId(),                  
+                        'id' => $dissertation->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -342,7 +342,7 @@ class ConclusionController extends FOSRestController
             }
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
-        }   
+        }
     }
 
     /**
@@ -446,7 +446,7 @@ class ConclusionController extends FOSRestController
         );
 
         return array(
-            'formats'    => $formats, 
+            'formats'    => $formats,
             'conclusion'   => $conclusion
         );
     }
@@ -464,9 +464,9 @@ class ConclusionController extends FOSRestController
      *
      * @param int     $id              the dissertation uuid
      * @param int     $conclusionId      the conclusion uuid
-     * @param string  $format          the format to convert dissertation 
+     * @param string  $format          the format to convert dissertation
      *
-     * @return Response
+     * @return null
      * @throws NotFoundHttpException when dissertation not exist
      * @throws NotFoundHttpException when conclusion not exist
      */
@@ -482,9 +482,6 @@ class ConclusionController extends FOSRestController
 
         $conclusionConvert = $this->container->get('n1c0_dissertation.conclusion.download')->getConvert($conclusionId, $format);
 
-        $response = new Response();
-        $response->setContent($conclusionConvert);
-        $response->headers->set('Content-Type', 'application/force-download');
         switch ($format) {
             case "native":
                 $ext = "";
@@ -529,12 +526,18 @@ class ConclusionController extends FOSRestController
                 $ext = "epub";
             break;
             default:
-                $ext = $format;       
+                $ext = $format;
         }
-        
-        $response->headers->set('Content-disposition', 'filename='.$conclusion->getTitle().'.'.$ext);
-         
-        return $response;
+
+        if ($ext == "") {$ext = "txt";}
+        $filename = $iconclusion->getTitle().'.'.$ext;
+        $fh = fopen('./uploads/'.$filename, "w+");
+        if($fh==false) {
+            die("Oops! Unable to create file");
+        }
+        fputs($fh, $conclusionConvert);
+
+        return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);
     }
 
 }

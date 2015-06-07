@@ -137,7 +137,7 @@ class ArgumentController extends FOSRestController
         $form->setData($argument);
 
         return array(
-            'form' => $form, 
+            'form' => $form,
             'id'   => $id
         );
     }
@@ -151,7 +151,7 @@ class ArgumentController extends FOSRestController
      *     200 = "Returned when successful"
      *   }
      * )
-     * 
+     *
      * @Annotations\View(
      *  template = "N1c0DissertationBundle:Argument:editArgument.html.twig",
      *  templateVar = "form"
@@ -178,7 +178,7 @@ class ArgumentController extends FOSRestController
         $argument = $this->getOr404($argumentId);
         $form = $this->container->get('n1c0_dissertation.form_factory.argument')->createForm();
         $form->setData($argument);
-    
+
         return array(
             'form'       => $form,
             'id'         => $id,
@@ -208,8 +208,8 @@ class ArgumentController extends FOSRestController
      * )
      *
      * @param Request $request      the request object
-     * @param string  $id           The id of the dissertation 
-     * @param string  $partId       The partId of the dissertation 
+     * @param string  $id           The id of the dissertation
+     * @param string  $partId       The partId of the dissertation
      *
      * @return FormTypeInterface|View
      */
@@ -237,7 +237,7 @@ class ArgumentController extends FOSRestController
 
                 if ($form->isValid()) {
                     $argumentManager->saveArgument($argument);
-                
+
                     $routeOptions = array(
                         'id'          => $id,
                         'partId'      => $partId,
@@ -246,11 +246,11 @@ class ArgumentController extends FOSRestController
                     );
 
                     $response['success'] = true;
-                    
+
                     $request = $this->container->get('request');
                     $isAjax = $request->isXmlHttpRequest();
 
-                    if($isAjax == false) { 
+                    if($isAjax == false) {
                         // Add a method onCreateArgumentSuccess(FormInterface $form)
                         return $this->routeRedirectView('api_1_get_dissertation_part_argument', $routeOptions, Codes::HTTP_CREATED);
                     }
@@ -283,8 +283,8 @@ class ArgumentController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the dissertation 
-     * @param string  $partId          the id of the part 
+     * @param string  $id              the id of the dissertation
+     * @param string  $partId          the id of the part
      * @param int     $argumentId      the argument id
      *
      * @return FormTypeInterface|View
@@ -298,7 +298,7 @@ class ArgumentController extends FOSRestController
             if (!$dissertation) {
                 throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
             }
-    
+
             $part = $this->container->get('n1c0_dissertation.manager.part')->findPartById($partId);
             if (!$part) {
                 throw new NotFoundHttpException(sprintf('Part of the Dissertation with identifier of "%s" does not exist', $partId));
@@ -314,8 +314,8 @@ class ArgumentController extends FOSRestController
                 $argumentManager = $this->container->get('n1c0_dissertation.manager.argument');
                 if ($argumentManager->saveArgument($argument) !== false) {
                     $routeOptions = array(
-                        'id'      => $dissertation->getId(),                  
-                        'partId'  => $part->getId(),                  
+                        'id'      => $dissertation->getId(),
+                        'partId'  => $part->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -348,8 +348,8 @@ class ArgumentController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the dissertation 
-     * @param string  $partId          the id of the part of the dissertation 
+     * @param string  $id              the id of the dissertation
+     * @param string  $partId          the id of the part of the dissertation
      * @param int     $argumentId      the argument id
 
      * @return FormTypeInterface|View
@@ -379,8 +379,8 @@ class ArgumentController extends FOSRestController
                 $argumentManager = $this->container->get('n1c0_dissertation.manager.argument');
                 if ($argumentManager->saveArgument($argument) !== false) {
                     $routeOptions = array(
-                        'id'      => $dissertation->getId(),                  
-                        'partId'  => $part->getId(),                  
+                        'id'      => $dissertation->getId(),
+                        'partId'  => $part->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -389,7 +389,7 @@ class ArgumentController extends FOSRestController
             }
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
-        }   
+        }
     }
 
     /**
@@ -501,7 +501,7 @@ class ArgumentController extends FOSRestController
         );
 
         return array(
-            'formats'    => $formats, 
+            'formats'    => $formats,
             'argument'   => $argument
         );
     }
@@ -518,11 +518,11 @@ class ArgumentController extends FOSRestController
      * )
      *
      * @param int     $id              the dissertation uuid
-     * @param int     $partId          the part uuid of the dissertation     
+     * @param int     $partId          the part uuid of the dissertation
      * @param int     $argumentId      the argument uuid
-     * @param string  $format          the format to convert dissertation 
+     * @param string  $format          the format to convert dissertation
      *
-     * @return Response
+     * @return null
      * @throws NotFoundHttpException when dissertation not exist
      * @throws NotFoundHttpException when argument not exist
      */
@@ -543,9 +543,6 @@ class ArgumentController extends FOSRestController
 
         $argumentConvert = $this->container->get('n1c0_dissertation.argument.download')->getConvert($argumentId, $format);
 
-        $response = new Response();
-        $response->setContent($argumentConvert);
-        $response->headers->set('Content-Type', 'application/force-download');
         switch ($format) {
             case "native":
                 $ext = "";
@@ -590,12 +587,17 @@ class ArgumentController extends FOSRestController
                 $ext = "epub";
             break;
             default:
-                $ext = $format;       
+                $ext = $format;
         }
-        
-        $response->headers->set('Content-disposition', 'filename='.$argument->getTitle().'.'.$ext);
-         
-        return $response;
+
+        if ($ext == "") {$ext = "txt";}
+        $filename = $argument->getTitle().'.'.$ext;
+        $fh = fopen('./uploads/'.$filename, "w+");
+        if($fh==false) {
+            die("Oops! Unable to create file");
+        }
+        fputs($fh, $argumentConvert);
+        return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);
     }
 
 }

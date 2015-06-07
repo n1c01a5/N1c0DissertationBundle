@@ -53,7 +53,7 @@ class PartController extends FOSRestController
         if (!$dissertation) {
             throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
         }
-        
+
         return $this->getOr404($partId);
     }
 
@@ -119,7 +119,7 @@ class PartController extends FOSRestController
         $form->setData($part);
 
         return array(
-            'form' => $form, 
+            'form' => $form,
             'id' => $id
         );
     }
@@ -133,7 +133,7 @@ class PartController extends FOSRestController
      *     200 = "Returned when successful"
      *   }
      * )
-     * 
+     *
      * @Annotations\View(
      *  template = "N1c0DissertationBundle:Part:editPart.html.twig",
      *  templateVar = "form"
@@ -153,7 +153,7 @@ class PartController extends FOSRestController
         $part = $this->getOr404($partId);
         $form = $this->container->get('n1c0_dissertation.form_factory.part')->createForm();
         $form->setData($part);
-    
+
         return array(
             'form' => $form,
             'id'=>$id,
@@ -182,7 +182,7 @@ class PartController extends FOSRestController
      * )
      *
      * @param Request $request the request object
-     * @param string  $id      The id of the dissertation 
+     * @param string  $id      The id of the dissertation
      *
      * @return FormTypeInterface|View
      */
@@ -205,7 +205,7 @@ class PartController extends FOSRestController
 
                 if ($form->isValid()) {
                     $partManager->savePart($part);
-                
+
                     $routeOptions = array(
                         'id' => $id,
                         'partId' => $form->getData()->getId(),
@@ -213,11 +213,11 @@ class PartController extends FOSRestController
                     );
 
                     $response['success'] = true;
-                    
+
                     $request = $this->container->get('request');
                     $isAjax = $request->isXmlHttpRequest();
 
-                    if($isAjax == false) { 
+                    if($isAjax == false) {
                         // Add a method onCreatePartSuccess(FormInterface $form)
                         return $this->routeRedirectView('api_1_get_dissertation_part', $routeOptions, Codes::HTTP_CREATED);
                     }
@@ -250,7 +250,7 @@ class PartController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the dissertation 
+     * @param string  $id              the id of the dissertation
      * @param int     $partId          the part id
      *
      * @return FormTypeInterface|View
@@ -275,7 +275,7 @@ class PartController extends FOSRestController
                 $partManager = $this->container->get('n1c0_dissertation.manager.part');
                 if ($partManager->savePart($part) !== false) {
                     $routeOptions = array(
-                        'id' => $dissertation->getId(),                  
+                        'id' => $dissertation->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -308,7 +308,7 @@ class PartController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the dissertation 
+     * @param string  $id              the id of the dissertation
      * @param int     $partId      the part id
 
      * @return FormTypeInterface|View
@@ -333,7 +333,7 @@ class PartController extends FOSRestController
                 $partManager = $this->container->get('n1c0_dissertation.manager.part');
                 if ($partManager->savePart($part) !== false) {
                     $routeOptions = array(
-                        'id' => $dissertation->getId(),                  
+                        'id' => $dissertation->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -342,7 +342,7 @@ class PartController extends FOSRestController
             }
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
-        }   
+        }
     }
 
     /**
@@ -446,7 +446,7 @@ class PartController extends FOSRestController
         );
 
         return array(
-            'formats'    => $formats, 
+            'formats'    => $formats,
             'part'   => $part
         );
     }
@@ -464,9 +464,9 @@ class PartController extends FOSRestController
      *
      * @param int     $id              the dissertation uuid
      * @param int     $partId      the part uuid
-     * @param string  $format          the format to convert dissertation 
+     * @param string  $format          the format to convert dissertation
      *
-     * @return Response
+     * @return null
      * @throws NotFoundHttpException when dissertation not exist
      * @throws NotFoundHttpException when part not exist
      */
@@ -482,9 +482,6 @@ class PartController extends FOSRestController
 
         $partConvert = $this->container->get('n1c0_dissertation.part.download')->getConvert($partId, $format);
 
-        $response = new Response();
-        $response->setContent($partConvert);
-        $response->headers->set('Content-Type', 'application/force-download');
         switch ($format) {
             case "native":
                 $ext = "";
@@ -529,12 +526,17 @@ class PartController extends FOSRestController
                 $ext = "epub";
             break;
             default:
-                $ext = $format;       
+                $ext = $format;
         }
-        
-        $response->headers->set('Content-disposition', 'filename='.$part->getTitle().'.'.$ext);
-         
-        return $response;
+
+        if ($ext == "") {$ext = "txt";}
+        $filename = $part->getTitle().'.'.$ext;
+        $fh = fopen('./uploads/'.$filename, "w+");
+        if($fh==false) {
+            die("Oops! Unable to create file");
+        }
+        fputs($fh, $partConvert);
+        return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);
     }
 
 }

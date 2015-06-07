@@ -53,7 +53,7 @@ class IntroductionController extends FOSRestController
         if (!$dissertation) {
             throw new NotFoundHttpException(sprintf('Dissertation with identifier of "%s" does not exist', $id));
         }
-        
+
         return $this->getOr404($introductionId);
     }
 
@@ -119,7 +119,7 @@ class IntroductionController extends FOSRestController
         $form->setData($introduction);
 
         return array(
-            'form' => $form, 
+            'form' => $form,
             'id' => $id
         );
     }
@@ -133,7 +133,7 @@ class IntroductionController extends FOSRestController
      *     200 = "Returned when successful"
      *   }
      * )
-     * 
+     *
      * @Annotations\View(
      *  template = "N1c0DissertationBundle:Introduction:editIntroduction.html.twig",
      *  templateVar = "form"
@@ -154,7 +154,7 @@ class IntroductionController extends FOSRestController
 
         $form = $this->container->get('n1c0_dissertation.form_factory.introduction')->createForm();
         $form->setData($introduction);
-    
+
         return array(
             'form'           => $form,
             'id'             => $id,
@@ -184,7 +184,7 @@ class IntroductionController extends FOSRestController
      * )
      *
      * @param Request $request the request object
-     * @param string  $id      The id of the dissertation 
+     * @param string  $id      The id of the dissertation
      *
      * @return FormTypeInterface|View
      */
@@ -207,7 +207,7 @@ class IntroductionController extends FOSRestController
 
                 if ($form->isValid()) {
                     $introductionManager->saveIntroduction($introduction);
-                
+
                     $routeOptions = array(
                         'id' => $id,
                         'introductionId' => $form->getData()->getId(),
@@ -215,11 +215,11 @@ class IntroductionController extends FOSRestController
                     );
 
                     $response['success'] = true;
-                    
+
                     $request = $this->container->get('request');
                     $isAjax = $request->isXmlHttpRequest();
 
-                    if($isAjax == false) { 
+                    if($isAjax == false) {
                         // Add a method onCreateIntroductionSuccess(FormInterface $form)
                         return $this->routeRedirectView('api_1_get_dissertation_introduction', $routeOptions, Codes::HTTP_CREATED);
                     }
@@ -252,7 +252,7 @@ class IntroductionController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the dissertation 
+     * @param string  $id              the id of the dissertation
      * @param int     $introductionId      the introduction id
      *
      * @return FormTypeInterface|View
@@ -277,7 +277,7 @@ class IntroductionController extends FOSRestController
                 $introductionManager = $this->container->get('n1c0_dissertation.manager.introduction');
                 if ($introductionManager->saveIntroduction($introduction) !== false) {
                     $routeOptions = array(
-                        'id' => $dissertation->getId(),                  
+                        'id' => $dissertation->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -307,7 +307,7 @@ class IntroductionController extends FOSRestController
      * )
      *
      * @param Request $request         the request object
-     * @param string  $id              the id of the dissertation 
+     * @param string  $id              the id of the dissertation
      * @param int     $introductionId      the introduction id
 
      * @return FormTypeInterface|View
@@ -332,7 +332,7 @@ class IntroductionController extends FOSRestController
                 $introductionManager = $this->container->get('n1c0_dissertation.manager.introduction');
                 if ($introductionManager->saveIntroduction($introduction) !== false) {
                     $routeOptions = array(
-                        'id' => $dissertation->getId(),                  
+                        'id' => $dissertation->getId(),
                         '_format' => $request->get('_format')
                     );
 
@@ -341,7 +341,7 @@ class IntroductionController extends FOSRestController
             }
         } catch (InvalidFormException $exception) {
             return $exception->getForm();
-        }   
+        }
     }
 
     /**
@@ -445,7 +445,7 @@ class IntroductionController extends FOSRestController
         );
 
         return array(
-            'formats'        => $formats, 
+            'formats'        => $formats,
             'id'             => $id,
             'introductionId' => $introductionId
         );
@@ -464,9 +464,9 @@ class IntroductionController extends FOSRestController
      *
      * @param int     $id                  the dissertation uuid
      * @param int     $introductionId      the introduction uuid
-     * @param string  $format              the format to convert dissertation 
+     * @param string  $format              the format to convert dissertation
      *
-     * @return Response
+     * @return null
      * @throws NotFoundHttpException when dissertation not exist
      */
     public function getIntroductionConvertAction($id, $introductionId, $format)
@@ -481,9 +481,6 @@ class IntroductionController extends FOSRestController
 
         $introductionConvert = $this->container->get('n1c0_dissertation.introduction.download')->getConvert($introductionId, $format);
 
-        $response = new Response();
-        $response->setContent($introductionConvert);
-        $response->headers->set('Content-Type', 'application/force-download');
         switch ($format) {
             case "native":
                 $ext = "";
@@ -528,12 +525,18 @@ class IntroductionController extends FOSRestController
                 $ext = "epub";
             break;
             default:
-                $ext = $format;       
+                $ext = $format;
         }
-   
-        $response->headers->set('Content-disposition', 'filename='.$introduction->getTitle().'.'.$ext);
-         
-        return $response;
+
+        if ($ext == "") {$ext = "txt";}
+        $filename = $introduction->getTitle().'.'.$ext;
+        $fh = fopen('./uploads/'.$filename, "w+");
+        if($fh==false) {
+            die("Oops! Unable to create file");
+        }
+        fputs($fh, $introductionConvert);
+
+        return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);
     }
 
 }
