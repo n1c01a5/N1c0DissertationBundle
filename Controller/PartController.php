@@ -5,6 +5,7 @@ namespace N1c0\DissertationBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use FOS\RestBundle\Controller\FOSRestController;
@@ -469,6 +470,7 @@ class PartController extends FOSRestController
      * @return null
      * @throws NotFoundHttpException when dissertation not exist
      * @throws NotFoundHttpException when part not exist
+     * @throws FileNotFoundException when file not exist
      */
     public function getPartConvertAction($id, $partId, $format)
     {
@@ -531,11 +533,13 @@ class PartController extends FOSRestController
 
         if ($ext == "") {$ext = "txt";}
         $filename = $part->getTitle().'.'.$ext;
-        $fh = fopen('./uploads/'.$filename, "w+");
-        if($fh==false) {
-            die("Oops! Unable to create file");
+        $path_file = './uploads/'.$filename;
+        $fh = fopen($path_file, "w+");
+        if($fh == false) {
+            throw new FileNotFoundException($path_file);
         }
         fputs($fh, $partConvert);
+
         return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);
     }
 

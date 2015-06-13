@@ -466,9 +466,10 @@ class ConclusionController extends FOSRestController
      * @param int     $conclusionId      the conclusion uuid
      * @param string  $format          the format to convert dissertation
      *
-     * @return null
+     * @return Redirect
      * @throws NotFoundHttpException when dissertation not exist
      * @throws NotFoundHttpException when conclusion not exist
+     * @throws FileNotFoundException when file not exist
      */
     public function getConclusionConvertAction($id, $conclusionId, $format)
     {
@@ -530,11 +531,13 @@ class ConclusionController extends FOSRestController
         }
 
         if ($ext == "") {$ext = "txt";}
-        $filename = $iconclusion->getTitle().'.'.$ext;
-        $fh = fopen('./uploads/'.$filename, "w+");
-        if($fh==false) {
-            die("Oops! Unable to create file");
+        $filename = $conclusion->getTitle().'.'.$ext;
+        $path_file = './uploads/'.$filename;
+        $fh = fopen($path_file, "w+");
+        if($fh == false) {
+            throw new FileNotFoundException($path_file);
         }
+
         fputs($fh, $conclusionConvert);
 
         return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);

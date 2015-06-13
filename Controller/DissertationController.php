@@ -5,6 +5,7 @@ namespace N1c0\DissertationBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Util\Codes;
@@ -405,8 +406,10 @@ class DissertationController extends FOSRestController
      * @param int     $id      the dissertation uuid
      * @param string  $format  the format to convert dissertation
      *
-     * @return null
+     * @return Redirect
      * @throws NotFoundHttpException when dissertation not exist
+     * @throws FileNotFoundException when file not exist
+     * @throws NotFoundHttpException when argument not exist
      */
     public function getDissertationConvertAction($id, $format)
     {
@@ -477,10 +480,13 @@ class DissertationController extends FOSRestController
         }
         if ($ext == "") {$ext = "txt";}
         $filename = $dissertation->getTitle().'.'.$ext;
-        $fh = fopen('./uploads/'.$filename, "w+");
-        if($fh==false)
-            die("Oops! Unable to create file");
+        $path_file = './uploads/'.$filename;
+        $fh = fopen($path_file, "w+");
+        if($fh == false) {
+            throw new FileNotFoundException($path_file);
+        }
         fputs($fh, $dissertationConvert);
+
         return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);
     }
 

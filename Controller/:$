@@ -523,10 +523,9 @@ class ArgumentController extends FOSRestController
      * @param int     $argumentId      the argument uuid
      * @param string  $format          the format to convert dissertation
      *
-     * @return Redirect
+     * @return null
      * @throws NotFoundHttpException when dissertation not exist
      * @throws NotFoundHttpException when argument not exist
-     * @throws FileNotFoundException when file not exist
      */
     public function getArgumentConvertAction($id, $partId, $argumentId, $format)
     {
@@ -596,11 +595,10 @@ class ArgumentController extends FOSRestController
         $filename = $argument->getTitle().'.'.$ext;
         $path_file = './uploads/'.$filename;
         $fh = fopen($path_file, "w+");
-        if($fh == false) {
+        if($fh==false) {
             throw new FileNotFoundException($path_file);
         }
         fputs($fh, $argumentConvert);
-
         return $this->redirect($_SERVER['SCRIPT_NAME'].'/../uploads/'.$filename);
     }
 
