@@ -49,6 +49,13 @@ interface ConclusionManagerInterface
     public function saveConclusion(ConclusionInterface $conclusion);
 
     /**
+     * Removes a conclusion of the dissertation
+     *
+     * @param ConclusionInterface $conclusion
+     */
+    public function removeConclusion(ConclusionInterface $conclusion);
+
+    /**
      * Checks if the conclusion was already persisted before, or if it's a new one.
      *
      * @param ConclusionInterface $conclusion

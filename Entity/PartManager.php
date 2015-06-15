@@ -111,6 +111,17 @@ class PartManager extends BasePartManager
     }
 
     /**
+     * Removes an part of the dissertation
+     *
+     * @param PartInterface $part
+     */
+    protected function doRemovePart(PartInterface $part)
+    {
+        $this->em->remove($part);
+        $this->em->flush();
+    }
+
+    /**
      * Returns the fully qualified part dissertation class name
      *
      * @return string

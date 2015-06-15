@@ -99,10 +99,31 @@ abstract class IntroductionManager implements IntroductionManagerInterface
     }
 
     /**
+     * Removes an  of the  dissertation.
+     *
+     * @param IntroductionInterface $introduction
+     */
+    public function removeIntroduction(IntroductionInterface $introduction)
+    {
+        $this->doRemoveIntroduction($introduction);
+
+        return true;
+    }
+
+    /**
      * Performs the persistence of a introduction.
      *
      * @abstract
      * @param IntroductionInterface $introduction
      */
     abstract protected function doSaveIntroduction(IntroductionInterface $introduction);
+
+    /**
+     * Removes an argument of the Dissertation.
+     *
+     * @abstract
+     * @param ArgumentInterface $argument
+     */
+    abstract protected function doRemoveArgument(ArgumentInterface $introduction);
+
 }

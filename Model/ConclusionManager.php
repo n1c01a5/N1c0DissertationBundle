@@ -99,10 +99,30 @@ abstract class ConclusionManager implements ConclusionManagerInterface
     }
 
     /**
+     * Removes an conclusion of the dissertation.
+     *
+     * @param ConclusionInterface $conclusion
+     */
+    public function removeConclusion(ConclusionInterface $conclusion)
+    {
+        $this->doRemoveConclusion($conclusion);
+
+        return true;
+    }
+
+    /**
      * Performs the persistence of a conclusion.
      *
      * @abstract
      * @param ConclusionInterface $conclusion
      */
     abstract protected function doSaveConclusion(ConclusionInterface $conclusion);
+
+    /**
+     * Removes an conclusion of the Dissertation.
+     *
+     * @abstract
+     * @param ConclusionInterface $conclusion
+     */
+    abstract protected function doRemoveConclusion(ConclusionInterface $conclusion);
 }

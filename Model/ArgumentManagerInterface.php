@@ -49,6 +49,13 @@ interface ArgumentManagerInterface
     public function saveArgument(ArgumentInterface $argument);
 
     /**
+     * Removes a argument
+     *
+     * @param ArgumentInterface $argument
+     */
+    public function removeArgument(ArgumentInterface $argument);
+
+    /**
      * Checks if the argument was already persisted before, or if it's a new one.
      *
      * @param ArgumentInterface $argument

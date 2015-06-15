@@ -41,6 +41,13 @@ interface IntroductionManagerInterface
     public function saveIntroduction(IntroductionInterface $introduction);
 
     /**
+     * Removes a introduction
+     *
+     * @param IntroductionInterface $introduction
+     */
+    public function removeIntroduction(IntroductionInterface $introduction);
+
+    /**
      * Checks if the introduction was already persisted before, or if it's a new one.
      *
      * @param IntroductionInterface $introduction

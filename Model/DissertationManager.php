@@ -93,10 +93,30 @@ abstract class DissertationManager implements DissertationManagerInterface
     }
 
     /**
+     * Removes a dissertation.
+     *
+     * @param DissertationInterface $dissertation
+     */
+    public function removeDissertation(DissertationInterface $dissertation)
+    {
+        $this->doRemoveDissertation($dissertation);
+
+        return true;
+    }
+
+    /**
      * Performs the persistence of the Dissertation.
      *
      * @abstract
      * @param DissertationInterface $dissertation
      */
     abstract protected function doSaveDissertation(DissertationInterface $dissertation);
+
+    /**
+     * Removes the Dissertation.
+     *
+     * @abstract
+     * @param DissertationInterface $dissertation
+     */
+    abstract protected function doRemoveDissertation(DissertationInterface $dissertation);
 }

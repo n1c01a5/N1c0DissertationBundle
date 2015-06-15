@@ -111,6 +111,17 @@ class ConclusionManager extends BaseConclusionManager
     }
 
     /**
+     * Removes a conclusion of the dissertation
+     *
+     * @param ConclusionInterface $conclusion
+     */
+    protected function doRemoveConclusion(ConclusionInterface $conclusion)
+    {
+        $this->em->remove($conclusion);
+        $this->em->flush();
+    }
+
+    /**
      * Returns the fully qualified conclusion dissertation class name
      *
      * @return string

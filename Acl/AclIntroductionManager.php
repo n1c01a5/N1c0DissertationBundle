@@ -102,6 +102,18 @@ class AclIntroductionManager implements IntroductionManagerInterface
 
     /**
      * {@inheritDoc}
+     */
+    public function removeIntroduction(IntroductionInterface $introduction)
+    {
+        if (!$this->introductionAcl->canDelete($introduction)) {
+            throw new AccessDeniedException();
+        }
+
+        $this->realManager->removeIntroduction($introduction);
+    }
+
+    /**
+     * {@inheritDoc}
      **/
     public function findIntroductionById($id)
     {

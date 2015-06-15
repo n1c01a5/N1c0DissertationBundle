@@ -316,6 +316,31 @@ class DissertationController extends FOSRestController
     }
 
     /**
+     * Removes a dissertation.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes={
+     *     204="Returned when successful"
+     *   }
+     * )
+     *
+     * @param Request $request the request object
+     * @param int     $id      the dissertation id
+     *
+     * @return RouteRedirectView
+     */
+    public function deleteDissertationAction(Request $request, $id)
+    {
+        $dissertationManager = $this->container->get('n1c0_dissertation.manager.dissertation');
+        $dissertation = $this->getOr404($id);
+
+        $dissertationManager->removeDissertation($dissertation);
+
+        return $this->routeRedirectView('index', array(), Codes::HTTP_NO_CONTENT);
+    }
+
+    /**
      * Fetch a Dissertation or throw an 404 Exception.
      *
      * @param mixed $id

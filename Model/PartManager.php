@@ -99,10 +99,30 @@ abstract class PartManager implements PartManagerInterface
     }
 
     /**
+     * Removes a part of the dissertation.
+     *
+     * @param PartInterface $part
+     */
+    public function removePart(PartInterface $part)
+    {
+        $this->doRemovePart($part);
+
+        return true;
+    }
+
+    /**
      * Performs the persistence of a part.
      *
      * @abstract
      * @param PartInterface $part
      */
     abstract protected function doSavePart(PartInterface $part);
+
+    /**
+     * Removes an part of the Dissertation.
+     *
+     * @abstract
+     * @param PartInterface $part
+     */
+    abstract protected function doRemovePart(PartInterface $part);
 }

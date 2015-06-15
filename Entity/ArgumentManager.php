@@ -111,6 +111,18 @@ class ArgumentManager extends BaseArgumentManager
     }
 
     /**
+     * Removes an argument of the dissertation
+     *
+     * @param ArgumentInterface $argument
+     */
+    protected function doRemoveArgument(ArgumentInterface $argument)
+    {
+        $this->em->remove($argument);
+        $this->em->flush();
+    }
+
+
+    /**
      * Returns the fully qualified argument dissertation class name
      *
      * @return string

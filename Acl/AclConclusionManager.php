@@ -102,6 +102,18 @@ class AclConclusionManager implements ConclusionManagerInterface
 
     /**
      * {@inheritDoc}
+     */
+    public function removeConclusion(ConclusionInterface $conclusion)
+    {
+        if (!$this->conclusionAcl->canDelete($conclusion)) {
+            throw new AccessDeniedException();
+        }
+
+        $this->realManager->removConclusion($conclusion);
+    }
+
+    /**
+     * {@inheritDoc}
      **/
     public function findConclusionById($id)
     {

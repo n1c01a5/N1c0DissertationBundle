@@ -68,7 +68,7 @@ class AclDissertationManager implements DissertationManagerInterface
      * {@inheritDoc}
      */
     public function findAllDissertations(){
-    }                 
+    }
 
 
     /**
@@ -97,6 +97,18 @@ class AclDissertationManager implements DissertationManagerInterface
         if ($newDissertation) {
             $this->dissertationAcl->setDefaultAcl($dissertation);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeDissertation(DissertationInterface $dissertation)
+    {
+        if (!$this->dissertationAcl->canDelete($dissertation)) {
+            throw new AccessDeniedException();
+        }
+
+        $this->realManager->removeDissertation($dissertation);
     }
 
     /**

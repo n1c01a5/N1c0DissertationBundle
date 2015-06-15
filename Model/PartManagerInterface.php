@@ -49,6 +49,13 @@ interface PartManagerInterface
     public function savePart(PartInterface $part);
 
     /**
+     * Removes a part of dissertation
+     *
+     * @param PartInterface $part
+     */
+    public function removePart(PartInterface $part);
+
+    /**
      * Checks if the part was already persisted before, or if it's a new one.
      *
      * @param PartInterface $part

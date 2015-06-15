@@ -102,6 +102,18 @@ class AclPartManager implements PartManagerInterface
 
     /**
      * {@inheritDoc}
+     */
+    public function removePart(PartInterface $part)
+    {
+        if (!$this->partAcl->canDelete($part)) {
+            throw new AccessDeniedException();
+        }
+
+        $this->realManager->removePart($part);
+    }
+
+    /**
+     * {@inheritDoc}
      **/
     public function findPartById($id)
     {

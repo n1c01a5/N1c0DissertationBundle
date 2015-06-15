@@ -95,6 +95,18 @@ class DissertationManager extends BaseDissertationManager
     }
 
     /**
+     * Removes a dissertation
+     *
+     * @param DissertationInterface $dissertation
+     */
+    protected function doRemoveDissertation(DissertationInterface $dissertation)
+    {
+        $this->em->remove($dissertation);
+        $this->em->flush();
+    }
+
+
+    /**
      * Returns the fully qualified element dissertation class name
      *
      * @return string

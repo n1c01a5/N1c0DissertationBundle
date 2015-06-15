@@ -110,6 +110,18 @@ class IntroductionManager extends BaseIntroductionManager
     }
 
     /**
+     * Removes an introduction of the dissertation
+     *
+     * @param IntroductionInterface $introduction
+     */
+    protected function doRemoveIntroduction(IntroductionInterface $introduction)
+    {
+        $this->em->remove($introduction);
+        $this->em->flush();
+    }
+
+
+    /**
      * Returns the fully qualified introduction dissertation class name
      *
      * @return string

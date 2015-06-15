@@ -102,6 +102,18 @@ class AclArgumentManager implements ArgumentManagerInterface
 
     /**
      * {@inheritDoc}
+     */
+    public function removeArgument(ArgumentInterface $argument)
+    {
+        if (!$this->argumentAcl->canDelete($argument)) {
+            throw new AccessDeniedException();
+        }
+
+        $this->realManager->removeArgument($argument);
+    }
+
+    /**
+     * {@inheritDoc}
      **/
     public function findArgumentById($id)
     {

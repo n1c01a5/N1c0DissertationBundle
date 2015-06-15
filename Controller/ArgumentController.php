@@ -407,7 +407,6 @@ class ArgumentController extends FOSRestController
      * @Annotations\View(templateVar="thread")
      *
      * @param int     $id               the dissertation id
-     * @param int     $id               the dissertation id
      * @param int     $partId           the part id of the dissertation
      * @param int     $argumentId       the argument id
      *
@@ -415,8 +414,36 @@ class ArgumentController extends FOSRestController
      */
     public function getArgumentThreadAction($id, $partId, $argumentId)
     {
-        return $this->container->get('n1c0_dissertation.comment.dissertation_comment.default')->getThread($argumentId);
+        return $this->container->get('n1c0_dissertation.comment.argument_comment.default')->getThread($argumentId);
     }
+
+    /**
+     * Removes an argument of the  dissertation.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes={
+     *     204="Returned when successful"
+     *   }
+     * )
+     *
+     * @param Request $request         the request object
+     * @param int     $id              the dissertation id of the argument
+     * @param int     $partId          the part id of the dissertation
+     * @param int     $argumentId      the argument id
+     *
+     * @return RouteRedirectView
+     */
+    public function deleteArgumentAction(Request $request, $id, $partId, $argumentId)
+    {
+        $argumentManager = $this->container->get('n1c0_dissertation.manager.argument');
+        $argument = $this->getOr404($argumentId);
+
+        $argumentManager->removeArgument($argument);
+
+        return $this->routeRedirectView('index', array(), Codes::HTTP_NO_CONTENT);
+    }
+
 
     /**
      * Fetch a Argument or throw an 404 Exception.

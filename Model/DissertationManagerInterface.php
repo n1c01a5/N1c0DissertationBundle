@@ -66,6 +66,13 @@ interface DissertationManagerInterface
     public function saveDissertation(DissertationInterface $dissertation);
 
     /**
+     * Removes a dissertation
+     *
+     * @param DissertationInterface $dissertation
+     */
+    public function removeDissertation(DissertationInterface $dissertation);
+
+    /**
      * Checks if the dissertation was already persisted before, or if it's a new one.
      *
      * @param DissertationInterface $dissertation

@@ -99,10 +99,30 @@ abstract class ArgumentManager implements ArgumentManagerInterface
     }
 
     /**
+     * Removes an argument of the  dissertation.
+     *
+     * @param ArgumentInterface $argument
+     */
+    public function removeArgument(ArgumentInterface $argument)
+    {
+        $this->doRemoveArgument($argument);
+
+        return true;
+    }
+
+    /**
      * Performs the persistence of a argument.
      *
      * @abstract
      * @param ArgumentInterface $argument
      */
     abstract protected function doSaveArgument(ArgumentInterface $argument);
+
+    /**
+     * Removes an argument of the Dissertation.
+     *
+     * @abstract
+     * @param ArgumentInterface $argument
+     */
+    abstract protected function doRemoveArgument(ArgumentInterface $argument);
 }
