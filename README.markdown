@@ -1,6 +1,8 @@
 n1c0DissertationBundle
 ======================
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/b0ca9251-93ae-4058-ad44-c2d98c7f2d27/mini.png)](https://insight.sensiolabs.com/projects/b0ca9251-93ae-4058-ad44-c2d98c7f2d27)
+
 Bundle to manage dissertations.
 
 Step 1: Setting up the bundle
