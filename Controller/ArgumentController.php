@@ -414,7 +414,7 @@ class ArgumentController extends FOSRestController
      */
     public function getArgumentThreadAction($id, $partId, $argumentId)
     {
-        return $this->container->get('n1c0_dissertation.comment.argument_comment.default')->getThread($argumentId);
+        return $this->container->get('n1c0_dissertation.comment.dissertation_comment.default')->getThread($argumentId);
     }
 
     /**

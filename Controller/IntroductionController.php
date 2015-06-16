@@ -346,6 +346,32 @@ class IntroductionController extends FOSRestController
     }
 
     /**
+     * Removes an introduction of the  dissertation.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes={
+     *     204="Returned when successful"
+     *   }
+     * )
+     *
+     * @param Request $request         the request object
+     * @param int     $id              the dissertation id of the introduction
+     * @param int     $introductionId  the introduction id of the dissertation
+     *
+     * @return RouteRedirectView
+     */
+    public function deleteIntroductionAction(Request $request, $id, $partId, $introductionId)
+    {
+        $introductionManager = $this->container->get('n1c0_dissertation.manager.introduction');
+        $introduction = $this->getOr404($introductionId);
+
+        $introductionManager->removeIntroduction($introduction);
+
+        return $this->routeRedirectView('index', array(), Codes::HTTP_NO_CONTENT);
+    }
+
+    /**
      * Get thread for an introduction.
      *
      * @ApiDoc(
@@ -470,7 +496,7 @@ class IntroductionController extends FOSRestController
      * @return null
      * @throws NotFoundHttpException when dissertation not exist
      * @throws FileNotFoundException when file not exist
-     * @throws NotFoundHttpException when argument not exist
+     * @throws NotFoundHttpException when introduction not exist
      */
     public function getIntroductionConvertAction($id, $introductionId, $format)
     {

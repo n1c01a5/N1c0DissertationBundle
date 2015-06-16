@@ -119,11 +119,11 @@ abstract class IntroductionManager implements IntroductionManagerInterface
     abstract protected function doSaveIntroduction(IntroductionInterface $introduction);
 
     /**
-     * Removes an argument of the Dissertation.
+     * Removes an introduction of the Dissertation.
      *
      * @abstract
-     * @param ArgumentInterface $argument
+     * @param IntroductionInterface $introduction
      */
-    abstract protected function doRemoveArgument(ArgumentInterface $introduction);
+    abstract protected function doRemoveIntroduction(IntroductionInterface $introduction);
 
 }

@@ -346,6 +346,32 @@ class ConclusionController extends FOSRestController
     }
 
     /**
+     * Removes a conclusion of the  dissertation.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes={
+     *     204="Returned when successful"
+     *   }
+     * )
+     *
+     * @param Request $request         the request object
+     * @param int     $id              the dissertation id of the conclusion
+     * @param int     $conclusionId    the conclusion id
+     *
+     * @return RouteRedirectView
+     */
+    public function deleteConclusionAction(Request $request, $id, $partId, $conclusionId)
+    {
+        $conclusionManager = $this->container->get('n1c0_dissertation.manager.conclusion');
+        $conclusion = $this->getOr404($conclusionId);
+
+        $conclusionManager->removeConclusion($conclusion);
+
+        return $this->routeRedirectView('index', array(), Codes::HTTP_NO_CONTENT);
+    }
+
+    /**
      * Get thread for an conclusion.
      *
      * @ApiDoc(

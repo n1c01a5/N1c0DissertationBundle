@@ -347,6 +347,33 @@ class PartController extends FOSRestController
     }
 
     /**
+     * Removes a part of the  dissertation.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   statusCodes={
+     *     204="Returned when successful"
+     *   }
+     * )
+     *
+     * @param Request $request         the request object
+     * @param int     $id              the dissertation id of the argument
+     * @param int     $partId          the part id of the dissertation
+     *
+     * @return RouteRedirectView
+     */
+    public function deletePartAction(Request $request, $id, $partId)
+    {
+        $argumentManager = $this->container->get('n1c0_dissertation.manager.part');
+        $part = $this->getOr404($partId);
+
+        $partManager->removePart($part);
+
+        return $this->routeRedirectView('index', array(), Codes::HTTP_NO_CONTENT);
+    }
+
+
+    /**
      * Get thread for an part.
      *
      * @ApiDoc(
