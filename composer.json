@@ -18,7 +18,7 @@
         "symfony/assetic-bundle": "~2.3",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.3",
-        "sensio/distribution-bundle": "~2.3",
+        "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
         "friendsofsymfony/rest-bundle": "~1.1",
         "jms/serializer-bundle": "@dev",
